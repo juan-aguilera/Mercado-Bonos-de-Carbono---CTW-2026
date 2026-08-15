@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CarbonFlow - Certificación</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffdcbd",
+                        "surface": "#f8f9fa",
+                        "on-background": "#191c1d",
+                        "secondary-fixed-dim": "#aad0b1",
+                        "map-overlay": "rgba(45, 106, 79, 0.2)",
+                        "on-secondary-fixed-variant": "#2c4e36",
+                        "surface-container-highest": "#e1e3e4",
+                        "secondary-container": "#c2e9c9",
+                        "primary-container": "#1a4331",
+                        "on-secondary-fixed": "#00210e",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#414944",
+                        "forest-deep": "#0B2218",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c1c8c2",
+                        "primary-fixed": "#c0edd3",
+                        "on-primary": "#ffffff",
+                        "status-warning": "#FFB703",
+                        "on-tertiary-container": "#cd9c6d",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#002114",
+                        "on-secondary-container": "#486a51",
+                        "secondary": "#43664d",
+                        "primary": "#002d1c",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#a4d0b8",
+                        "inverse-primary": "#a4d0b8",
+                        "tertiary-container": "#55340d",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#2e3132",
+                        "outline": "#717973",
+                        "status-error": "#D90429",
+                        "surface-bright": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "on-primary-container": "#85b098",
+                        "tertiary-fixed-dim": "#f0bd8b",
+                        "tertiary": "#3b1f00",
+                        "background": "#f8f9fa",
+                        "secondary-fixed": "#c5eccc",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-tint": "#3e6752",
+                        "on-primary-fixed-variant": "#264e3c",
+                        "earth-sandy": "#E9EDC6",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-fixed-variant": "#623f18",
+                        "surface-variant": "#e1e3e4",
+                        "status-success": "#2D6A4F",
+                        "surface-container": "#edeeef",
+                        "on-tertiary-fixed": "#2c1600",
+                        "surface-container-high": "#e7e8e9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "panel-width-md": "420px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "disclaimer-italic": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "disclaimer-italic": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="h-screen w-panel-width-md fixed left-0 top-0 z-40 border-r border-outline-variant bg-surface-container-low flex flex-col p-gutter hidden md:flex">
+<div class="mb-8 flex items-center gap-4">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="A minimalist and corporate 3D rendered avatar logo representing an environmental enterprise, featuring subtle green glowing elements on a clean white background, high resolution, sharp details, modern technical aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbCJVpik0Du1AW2EMYKmThGR6UEEb2FpRiwWsp0V7RdBs3uFiFCRBdMJ3-1_Y7amo0ZiSpR9PV6LVpxscx0WgX4R1r3AVwIKl50pxi5LIqAB3_pfAyfieaEWCKkPAWA_CBni9RLs1g9Lj1UcFCbwB2NCs8I0YxyzXjX7a7ZG83KKBROJCzBM1MhCoQvPuf8iuFBEl0Wyd-_PZLIGIHuxDY4bDVUsHqKHEcSIoe55xZYs-WApiPLESbJg"/>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-primary">EcoCorp LatAm</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Verified Enterprise</p>
+</div>
+</div>
+<button class="w-full bg-forest-deep text-on-primary py-3 rounded-lg font-body-md font-semibold mb-8 hover:bg-primary transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="add" style="font-variation-settings: 'FILL' 1;">add</span>
+            New Project
+        </button>
+<div class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-caps text-label-caps group hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="dashboard">dashboard</span>
+                Overview
+            </a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-caps text-label-caps group hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="inventory">inventory</span>
+                Inventory
+            </a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-caps text-label-caps group hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="map">map</span>
+                Map View
+            </a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-caps text-label-caps group hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="analytics">analytics</span>
+                Analytics
+            </a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-caps text-label-caps group hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="settings">settings</span>
+                Settings
+            </a>
+</div>
+<div class="mt-auto flex flex-col gap-2 pt-4 border-t border-outline-variant">
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-caps text-label-caps group" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                Support
+            </a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-caps text-label-caps group" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+                Documentation
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col ml-0 md:ml-[420px] h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface/85 backdrop-blur-md font-body-md text-body-md top-0 z-50 border-b border-outline-variant shadow-sm transition-all duration-200 ease-in-out flex justify-between items-center w-full px-margin-desktop h-16 sticky">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-primary">CarbonFlow</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Formulación</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-semibold" href="#">Certificación</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Marketplace</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Bonos Verdes</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-outline-variant rounded-full text-body-sm focus:border-primary focus:ring-1 focus:ring-primary w-64 transition-all" placeholder="Search..." type="text"/>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container-highest">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<img alt="User Profile Avatar" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A professional headshot of a corporate environmental analyst in a brightly lit modern office setting, realistic, cinematic lighting, shallow depth of field, focused and confident expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAc8j7n3gHfleYKNGAxffezax_TI5IKQzYg2SYksci0rnUR1nFdXuQyaKSlcWocMTkq3vwlV5dBWh17cEwF9xsQbdpAG_rxAxIQ2SVJpvz9ZF5clsBIn4EOctGnAGnfqYukrfjqpRPG_c8RBfCPVRpAkpjEBiz5_9Yj0WKkywNYqyXDua17A86MRlnvO4MaGUVTFe6HWWlAB2ZrPvbVJf0eMetMMbKUlxb6ZTkQ1ibnX7UU6VsSbN8r-A"/>
+</div>
+</header>
+<!-- Dashboard Content Grid -->
+<div class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- Page Header -->
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Módulo de Certificación</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Consulta de registros oficiales y asistencia normativa.</p>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter">
+<!-- Left Column: Búsqueda en Registros Oficiales -->
+<div class="xl:col-span-7 flex flex-col gap-6">
+<!-- Search Card -->
+<div class="bg-surface rounded-xl border border-outline-variant p-6 shadow-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="search_check">search_check</span>
+                                Búsqueda en Registros Oficiales
+                            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">Consulte el estado de proyectos en las principales bases de datos certificadoras.</p>
+<div class="flex gap-3 mb-8">
+<input class="flex-1 bg-surface-container-lowest border-outline-variant rounded-lg font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary px-4 py-3" placeholder="ID de Proyecto o Nombre..." type="text"/>
+<button class="bg-forest-deep text-on-primary px-6 rounded-lg font-body-md font-semibold hover:bg-primary transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="search" style="font-variation-settings: 'FILL' 1;">search</span>
+                                    Buscar
+                                </button>
+</div>
+<!-- Logos -->
+<div class="flex items-center justify-start gap-8 border-t border-outline-variant pt-6">
+<span class="font-label-caps text-label-caps text-outline">FUENTES CONSULTADAS:</span>
+<div class="flex gap-6 items-center opacity-70 grayscale hover:grayscale-0 transition-all duration-300">
+<div class="font-headline-sm font-bold text-on-surface">VERRA</div>
+<div class="font-headline-sm font-bold text-on-surface">Gold Standard</div>
+<div class="font-headline-sm font-bold text-on-surface">RENARE</div>
+</div>
+</div>
+</div>
+<!-- Results List -->
+<div class="bg-surface rounded-xl border border-outline-variant overflow-hidden shadow-sm">
+<div class="p-4 border-b border-outline-variant bg-surface-container-lowest flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface">RESULTADOS RECIENTES</span>
+<span class="font-data-mono text-data-mono text-outline">Mostrando 3 de 12</span>
+</div>
+<div class="divide-y divide-outline-variant">
+<!-- Result Item 1 -->
+<div class="p-4 hover:bg-surface-container-lowest transition-colors flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="font-data-mono text-data-mono text-primary font-bold">VCS-1934</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-caps text-[10px]">VERRA</span>
+</div>
+<h4 class="font-body-md font-semibold text-on-surface">Proyecto Forestal Amazonas Norte</h4>
+<p class="font-body-sm text-on-surface-variant">Ubicación: Caquetá, Colombia</p>
+</div>
+<div class="flex flex-col sm:items-end gap-2">
+<span class="px-3 py-1 rounded-md bg-[#e6f4ea] text-status-success font-label-caps flex items-center gap-1 border border-[#cce8d6]">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                            Registrado
+                                        </span>
+<a class="font-body-sm text-primary hover:underline flex items-center gap-1" href="#">
+                                            Ver detalles <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Result Item 2 -->
+<div class="p-4 hover:bg-surface-container-lowest transition-colors flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="font-data-mono text-data-mono text-primary font-bold">GS-8821</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant font-label-caps text-[10px]">GOLD STANDARD</span>
+</div>
+<h4 class="font-body-md font-semibold text-on-surface">Restauración Ecológica Andina</h4>
+<p class="font-body-sm text-on-surface-variant">Ubicación: Antioquia, Colombia</p>
+</div>
+<div class="flex flex-col sm:items-end gap-2">
+<span class="px-3 py-1 rounded-md bg-[#fff8e6] text-status-warning font-label-caps flex items-center gap-1 border border-[#ffecb3]">
+<span class="material-symbols-outlined text-[14px]" data-icon="pending" style="font-variation-settings: 'FILL' 1;">pending</span>
+                                            En Validación
+                                        </span>
+<a class="font-body-sm text-primary hover:underline flex items-center gap-1" href="#">
+                                            Ver detalles <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Asistente de Certificación -->
+<div class="xl:col-span-5 flex flex-col h-[600px] xl:h-auto border border-outline-variant rounded-xl bg-surface shadow-sm overflow-hidden relative">
+<!-- Chat Header -->
+<div class="p-4 bg-forest-deep text-on-primary flex items-center gap-3 border-b border-[#1a4331]">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+</div>
+<div>
+<h3 class="font-headline-sm font-semibold">Asistente de Certificación</h3>
+<p class="font-body-sm text-[#a4d0b8]">AI Regulatory Guide</p>
+</div>
+</div>
+<!-- Warning Banner -->
+<div class="bg-[#fff8e6] border-l-4 border-status-warning p-3 flex items-start gap-2">
+<span class="material-symbols-outlined text-status-warning text-[20px]" data-icon="info">info</span>
+<p class="font-disclaimer-italic text-disclaimer-italic text-[#55340d]">
+                                Orientación informativa, no constituye asesoría legal. Consulte siempre las fuentes oficiales.
+                            </p>
+</div>
+<!-- Chat Messages Area -->
+<div class="flex-1 overflow-y-auto p-4 space-y-4 bg-surface-container-lowest">
+<!-- AI Message -->
+<div class="flex gap-3 max-w-[85%]">
+<div class="w-8 h-8 rounded-full bg-forest-deep text-on-primary flex items-center justify-center flex-shrink-0 mt-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="smart_toy">smart_toy</span>
+</div>
+<div class="bg-surface border border-outline-variant p-3 rounded-2xl rounded-tl-sm shadow-sm">
+<p class="font-body-sm text-on-surface">Hola. Soy el asistente de CarbonFlow. Puedo ayudarle a interpretar requerimientos de certificación y normatividad. ¿En qué le puedo asistir hoy?</p>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex gap-3 max-w-[85%] ml-auto justify-end">
+<div class="bg-primary-container text-on-primary-container p-3 rounded-2xl rounded-tr-sm shadow-sm">
+<p class="font-body-sm">Pregúntame sobre normatividad forestal en Colombia (Res. 1447)</p>
+</div>
+</div>
+<!-- AI Message (Typing/Response) -->
+<div class="flex gap-3 max-w-[85%]">
+<div class="w-8 h-8 rounded-full bg-forest-deep text-on-primary flex items-center justify-center flex-shrink-0 mt-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="smart_toy">smart_toy</span>
+</div>
+<div class="bg-surface border border-outline-variant p-3 rounded-2xl rounded-tl-sm shadow-sm">
+<p class="font-body-sm text-on-surface mb-2">La Resolución 1447 de 2018 reglamenta el sistema de monitoreo, reporte y verificación (MRV) de las acciones de mitigación a nivel nacional en Colombia.</p>
+<p class="font-body-sm text-on-surface">Para proyectos forestales (AFOLU), los puntos clave incluyen:</p>
+<ul class="list-disc pl-5 mt-2 space-y-1 font-body-sm text-on-surface-variant">
+<li>Registro obligatorio en RENARE.</li>
+<li>Demostración de adicionalidad estricta.</li>
+<li>Alineación con el Nivel de Referencia de Emisiones Forestales (NREF) nacional.</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Chat Input -->
+<div class="p-4 bg-surface border-t border-outline-variant">
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border-outline-variant rounded-full font-body-sm pl-4 pr-12 py-3 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Escriba su consulta normativa..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:bg-forest-deep hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full mt-12 border-t border-outline-variant bg-surface-container-highest flex flex-col md:flex-row justify-between items-center px-margin-desktop py-8 gap-4 rounded-xl">
+<span class="font-label-caps text-label-caps text-on-surface">© 2024 CarbonFlow. All rights reserved.</span>
+<nav class="flex gap-6">
+<a class="font-body-sm text-secondary hover:underline decoration-primary" href="#">Privacy Policy</a>
+<a class="font-body-sm text-secondary hover:underline decoration-primary" href="#">Terms of Service</a>
+<a class="font-body-sm text-secondary hover:underline decoration-primary" href="#">Methodology</a>
+<a class="font-body-sm text-secondary hover:underline decoration-primary" href="#">Support</a>
+</nav>
+</footer>
+</div>
+</main>
+</body></html>

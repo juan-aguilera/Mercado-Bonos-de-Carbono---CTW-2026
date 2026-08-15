@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CarbonFlow - Formulacion</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter, Hanken Grotesk, JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration (Provided exactly as requested) -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffdcbd",
+                    "surface": "#f8f9fa",
+                    "on-background": "#191c1d",
+                    "secondary-fixed-dim": "#aad0b1",
+                    "map-overlay": "rgba(45, 106, 79, 0.2)",
+                    "on-secondary-fixed-variant": "#2c4e36",
+                    "surface-container-highest": "#e1e3e4",
+                    "secondary-container": "#c2e9c9",
+                    "primary-container": "#1a4331",
+                    "on-secondary-fixed": "#00210e",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-surface-variant": "#414944",
+                    "forest-deep": "#0B2218",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#c1c8c2",
+                    "primary-fixed": "#c0edd3",
+                    "on-primary": "#ffffff",
+                    "status-warning": "#FFB703",
+                    "on-tertiary-container": "#cd9c6d",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed": "#002114",
+                    "on-secondary-container": "#486a51",
+                    "secondary": "#43664d",
+                    "primary": "#002d1c",
+                    "on-error": "#ffffff",
+                    "inverse-on-surface": "#f0f1f2",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#a4d0b8",
+                    "inverse-primary": "#a4d0b8",
+                    "tertiary-container": "#55340d",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#2e3132",
+                    "outline": "#717973",
+                    "status-error": "#D90429",
+                    "surface-bright": "#f8f9fa",
+                    "surface-dim": "#d9dadb",
+                    "on-primary-container": "#85b098",
+                    "tertiary-fixed-dim": "#f0bd8b",
+                    "tertiary": "#3b1f00",
+                    "background": "#f8f9fa",
+                    "secondary-fixed": "#c5eccc",
+                    "surface-container-low": "#f3f4f5",
+                    "surface-tint": "#3e6752",
+                    "on-primary-fixed-variant": "#264e3c",
+                    "earth-sandy": "#E9EDC6",
+                    "on-surface": "#191c1d",
+                    "on-tertiary-fixed-variant": "#623f18",
+                    "surface-variant": "#e1e3e4",
+                    "status-success": "#2D6A4F",
+                    "surface-container": "#edeeef",
+                    "on-tertiary-fixed": "#2c1600",
+                    "surface-container-high": "#e7e8e9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "panel-width-md": "420px",
+                    "unit": "4px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "disclaimer-italic": ["Inter"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "data-mono": ["JetBrains Mono"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "label-caps": ["JetBrains Mono"],
+                    "body-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "disclaimer-italic": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "data-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        /* Custom scrollbar for form area */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #c1c8c2;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<nav class="bg-surface/85 backdrop-blur-md dark:bg-forest-deep/85 border-b border-outline-variant dark:border-outline shadow-sm docked full-width top-0 z-50 transition-all duration-200 ease-in-out">
+<div class="flex justify-between items-center w-full px-margin-desktop h-16">
+<div class="flex items-center gap-8">
+<!-- Brand Logo -->
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim tracking-tight">CarbonFlow</span>
+<!-- Navigation Links -->
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-on-surface-variant dark:text-surface-variant font-body-md text-body-md hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Dashboard</a>
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 font-body-md text-body-md" href="#">Formulación</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-body-md text-body-md hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Certificación</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-body-md text-body-md hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Marketplace</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-body-md text-body-md hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Bonos Verdes</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors p-2">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A small, professional corporate avatar placeholder image. Light grey background with a subtle abstract geometric shape in dark forest green. Clean, modern, minimalist aesthetic suitable for a high-end environmental tech platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvQ4CM8LC-ur2Sba0iAyzg8MTac93dclyWBI9Ko_3L8fna42UI_BIPXBd6PTe4lyPcJGgXslPlIY5A7AMpEpWBMjK8a6DadBq04tuJo33rpa464k0jT_joat38VhBmoaz4TigA9A0Vr_v0qWLOPX7PhdCrOG1M9j4GlM60lH506olPPGwxMFaachY1YWfk8WG-znsPUK5gfDA0KJYGhYa8lvi5kFhn9HCgY9pJOgN3G6-QSiSo3lPFvg"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col md:flex-row w-full h-[calc(100vh-64px)] overflow-hidden">
+<!-- Form Section (Left Split) -->
+<div class="w-full md:w-[60%] lg:w-[50%] h-full flex flex-col bg-surface overflow-y-auto relative z-10 border-r border-outline-variant">
+<!-- Header & Stepper -->
+<div class="p-margin-mobile md:p-margin-desktop border-b border-outline-variant bg-surface-container-lowest sticky top-0 z-20">
+<div class="mb-6">
+<p class="font-label-caps text-label-caps text-secondary mb-2">PROYECTO DE CONSERVACIÓN / RESTAURACIÓN FORESTAL</p>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Formulación del Proyecto</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Complete los detalles técnicos requeridos para la evaluación de adicionalidad y línea base.</p>
+</div>
+<!-- Stepper Progress -->
+<div class="flex items-center w-full mb-2">
+<div class="flex-1">
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 mb-1">
+<div class="bg-primary h-1.5 rounded-full" style="width: 25%"></div>
+</div>
+<div class="flex justify-between font-label-caps text-label-caps text-on-surface-variant">
+<span class="text-primary">Paso 1 de 4</span>
+<span>25% Completado</span>
+</div>
+</div>
+</div>
+<!-- Steps Navigation (Visual Only) -->
+<div class="flex gap-4 mt-6 overflow-x-auto pb-2 scrollbar-hide">
+<div class="flex items-center gap-2 flex-shrink-0 cursor-pointer">
+<div class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center font-data-mono text-[10px]">1</div>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold">Información General</span>
+</div>
+<div class="w-8 h-[1px] bg-outline-variant my-auto flex-shrink-0"></div>
+<div class="flex items-center gap-2 flex-shrink-0 opacity-60">
+<div class="w-6 h-6 rounded-full border border-outline text-on-surface-variant flex items-center justify-center font-data-mono text-[10px]">2</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Línea Base y Adicionalidad</span>
+</div>
+<div class="w-8 h-[1px] bg-outline-variant my-auto flex-shrink-0"></div>
+<div class="flex items-center gap-2 flex-shrink-0 opacity-60">
+<div class="w-6 h-6 rounded-full border border-outline text-on-surface-variant flex items-center justify-center font-data-mono text-[10px]">3</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Riesgos y Salvaguardas</span>
+</div>
+<div class="w-8 h-[1px] bg-outline-variant my-auto flex-shrink-0"></div>
+<div class="flex items-center gap-2 flex-shrink-0 opacity-60">
+<div class="w-6 h-6 rounded-full border border-outline text-on-surface-variant flex items-center justify-center font-data-mono text-[10px]">4</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Cronograma y Presupuesto</span>
+</div>
+</div>
+</div>
+<!-- Form Content -->
+<div class="p-margin-mobile md:p-margin-desktop flex-grow">
+<form class="space-y-8 max-w-2xl">
+<!-- Section: Datos Principales -->
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6 border-b border-outline-variant pb-2">1. Datos Principales</h2>
+<div class="space-y-5">
+<!-- Input: Nombre del Proyecto -->
+<div>
+<label class="block font-body-sm text-body-sm text-on-surface mb-1 font-medium flex items-center gap-2" for="project-name">
+                                    Nombre Oficial del Proyecto
+                                    <span class="material-symbols-outlined text-[16px] text-outline cursor-help" title="El nombre legal que aparecerá en los registros de certificación.">help</span>
+</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md text-body-md px-3 py-2" id="project-name" placeholder="Ej. Restauración Cuenca Alta Río Blanco" type="text"/>
+</div>
+<!-- Input: Entidad Proponente -->
+<div>
+<label class="block font-body-sm text-body-sm text-on-surface mb-1 font-medium" for="entity-name">Entidad Proponente / Desarrollador</label>
+<input class="w-full bg-surface-container-highest border border-outline-variant rounded text-on-surface-variant font-body-md text-body-md px-3 py-2 cursor-not-allowed" disabled="" id="entity-name" type="text" value="EcoCorp LatAm"/>
+<p class="font-disclaimer-italic text-disclaimer-italic text-on-surface-variant mt-1">Pre-llenado basado en su perfil de organización.</p>
+</div>
+<!-- Grid: Pre-filled Geospatial Data -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-lg border border-outline-variant">
+<span class="font-label-caps text-label-caps text-secondary block mb-1">Área Total (Hectáreas)</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">straighten</span>
+<span class="font-data-mono text-data-mono text-on-surface text-lg">12,450.00 ha</span>
+</div>
+<p class="font-disclaimer-italic text-disclaimer-italic text-on-surface-variant mt-2 border-t border-outline-variant pt-2">Fuente: SIG Diagnóstico (12/10/2023)</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg border border-outline-variant">
+<span class="font-label-caps text-label-caps text-secondary block mb-1">Ubicación Principal</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">location_on</span>
+<span class="font-data-mono text-data-mono text-on-surface">Región Andina, LatAm</span>
+</div>
+<p class="font-disclaimer-italic text-disclaimer-italic text-on-surface-variant mt-2 border-t border-outline-variant pt-2">Centroide: 4.5981° N, 74.0758° W</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Objetivos -->
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6 border-b border-outline-variant pb-2">2. Objetivos del Proyecto</h2>
+<div class="space-y-5">
+<!-- Textarea: Descripción -->
+<div>
+<label class="block font-body-sm text-body-sm text-on-surface mb-1 font-medium" for="project-desc">Descripción General de Actividades</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md text-body-md px-3 py-2" id="project-desc" placeholder="Describa brevemente las actividades de reforestación, especies seleccionadas y el involucramiento de comunidades locales..." rows="4"></textarea>
+</div>
+<!-- Dropdown: Tipo de Intervención -->
+<div>
+<label class="block font-body-sm text-body-sm text-on-surface mb-1 font-medium" for="intervention-type">Tipo Principal de Intervención</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md text-body-md px-3 py-2 appearance-none" id="intervention-type">
+<option disabled="" selected="" value="">Seleccione el tipo de intervención...</option>
+<option value="afforestation">Aforestación / Reforestación (ARR)</option>
+<option value="redd">Reducción de Emisiones por Deforestación (REDD+)</option>
+<option value="agroforestry">Sistemas Agroforestales</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-on-surface-variant">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>
+</div>
+<!-- Sticky Footer Actions -->
+<div class="p-margin-mobile md:p-margin-desktop border-t border-outline-variant bg-surface-container-lowest mt-auto sticky bottom-0 z-20 flex flex-col sm:flex-row justify-between items-center gap-4">
+<button class="w-full sm:w-auto px-6 py-2 rounded font-body-md text-body-md font-medium border border-primary text-primary hover:bg-primary-container/10 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                    Guardar Borrador
+                </button>
+<div class="flex gap-4 w-full sm:w-auto">
+<button class="w-full sm:w-auto px-6 py-2 rounded font-body-md text-body-md font-medium bg-forest-deep text-on-primary hover:bg-primary transition-colors">
+                        Guardar y Continuar
+                    </button>
+</div>
+</div>
+</div>
+<!-- Right Side: Geospatial Context (Contextual Map View) -->
+<div class="hidden md:block md:w-[40%] lg:w-[50%] h-full relative bg-surface-container-lowest">
+<!-- Simulated Map Background -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A highly detailed satellite map view of a forested region with varying topography. The image uses a sophisticated color palette of deep greens, earthy browns, and slate grays, characteristic of a professional geospatial analytics platform. Bright, thin geometric lines representing polygon boundaries highlight specific areas of interest. The aesthetic is technical, objective, and modern, illuminated by clear, bright light mode lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA5Jfk-Vq1AnLT7Mn634XVgRV9xQdOGfNagHUkVQP72n9n1HHrU6Yveh6SSEFLOr_LVTuxYiKnugnQ0IC4RkRkGBeibfTGC4BL0_maZezwY_Ub_wJEXdbCb-iRfOBIf3AsvfNnzSdeSmcd8uKIa1j2wYtixFoKIIlexmniuB81HrjTOs5d3E678esgjQsJUhfrjFT5CrZFn0Fs1VfkQyJxjb35HmheZzjwVK_3Y3HQKAXK_u414y5Junw')"></div>
+<!-- Map Overlay Tonal Layer -->
+<div class="absolute inset-0 bg-map-overlay mix-blend-multiply"></div>
+<!-- Map Context Floating Panel -->
+<div class="absolute top-margin-desktop right-margin-desktop w-72 glass-panel p-4 rounded-lg shadow-sm">
+<div class="flex items-center gap-2 mb-3 border-b border-outline-variant pb-2">
+<span class="material-symbols-outlined text-secondary">satellite_alt</span>
+<h3 class="font-body-sm text-body-sm font-semibold text-on-surface">Contexto Espacial</h3>
+</div>
+<div class="space-y-3">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">Estatus del Polígono</span>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-success"></div>
+<span class="font-data-mono text-data-mono text-on-surface">Validado Geométricamente</span>
+</div>
+</div>
+<div class="h-[1px] bg-outline-variant w-full"></div>
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">Capa Activa</span>
+<span class="font-body-sm text-body-sm text-on-surface block">Cobertura Forestal Base (2020)</span>
+</div>
+</div>
+</div>
+<!-- Map Controls -->
+<div class="absolute bottom-margin-desktop right-margin-desktop flex flex-col gap-2">
+<button class="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary transition-colors shadow-sm mt-2">
+<span class="material-symbols-outlined">layers</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest dark:bg-forest-deep w-full mt-auto border-t border-outline-variant dark:border-outline flat">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-8 gap-4">
+<div class="font-label-caps text-label-caps text-on-surface dark:text-on-surface-variant">CarbonFlow</div>
+<div class="text-secondary dark:text-secondary-fixed font-body-sm text-body-sm">
+                © 2024 CarbonFlow. All rights reserved.
+            </div>
+<div class="flex gap-6">
+<a class="text-on-surface-variant dark:text-surface-variant font-body-sm text-body-sm hover:underline decoration-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-body-sm text-body-sm hover:underline decoration-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-body-sm text-body-sm hover:underline decoration-primary transition-colors" href="#">Methodology</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-body-sm text-body-sm hover:underline decoration-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+</footer>
+</body></html>

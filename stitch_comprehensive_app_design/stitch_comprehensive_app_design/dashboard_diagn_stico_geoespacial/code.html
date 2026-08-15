@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CarbonFlow - Geospatial Diagnostic Tool</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "tertiary-fixed": "#ffdcbd",
+                            "surface": "#f8f9fa",
+                            "on-background": "#191c1d",
+                            "secondary-fixed-dim": "#aad0b1",
+                            "map-overlay": "rgba(45, 106, 79, 0.2)",
+                            "on-secondary-fixed-variant": "#2c4e36",
+                            "surface-container-highest": "#e1e3e4",
+                            "secondary-container": "#c2e9c9",
+                            "primary-container": "#1a4331",
+                            "on-secondary-fixed": "#00210e",
+                            "on-tertiary": "#ffffff",
+                            "on-secondary": "#ffffff",
+                            "on-surface-variant": "#414944",
+                            "forest-deep": "#0B2218",
+                            "error-container": "#ffdad6",
+                            "outline-variant": "#c1c8c2",
+                            "primary-fixed": "#c0edd3",
+                            "on-primary": "#ffffff",
+                            "status-warning": "#FFB703",
+                            "on-tertiary-container": "#cd9c6d",
+                            "error": "#ba1a1a",
+                            "on-primary-fixed": "#002114",
+                            "on-secondary-container": "#486a51",
+                            "secondary": "#43664d",
+                            "primary": "#002d1c",
+                            "on-error": "#ffffff",
+                            "inverse-on-surface": "#f0f1f2",
+                            "surface-container-lowest": "#ffffff",
+                            "primary-fixed-dim": "#a4d0b8",
+                            "inverse-primary": "#a4d0b8",
+                            "tertiary-container": "#55340d",
+                            "on-error-container": "#93000a",
+                            "inverse-surface": "#2e3132",
+                            "outline": "#717973",
+                            "status-error": "#D90429",
+                            "surface-bright": "#f8f9fa",
+                            "surface-dim": "#d9dadb",
+                            "on-primary-container": "#85b098",
+                            "tertiary-fixed-dim": "#f0bd8b",
+                            "tertiary": "#3b1f00",
+                            "background": "#f8f9fa",
+                            "secondary-fixed": "#c5eccc",
+                            "surface-container-low": "#f3f4f5",
+                            "surface-tint": "#3e6752",
+                            "on-primary-fixed-variant": "#264e3c",
+                            "earth-sandy": "#E9EDC6",
+                            "on-surface": "#191c1d",
+                            "on-tertiary-fixed-variant": "#623f18",
+                            "surface-variant": "#e1e3e4",
+                            "status-success": "#2D6A4F",
+                            "surface-container": "#edeeef",
+                            "on-tertiary-fixed": "#2c1600",
+                            "surface-container-high": "#e7e8e9"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "panel-width-md": "420px",
+                            "unit": "4px",
+                            "gutter": "24px",
+                            "margin-mobile": "16px",
+                            "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                            "body-lg": [
+                                    "Inter"
+                            ],
+                            "disclaimer-italic": [
+                                    "Inter"
+                            ],
+                            "headline-lg": [
+                                    "Hanken Grotesk"
+                            ],
+                            "data-mono": [
+                                    "JetBrains Mono"
+                            ],
+                            "headline-md": [
+                                    "Hanken Grotesk"
+                            ],
+                            "label-caps": [
+                                    "JetBrains Mono"
+                            ],
+                            "body-md": [
+                                    "Inter"
+                            ],
+                            "body-sm": [
+                                    "Inter"
+                            ],
+                            "display-lg": [
+                                    "Hanken Grotesk"
+                            ]
+                    },
+                    "fontSize": {
+                            "body-lg": [
+                                    "18px",
+                                    {
+                                            "lineHeight": "28px",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "disclaimer-italic": [
+                                    "12px",
+                                    {
+                                            "lineHeight": "16px",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "headline-lg": [
+                                    "32px",
+                                    {
+                                            "lineHeight": "40px",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "data-mono": [
+                                    "14px",
+                                    {
+                                            "lineHeight": "20px",
+                                            "letterSpacing": "-0.01em",
+                                            "fontWeight": "500"
+                                    }
+                            ],
+                            "headline-md": [
+                                    "24px",
+                                    {
+                                            "lineHeight": "32px",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "label-caps": [
+                                    "12px",
+                                    {
+                                            "lineHeight": "16px",
+                                            "letterSpacing": "0.05em",
+                                            "fontWeight": "700"
+                                    }
+                            ],
+                            "body-md": [
+                                    "16px",
+                                    {
+                                            "lineHeight": "24px",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "body-sm": [
+                                    "14px",
+                                    {
+                                            "lineHeight": "20px",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "display-lg": [
+                                    "48px",
+                                    {
+                                            "lineHeight": "56px",
+                                            "letterSpacing": "-0.02em",
+                                            "fontWeight": "700"
+                                    }
+                            ]
+                    }
+            },
+                },
+        }
+    </script>
+<style>.glass-panel {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px)
+    }
+/* Material Symbols Base Style */
+.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }
+.map-bg {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDOHAU3ddZmyN3zfd0AOD_yRbkUajxD6_TNmqWbqoI5Ch3H4BkF9opl2eu0cqbvO1FiqmD1A_noO0R6kbxRv1WnBN1YPzwnOkPgicD0B7c2UgAHGe2hLkhL8RW8ERQs6wizf6ehmc4Z_e8fi4TzurJ6_yUo8DWgZ2nExzgfH65e_SvqLC0RHMLh2u-R5y78BYaoUvyxW0kFfp-pKH-VaYGaSBrTP8-87nbZm4CVjWsI8WumnOXEF4qQuA);
+    background-size: cover;
+    background-position: center
+    }
+.circular-chart {
+    display: block;
+    margin: 0 auto;
+    max-width: 80%;
+    max-height: 250px
+    }
+.circle-bg {
+    fill: none;
+    stroke: #e1e3e4;
+    stroke-width: 3.8
+    }
+.circle {
+    fill: none;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards
+    }
+@keyframes progress {
+    0% {
+        stroke-dasharray: 0 100;
+        }
+    }
+.percentage {
+    fill: #002d1c;
+    font-family: "Hanken Grotesk", sans-serif;
+    font-weight: 700;
+    font-size: 0.5em;
+    text-anchor: middle
+    }</style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface/85 backdrop-blur-md border-b border-outline-variant shadow-sm flex justify-between items-center w-full px-margin-desktop h-16 top-0 z-50">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-primary">CarbonFlow</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-primary border-b-2 border-primary pb-1 font-body-md text-body-md hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors" href="#">Formulación</a>
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors" href="#">Certificación</a>
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors" href="#">Marketplace</a>
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors" href="#">Bonos Verdes</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all w-64" placeholder="Search coordinates, locations..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A professional corporate portrait of an environmental scientist or analyst. Clean, modern lighting. High quality photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBW0NupctgVM86At_vbLxjilq0OQ1YNS7N_p2AfdkS4CUDX28SCEL6-HM-TVgB0Y6GhAVxyKM2rLV4D3YH_7z4tgMUX2HUFto57wPit8NHcjbI75p8bDJl5OtVI8qJQVAOXNgWRDAwpL0NiEzRXx1s6Qg8WHwRraWZSUisZ_NImcCIVKXhkgXCaPEgDdVIiE5nt7CIyI3kXk91zQtnPJnmhoZsdHE3EUfaTc9jieVLDtRljqMOBOM67zA"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<!-- SideNavBar -->
+<aside class="hidden xl:flex flex-col h-full p-gutter bg-surface-container-low border-r border-outline-variant w-panel-width-md z-40 shrink-0">
+<div class="mb-8 flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-white border border-outline-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="corporate_fare">corporate_fare</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary font-bold">EcoCorp LatAm</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Verified Enterprise</p>
+</div>
+</div>
+<button class="w-full bg-forest-deep text-white font-body-md text-body-md py-3 rounded-lg flex items-center justify-center gap-2 mb-8 hover:bg-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Project
+            </button>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-bold font-label-caps text-label-caps transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Overview
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg font-label-caps text-label-caps transition-transform duration-200 active:scale-95 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="inventory">inventory</span>
+                    Inventory
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg font-label-caps text-label-caps transition-transform duration-200 active:scale-95 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+                    Map View
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg font-label-caps text-label-caps transition-transform duration-200 active:scale-95 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                    Analytics
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg font-label-caps text-label-caps transition-transform duration-200 active:scale-95 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+</nav>
+<div class="mt-auto space-y-2 pt-8 border-t border-outline-variant">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg font-label-caps text-label-caps transition-transform duration-200 active:scale-95 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                    Support
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg font-label-caps text-label-caps transition-transform duration-200 active:scale-95 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+                    Documentation
+                </a>
+</div>
+</aside>
+<!-- Main Content Area (Map + Diagnostic Panel) -->
+<main class="flex-1 relative flex">
+<!-- Map Container -->
+<div class="flex-1 relative map-bg" data-alt="A highly detailed, realistic satellite map view of a dense, dark green rainforest area. The map shows intricate river systems and varied vegetation density. The color palette is dominated by deep forest greens and muddy river browns. The image should look like a professional GIS interface map layer. High resolution." data-location="Amazon Rainforest" style="">
+<!-- Map Controls Overlay -->
+<div class="absolute top-6 right-6 flex flex-col gap-2 z-10">
+<button class="w-10 h-10 bg-white border border-outline-variant rounded-md shadow-sm flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors" title="Draw Polygon">
+<span class="material-symbols-outlined" data-icon="draw">draw</span>
+</button>
+<button class="w-10 h-10 bg-white border border-outline-variant rounded-md shadow-sm flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors" title="Upload Shapefile">
+<span class="material-symbols-outlined" data-icon="upload">upload</span>
+</button>
+<button class="w-10 h-10 bg-white border border-outline-variant rounded-md shadow-sm flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors" title="Clear Map">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+<!-- Floating Search (Mobile/Tablet) -->
+<div class="absolute top-6 left-6 right-24 lg:hidden z-10">
+<div class="relative w-full max-w-md glass-panel rounded-full shadow-sm border border-outline-variant">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full bg-transparent border-none pl-12 pr-4 py-3 rounded-full text-body-md focus:ring-0 outline-none text-on-surface" placeholder="Search locations..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Diagnostic Right Panel -->
+<aside class="hidden lg:flex flex-col w-panel-width-md glass-panel border-l border-outline-variant z-20 h-full shadow-[-4px_0_24px_rgba(0,0,0,0.04)]">
+<div class="p-6 border-b border-outline-variant flex justify-between items-start bg-surface/50">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Diagnostic Analysis</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Selected Polygon: <span class="font-data-mono text-data-mono text-on-surface">P-8472</span></p>
+</div>
+<span class="inline-flex items-center px-2 py-1 rounded bg-secondary-container text-status-success font-label-caps text-label-caps">
+                        Active Area
+                    </span>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-8">
+<!-- Prefactibility Score -->
+<section>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-4 uppercase tracking-wider">Prefactibility Score</h4>
+<div class="bg-white rounded-xl border border-outline-variant p-6 shadow-sm">
+<div class="flex items-center justify-center mb-6">
+<svg class="circular-chart text-primary" viewbox="0 0 36 36">
+<path class="circle-bg" d="M18 2.0845
+                                      a 15.9155 15.9155 0 0 1 0 31.831
+                                      a 15.9155 15.9155 0 0 1 0 -31.831"></path>
+<path class="circle stroke-primary" d="M18 2.0845
+                                      a 15.9155 15.9155 0 0 1 0 31.831
+                                      a 15.9155 15.9155 0 0 1 0 -31.831" stroke-dasharray="82, 100"></path>
+<text class="percentage" x="18" y="20.35">82</text>
+</svg>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/50">
+<span class="font-body-sm text-body-sm text-on-surface">Forest Cover</span>
+<span class="font-data-mono text-data-mono text-primary font-bold">94%</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/50">
+<span class="font-body-sm text-body-sm text-on-surface">Deforestation Pressure</span>
+<span class="font-data-mono text-data-mono text-status-warning font-bold">Medium</span>
+</div>
+<div class="flex justify-between items-center py-2">
+<span class="font-body-sm text-body-sm text-on-surface">Protected Areas Overlap</span>
+<span class="font-data-mono text-data-mono text-status-success font-bold">0%</span>
+</div>
+</div>
+<p class="font-disclaimer-italic text-disclaimer-italic text-on-surface-variant mt-4 text-center">Data source: Global Forest Watch, 2023</p>
+</div>
+</section>
+<!-- Key Metrics -->
+<section>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-4 uppercase tracking-wider">Estimated Impact</h4>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-white rounded-lg border border-outline-variant p-4 shadow-sm">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Estimated CO2e</p>
+<p class="font-headline-md text-headline-md text-primary font-bold">14,250 <span class="font-body-sm text-body-sm font-normal text-on-surface-variant">tons</span></p>
+</div>
+<div class="bg-white rounded-lg border border-outline-variant p-4 shadow-sm">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Total Area</p>
+<p class="font-headline-md text-headline-md text-primary font-bold">1,204 <span class="font-body-sm text-body-sm font-normal text-on-surface-variant">ha</span></p>
+</div>
+</div>
+</section>
+</div>
+<div class="p-6 border-t border-outline-variant bg-surface/80 backdrop-blur-sm">
+<button class="w-full bg-secondary-container text-on-secondary-fixed font-body-md text-body-md py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-secondary-fixed transition-colors border border-outline-variant">
+<span class="material-symbols-outlined" data-icon="picture_as_pdf">picture_as_pdf</span>
+                        Export Diagnostic Report
+                    </button>
+</div>
+</aside>
+</main>
+</div>
+</body></html>

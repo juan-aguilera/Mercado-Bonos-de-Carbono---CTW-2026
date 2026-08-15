@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CarbonFlow - Marketplace &amp; Bonos Verdes</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#ffdcbd",
+                      "surface": "#f8f9fa",
+                      "on-background": "#191c1d",
+                      "secondary-fixed-dim": "#aad0b1",
+                      "map-overlay": "rgba(45, 106, 79, 0.2)",
+                      "on-secondary-fixed-variant": "#2c4e36",
+                      "surface-container-highest": "#e1e3e4",
+                      "secondary-container": "#c2e9c9",
+                      "primary-container": "#1a4331",
+                      "on-secondary-fixed": "#00210e",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-surface-variant": "#414944",
+                      "forest-deep": "#0B2218",
+                      "error-container": "#ffdad6",
+                      "outline-variant": "#c1c8c2",
+                      "primary-fixed": "#c0edd3",
+                      "on-primary": "#ffffff",
+                      "status-warning": "#FFB703",
+                      "on-tertiary-container": "#cd9c6d",
+                      "error": "#ba1a1a",
+                      "on-primary-fixed": "#002114",
+                      "on-secondary-container": "#486a51",
+                      "secondary": "#43664d",
+                      "primary": "#002d1c",
+                      "on-error": "#ffffff",
+                      "inverse-on-surface": "#f0f1f2",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#a4d0b8",
+                      "inverse-primary": "#a4d0b8",
+                      "tertiary-container": "#55340d",
+                      "on-error-container": "#93000a",
+                      "inverse-surface": "#2e3132",
+                      "outline": "#717973",
+                      "status-error": "#D90429",
+                      "surface-bright": "#f8f9fa",
+                      "surface-dim": "#d9dadb",
+                      "on-primary-container": "#85b098",
+                      "tertiary-fixed-dim": "#f0bd8b",
+                      "tertiary": "#3b1f00",
+                      "background": "#f8f9fa",
+                      "secondary-fixed": "#c5eccc",
+                      "surface-container-low": "#f3f4f5",
+                      "surface-tint": "#3e6752",
+                      "on-primary-fixed-variant": "#264e3c",
+                      "earth-sandy": "#E9EDC6",
+                      "on-surface": "#191c1d",
+                      "on-tertiary-fixed-variant": "#623f18",
+                      "surface-variant": "#e1e3e4",
+                      "status-success": "#2D6A4F",
+                      "surface-container": "#edeeef",
+                      "on-tertiary-fixed": "#2c1600",
+                      "surface-container-high": "#e7e8e9"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "panel-width-md": "420px",
+                      "unit": "4px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Inter"],
+                      "disclaimer-italic": ["Inter"],
+                      "headline-lg": ["Hanken Grotesk"],
+                      "data-mono": ["JetBrains Mono"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "label-caps": ["JetBrains Mono"],
+                      "body-md": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "display-lg": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "disclaimer-italic": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                      "data-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="bg-surface/85 backdrop-blur-md dark:bg-forest-deep/85 border-b border-outline-variant dark:border-outline shadow-sm docked full-width top-0 z-50 transition-all duration-200 ease-in-out">
+<div class="flex justify-between items-center w-full px-margin-desktop h-16">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">CarbonFlow</span>
+<div class="hidden md:flex gap-6">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Dashboard</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Formulación</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Certificación</a>
+<a class="font-body-md text-body-md text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Marketplace</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Bonos Verdes</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<input class="bg-surface-container-low border border-outline-variant rounded-full py-1.5 px-4 text-body-sm font-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-48 lg:w-64" placeholder="Search..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1.5 text-outline text-sm">search</span>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">notifications</span>
+</button>
+<img alt="User Profile Avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A clean, minimalist 3D rendering of a generic user profile avatar with a smooth, matte finish. The avatar uses subtle tones of forest green and soft white against a pale grey background, reflecting a corporate modern, eco-conscious aesthetic with precise, scientific lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxRfEB_E4fnhPE7jf6_FaoQTzSz0rQCqMakDYC2en6Cd9JqxBwTpGFASzmilI-E7BSzoX-pZb5tCkkOddkZgT8-PqlrMKDR5lhCAh6OtmCY9TsOVIObDupz54Gc9tl1eVUQrMv0YyVyi0qfs64MyCyK5gODLuHIr9B0uyaQ2uSw0CiogI1yJLtZZda7nj0DVvJmQn6y9Zkd04TwGJH5FCmhWPG4cRDQvRPHD-hiiiF6vrmzs6NS63xSg"/>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col md:flex-row relative">
+<!-- Main Content Area -->
+<div class="flex-grow flex flex-col w-full bg-surface-container-lowest">
+<!-- Header Section -->
+<header class="px-margin-desktop py-12 bg-surface-container-lowest border-b border-outline-variant">
+<div class="max-w-7xl mx-auto flex flex-col gap-4">
+<h1 class="font-display-lg text-display-lg text-primary">CarbonFlow Marketplace</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                        Explore verified carbon restoration and conservation projects. High-quality data rooms support every metric.
+                    </p>
+<!-- Notification Banner -->
+<div class="mt-4 flex items-start gap-3 bg-surface-container border border-outline-variant rounded-lg p-4 max-w-xl">
+<span class="material-symbols-outlined text-outline">info</span>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                                Recibirás una respuesta simulada para fines de demostración al solicitar una cotización.
+                            </p>
+</div>
+</div>
+</div>
+</header>
+<!-- Filters & Catalog Grid -->
+<section class="flex-grow px-margin-desktop py-8 bg-surface">
+<div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-gutter">
+<!-- Filters Sidebar (Collapsible on mobile) -->
+<aside class="w-full lg:w-panel-width-md shrink-0 flex flex-col gap-6">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm">
+<h2 class="font-headline-sm text-headline-sm text-primary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+                                Filtros
+                            </h2>
+<div class="flex flex-col gap-5">
+<!-- Filter Group: Project Type -->
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Project Type</label>
+<select class="bg-surface-container-low border border-outline-variant rounded-md px-3 py-2 text-body-sm font-body-sm focus:border-primary focus:ring-1 focus:ring-primary w-full text-on-surface">
+<option>All Types</option>
+<option>Reforestation</option>
+<option>Conservation (REDD+)</option>
+<option>Agroforestry</option>
+</select>
+</div>
+<!-- Filter Group: Location -->
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Location</label>
+<select class="bg-surface-container-low border border-outline-variant rounded-md px-3 py-2 text-body-sm font-body-sm focus:border-primary focus:ring-1 focus:ring-primary w-full text-on-surface">
+<option>Global</option>
+<option>Latin America</option>
+<option>Amazon Basin</option>
+</select>
+</div>
+<!-- Filter Group: Vintage -->
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Vintage</label>
+<select class="bg-surface-container-low border border-outline-variant rounded-md px-3 py-2 text-body-sm font-body-sm focus:border-primary focus:ring-1 focus:ring-primary w-full text-on-surface">
+<option>Any Vintage</option>
+<option>2023 - Present</option>
+<option>2020 - 2022</option>
+</select>
+</div>
+<!-- Filter Group: SDG -->
+<div class="flex flex-col gap-2 mt-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant">SDG Impact</label>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-label-caps text-label-caps text-on-surface cursor-pointer hover:bg-surface-container-highest transition-colors">13 CLIMATE</span>
+<span class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-label-caps text-label-caps text-on-surface cursor-pointer hover:bg-surface-container-highest transition-colors">15 LIFE ON LAND</span>
+<span class="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-label-caps text-label-caps text-on-surface cursor-pointer hover:bg-surface-container-highest transition-colors">6 WATER</span>
+</div>
+</div>
+<button class="mt-4 bg-surface-container-highest text-on-surface font-body-sm text-body-sm font-semibold py-2 rounded-md hover:bg-outline-variant transition-colors w-full border border-outline-variant">
+                                    Apply Filters
+                                </button>
+</div>
+</div>
+<!-- Bonos Verdes Promo Banner -->
+<div class="bg-forest-deep text-on-primary rounded-xl p-6 relative overflow-hidden shadow-md">
+<div class="relative z-10 flex flex-col gap-4">
+<span class="font-label-caps text-label-caps text-primary-fixed-dim uppercase tracking-wider">Institutional Investment</span>
+<h3 class="font-headline-md text-headline-md text-on-primary">Bonos Verdes Corporativos</h3>
+<p class="font-body-sm text-body-sm text-surface-variant">
+                                    Access structured green bonds with verified ESG data rooms and real-time geospatial tracking for enterprise portfolios.
+                                </p>
+<button class="mt-2 self-start bg-primary-fixed text-on-primary-fixed font-body-sm text-body-sm font-semibold py-2 px-5 rounded-md hover:bg-primary-fixed-dim transition-colors">
+                                    Ver Emisiones
+                                </button>
+</div>
+<!-- Decorative element -->
+<div class="absolute -bottom-12 -right-12 w-48 h-48 bg-primary opacity-50 rounded-full blur-3xl"></div>
+</div>
+</aside>
+<!-- Projects Grid -->
+<div class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-gutter content-start">
+<!-- Project Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col hover:shadow-md transition-shadow">
+<div class="h-48 w-full bg-cover bg-center relative" data-alt="A high-altitude drone shot of a lush, dense tropical rainforest canopy. The image has a scientific, documentary style with sharp details, deep green foliage, and dramatic, crisp morning light filtering through the mist, creating a sense of pristine ecological value." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD2V43V14vC4kmXtakjyFg99NOzNWynOPEEMjj2CS9-Gp8FlAqalTdv7_KcCyfz_s1O2HWjLp9LGraZpJJL8A5sN5vo3OSAPrlZhOParpU8VIGCeZ2GkHseWAQsfETpo_XlVJkm1wfvsXJspBf9lnC9IyfqOWvMHobTCzE081fdcIyaocJpCT3Q-3dz8DB05Xc4lIKHRBcgjUFliJGZUu9T6hGswNpjCybD97Y_QZ5UZ0ON2DgIE9OXFg')">
+<div class="absolute top-4 left-4 bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-md font-label-caps text-label-caps text-status-success flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm">forest</span> Forestry
+                                </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-primary line-clamp-2">Madre de Dios Conservation Project</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 line-clamp-2">
+                                    Protecting old-growth Amazonian rainforest while providing sustainable livelihoods for local communities through agroforestry.
+                                </p>
+<div class="grid grid-cols-2 gap-4 mb-6 pt-4 border-t border-outline-variant">
+<div>
+<span class="font-label-caps text-label-caps text-outline block mb-1">CO2e Available</span>
+<span class="font-data-mono text-data-mono text-on-surface">450,000 t</span>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-outline block mb-1">Price per credit</span>
+<span class="font-data-mono text-data-mono text-on-surface">$14.50</span>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-3">
+<button class="w-full bg-earth-sandy text-primary font-body-sm text-body-sm font-semibold py-2.5 rounded-md hover:bg-[#d8e0a8] transition-colors flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-sm">shopping_cart</span>
+                                        Solicitar Cotización
+                                    </button>
+<button class="w-full bg-transparent border border-primary text-primary font-body-sm text-body-sm font-semibold py-2.5 rounded-md hover:bg-surface-container transition-colors flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-sm">folder_open</span>
+                                        Ver Data Room
+                                    </button>
+</div>
+</div>
+</div>
+<!-- Project Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col hover:shadow-md transition-shadow">
+<div class="h-48 w-full bg-cover bg-center relative" data-alt="A detailed aerial view of a geometric agroforestry farm integrating native tree species with shade-grown crops. The scene is bathed in clear, neutral daylight, emphasizing structured land management. The colors are rich earth tones and varied greens, conveying a highly technical and organized agricultural restoration effort." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCjCeOcoRIhu27u3Z-VeuLgJ85RikPKa-gbFjffscOplstwh9CdhhDcpFVCzodCrDmSjdhSAaGSGybaoqVt8sQe116fr5xfJEadKdmHqH-OA0EJzCh-XgWvrrHXZ74VETikuHBAW1wAzTplUvmoB7mdZThYMYU2HmzUg7ZN-S1Js8mV5Z1SJqTcjMc5KaL7CkMIAlpkb9sn4f7C9O_vN-ogZ0xNvEqtaQTnoH1puG362ob14HHyfR2ChA')">
+<div class="absolute top-4 left-4 bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-md font-label-caps text-label-caps text-status-success flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm">psychiatry</span> Agroforestry
+                                </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-primary line-clamp-2">Andean Slope Reforestation Initiative</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 line-clamp-2">
+                                    Restoring degraded cattle pastures with native montane forest species to improve watershed health and carbon sequestration.
+                                </p>
+<div class="grid grid-cols-2 gap-4 mb-6 pt-4 border-t border-outline-variant">
+<div>
+<span class="font-label-caps text-label-caps text-outline block mb-1">CO2e Available</span>
+<span class="font-data-mono text-data-mono text-on-surface">120,500 t</span>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-outline block mb-1">Price per credit</span>
+<span class="font-data-mono text-data-mono text-on-surface">$18.00</span>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-3">
+<button class="w-full bg-earth-sandy text-primary font-body-sm text-body-sm font-semibold py-2.5 rounded-md hover:bg-[#d8e0a8] transition-colors flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-sm">shopping_cart</span>
+                                        Solicitar Cotización
+                                    </button>
+<button class="w-full bg-transparent border border-primary text-primary font-body-sm text-body-sm font-semibold py-2.5 rounded-md hover:bg-surface-container transition-colors flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-sm">folder_open</span>
+                                        Ver Data Room
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest dark:bg-forest-deep w-full mt-auto border-t border-outline-variant dark:border-outline flat">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-8 gap-4 max-w-7xl mx-auto w-full">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps text-on-surface dark:text-on-surface-variant">CarbonFlow</span>
+<span class="font-body-sm text-body-sm text-secondary dark:text-secondary-fixed">© 2024 CarbonFlow. All rights reserved.</span>
+</div>
+<div class="flex gap-6">
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-surface-variant hover:underline decoration-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-surface-variant hover:underline decoration-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-surface-variant hover:underline decoration-primary transition-colors" href="#">Methodology</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-surface-variant hover:underline decoration-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+</footer>
+</body></html>
