@@ -56,7 +56,7 @@ export function NeedPublisherForm({
       title: form.title,
       summary: form.summary,
       organization: form.organization || "Organización no publicada",
-      actorType: category === "ovv" ? "OVV" : category === "carbon" ? "Comprador" : "Financiador",
+      actorType: category === "ovv" ? "Entidad validadora" : category === "carbon" ? "Comprador" : "Financiador",
       needType: category === "ovv" ? form.service : category === "carbon" ? form.interest : form.instrument,
       projectTypes: [form.projectType],
       locationScope: [form.location],
@@ -80,7 +80,7 @@ export function NeedPublisherForm({
   };
 
   return (
-    <form onSubmit={submit} className="max-w-2xl space-y-4 rounded-xl border border-outline-variant bg-surface-container-lowest p-6">
+    <form onSubmit={submit} className="max-w-2xl space-y-4 rounded-lg border border-outline-variant bg-surface-container-lowest p-6">
       <h2 className="font-heading text-headline-md text-primary">Publicar necesidad</h2>
       <fieldset className="space-y-2">
         <legend className="font-medium text-body-sm">¿Qué necesitas?</legend>
@@ -241,7 +241,7 @@ export function NeedPublisherForm({
         Confirmo que esta publicación no constituye oferta vinculante, contrato, recomendación financiera ni garantía de
         compra, validación o financiación.
       </label>
-      <button type="submit" disabled={!consent} className="rounded-lg bg-forest-deep text-on-primary px-4 py-2 disabled:opacity-40">
+      <button type="submit" disabled={!consent} className="rounded-lg bg-primary-container text-on-primary px-4 py-2 disabled:opacity-40">
         Publicar necesidad
       </button>
     </form>

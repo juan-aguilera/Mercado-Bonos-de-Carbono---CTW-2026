@@ -127,7 +127,7 @@ export function MapDraw({ onGeometryChange, onStatusChange }: MapDrawProps) {
         {points.length > 0 && (
           <LeafletPolygon
             positions={points}
-            pathOptions={{ color: "#2D6A4F", weight: 2, lineJoin: "round", fillColor: "#2D6A4F", fillOpacity: 0.25 }}
+            pathOptions={{ color: "#006D36", weight: 2, lineJoin: "round", fillColor: "#006D36", fillOpacity: 0.25 }}
           />
         )}
       </MapContainer>
@@ -138,7 +138,7 @@ export function MapDraw({ onGeometryChange, onStatusChange }: MapDrawProps) {
           type="button"
           onClick={() => setBasemap((b) => (b === "normal" ? "satelite" : "normal"))}
           title={basemap === "normal" ? "Ver satelital" : "Ver normal"}
-          className="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md shadow-sm flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors"
+          className="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors"
         >
           <MaterialIcon name={basemap === "normal" ? "satellite_alt" : "map"} />
         </button>
@@ -147,7 +147,7 @@ export function MapDraw({ onGeometryChange, onStatusChange }: MapDrawProps) {
           onClick={zoomToPolygon}
           disabled={points.length === 0}
           title="Centrar en polígono"
-          className="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md shadow-sm flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors disabled:opacity-40 disabled:hover:text-on-surface"
+          className="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors disabled:opacity-40 disabled:hover:text-on-surface"
         >
           <MaterialIcon name="my_location" />
         </button>
@@ -156,13 +156,13 @@ export function MapDraw({ onGeometryChange, onStatusChange }: MapDrawProps) {
           onClick={closePolygon}
           disabled={points.length < 3 || closed}
           title="Cerrar polígono"
-          className="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md shadow-sm flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors disabled:opacity-40 disabled:hover:text-on-surface"
+          className="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors disabled:opacity-40 disabled:hover:text-on-surface"
         >
           <MaterialIcon name="check_circle" />
         </button>
         <label
           title="Cargar GeoJSON"
-          className="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md shadow-sm flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors cursor-pointer"
+          className="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors cursor-pointer"
         >
           <MaterialIcon name="upload" />
           <input
@@ -177,13 +177,13 @@ export function MapDraw({ onGeometryChange, onStatusChange }: MapDrawProps) {
           type="button"
           onClick={reset}
           title="Reiniciar"
-          className="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md shadow-sm flex items-center justify-center text-on-surface hover:text-status-error hover:bg-surface-container-low transition-colors"
+          className="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md flex items-center justify-center text-on-surface hover:text-error hover:bg-surface-container-low transition-colors"
         >
           <MaterialIcon name="delete" />
         </button>
       </div>
 
-      <div className="absolute bottom-4 left-4 z-[1000] glass-panel rounded-full px-4 py-2 shadow-sm">
+      <div className="absolute bottom-4 left-4 z-[1000] glass-panel rounded-full px-4 py-2">
         <span className="text-body-sm text-on-surface">
           {closed
             ? `Polígono cerrado · ${points.length} vértices`

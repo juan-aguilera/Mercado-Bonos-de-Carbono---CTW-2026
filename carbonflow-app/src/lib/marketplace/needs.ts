@@ -5,11 +5,11 @@ export const DEMO_NEEDS: MarketplaceNeed[] = [
     id: "need-ovv-preeval-forestal",
     category: "ovv",
     status: "published",
-    title: "OVV busca iniciativas forestales para preevaluación",
+    title: "Entidad validadora busca iniciativas forestales para preevaluación",
     summary:
       "Organismo demostrativo que declara interés en revisar iniciativas de conservación o restauración en etapa de preparación avanzada.",
     organization: "Andina Revisión Técnica",
-    actorType: "OVV",
+    actorType: "Entidad validadora",
     needType: "Preevaluación",
     projectTypes: ["Conservación", "Restauración"],
     locationScope: ["Colombia"],

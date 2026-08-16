@@ -46,7 +46,7 @@ export function MarketplaceComparisonTable({
           ];
 
   return (
-    <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-4 space-y-3 overflow-x-auto">
+    <div className="rounded-lg border border-outline-variant bg-surface-container-lowest p-4 space-y-3 overflow-x-auto">
       <div className="flex justify-between gap-3">
         <h3 className="font-heading text-headline-sm">Comparar perfiles</h3>
         <button type="button" onClick={onClear} className="text-body-sm text-primary">

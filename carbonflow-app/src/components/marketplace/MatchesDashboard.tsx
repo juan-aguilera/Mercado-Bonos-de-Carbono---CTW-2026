@@ -26,7 +26,7 @@ export function MatchesDashboard({
         title="Tu perfil de preparación aún no tiene información suficiente para calcular compatibilidad."
         body="Completa diagnóstico, formulación o Validación y Registro, y publica un proyecto para activar coincidencias."
         actions={
-          <a href="/validacion-registro" className="rounded-lg bg-forest-deep text-on-primary px-4 py-2 text-body-sm">
+          <a href="/validacion-registro" className="rounded-lg bg-primary-container text-on-primary px-4 py-2 text-body-sm">
             Ir a Validación y Registro
           </a>
         }
@@ -44,7 +44,7 @@ export function MatchesDashboard({
   }
 
   return (
-    <div className="overflow-x-auto border border-outline-variant rounded-xl">
+    <div className="overflow-x-auto border border-outline-variant rounded-lg">
       <table className="w-full text-body-sm">
         <thead className="bg-surface-container-low text-left">
           <tr>

@@ -10,7 +10,7 @@ const ROLES: {
   {
     id: "ovv",
     icon: "verified",
-    title: "Soy OVV",
+    title: "Soy entidad validadora",
     description: "Crea tu perfil y postúlate a proyectos de créditos o financiación que buscan revisión técnica.",
   },
   {
@@ -23,7 +23,7 @@ const ROLES: {
     id: "propietario",
     icon: "forest",
     title: "Soy propietario",
-    description: "Consulta necesidades de empresas, revisa OVV disponibles y publica tu proyecto.",
+    description: "Consulta necesidades de empresas, revisa entidades validadoras disponibles y publica tu proyecto.",
   },
 ];
 
@@ -35,7 +35,7 @@ export function MarketplaceRolePicker({ onSelect }: { onSelect: (role: Marketpla
           key={role.id}
           type="button"
           onClick={() => onSelect(role.id)}
-          className="text-left rounded-xl border border-outline-variant bg-surface-container-lowest p-6 hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="text-left rounded-lg border border-outline-variant bg-surface-container-lowest p-6 hover:bg-surface-container-low transition-colors"
         >
           <div className="w-12 h-12 rounded-lg bg-primary-container/15 flex items-center justify-center mb-4">
             <MaterialIcon name={role.icon} className="text-primary text-2xl" />
@@ -49,7 +49,7 @@ export function MarketplaceRolePicker({ onSelect }: { onSelect: (role: Marketpla
 }
 
 export function roleLabel(role: MarketplaceRole) {
-  if (role === "ovv") return "OVV";
+  if (role === "ovv") return "Entidad validadora";
   if (role === "empresa") return "Empresa";
   return "Propietario";
 }

@@ -9,7 +9,7 @@ export function MarketplaceFilters({
 }) {
   return (
     <aside className="w-full lg:w-72 shrink-0">
-      <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 space-y-4">
+      <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-5 space-y-4">
         <h2 className="font-heading text-headline-sm text-primary">{title ?? "Filtros"}</h2>
         {children}
       </div>

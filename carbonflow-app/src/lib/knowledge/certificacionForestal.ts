@@ -70,7 +70,7 @@ CarbonFlow **no certifica, no verifica y no emite** créditos. Solo orienta.
   - Metodología MDL o de un programa de GEI consultada públicamente y verificable por tercera parte acreditada (ISO 14064-3 o la que la actualice), o reconocida según las reglas vigentes.
   - **No** provenir de compensaciones impuestas por una autoridad ambiental (licencia/obligación de compensación).
   - Certificados **cancelados** en el registro del estándar y rastreados en **RENARE**.
-  - Verificación por OVV acreditado (ONAC / reglas del Decreto 446).
+  - Verificación por entidad validadora acreditada (ONAC / reglas del Decreto 446).
 - Cumplir Verra/Gold Standard/Cercarbono **no basta** por sí solo para no causación: hay que cumplir además Decreto 926/446 y registro RENARE.
 
 ## 4. RENARE y ciclo de un proyecto forestal
@@ -80,10 +80,10 @@ CarbonFlow **no certifica, no verifica y no emite** créditos. Solo orienta.
 - **Fases RENARE (Res. 1447):** factibilidad → formulación → implementación → cierre. El registro empieza en factibilidad.
 - **Ciclo de certificación (estándar + Estado):**
   1. Diseño (PDD / documento de iniciativa): línea base, adicionalidad, fugas, permanencia, salvaguardas, plan de MRV, polígono, titularidad.
-  2. Validación por OVV acreditado.
+  2. Validación por entidad validadora acreditada.
   3. Registro en el estándar (Verra, Gold Standard, Cercarbono, BioCarbon, etc.) **y** avance en RENARE.
   4. Implementación y monitoreo.
-  5. Verificación periódica por OVV.
+  5. Verificación periódica por entidad validadora.
   6. Emisión de certificados en el registro del estándar.
   7. Cancelación/retiro si se usan (p. ej. no causación) y reporte en RENARE.
 - **Decreto 973 (si permanece vigente):** el cambio a formulación, implementación o cierre ya no es solo un cargue en plataforma: IDEAM emite concepto técnico (hasta 90 días hábiles) y MinAmbiente expide **acto administrativo** (hasta 30 días hábiles). La emisión de certificados y los pagos por resultados exigen estar en **fase de implementación** autorizada. Traslapes geográficos de la misma actividad en la misma ventana temporal son **incompatibles** (se evalúa predio por predio con acuerdo formal, no el perímetro amplio de elegibilidad).
@@ -114,7 +114,7 @@ Ningún estándar reemplaza la ley colombiana. Los más usados en Colombia:
 - **BioCarbon Registry (BCR)** y **ColCX**: estándares/registros con presencia en Colombia.
 - Metodologías deben ser verificables bajo **ISO 14064-3** (o la que la actualice) y, para no causación, cumplir Decreto 926.
 
-OVV (ejemplos históricos, no lista cerrada): TÜV NORD, TÜV SÜD, SCS Global Services, Aster Global, DNV. La lista vigente y el alcance de acreditación se confirman en el estándar y en ONAC. El Decreto 973 advierte el riesgo de "familiaridad" (mismo OVV siempre).
+Entidad validadora (ejemplos históricos, no lista cerrada): TÜV NORD, TÜV SÜD, SCS Global Services, Aster Global, DNV. La lista vigente y el alcance de acreditación se confirman en el estándar y en ONAC. El Decreto 973 advierte el riesgo de "familiaridad" (misma entidad validadora siempre).
 
 ## 7. REDD+, restauración y salvaguardas
 - **REDD+** (CMNUCC): reducción de emisiones por deforestación y degradación, más conservación, manejo sostenible y aumento de stocks. En Colombia se anida (o debe anidarse) con el **nivel de referencia de emisiones forestales (NREF)** que MinAmbiente/IDEAM establecen (SMByC).
@@ -141,7 +141,7 @@ descripción y polígono; actores y población; titularidad; viabilidad legal (p
 
 ## 10. Límites de esta guía
 - Solo conservación/restauración forestal y REDD+ en Colombia. Energía, residuos, industria, CORSIA u otros países: fuera de alcance.
-- No inventar tarifas, plazos de OVV, precios de mercado ni elegibilidad de un predio concreto.
+- No inventar tarifas, plazos de entidad validadora, precios de mercado ni elegibilidad de un predio concreto.
 - No garantizar certificación, no causación ni venta internacional.
 - El marco cambió en 2022 (tope 50%), 2024 (T-248, reactivación RENARE) y agosto 2026 (Decreto 973, con incertidumbre política). Si hay duda sobre vigencia, decirlo y remitir a MinAmbiente/DIAN/Interior.
 - Orientación informativa, no dictamen jurídico ni técnico de validación.

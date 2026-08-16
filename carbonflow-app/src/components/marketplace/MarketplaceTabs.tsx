@@ -26,7 +26,7 @@ export function MarketplaceTabs({
             onClick={() => onChange(tab.id)}
             className={`px-4 py-2 rounded-lg text-body-sm font-medium transition-colors ${
               active
-                ? "bg-forest-deep text-on-primary"
+                ? "bg-primary-container text-on-primary"
                 : "bg-surface-container-low text-on-surface-variant hover:text-primary border border-outline-variant"
             }`}
           >

@@ -8,7 +8,7 @@ export function ProjectReadinessProfile({
   onShare?: () => void;
 }) {
   return (
-    <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-4 space-y-3">
+    <div className="rounded-lg border border-outline-variant bg-surface-container-lowest p-4 space-y-3">
       <h4 className="font-heading text-headline-sm text-primary">Perfil de preparación del proyecto</h4>
       <dl className="grid sm:grid-cols-2 gap-2 text-body-sm">
         <div>

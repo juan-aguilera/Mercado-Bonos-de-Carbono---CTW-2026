@@ -37,8 +37,8 @@ export function ListingCard({
     listing.kind === "carbon_buyer_demand";
 
   return (
-    <article className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col hover:shadow-md transition-shadow">
-      <div className="h-28 w-full bg-gradient-to-br from-primary-container to-forest-deep relative flex items-center justify-center">
+    <article className="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col hover:bg-surface-container-low transition-colors">
+      <div className="h-28 w-full bg-gradient-to-br from-primary-container to-primary-container relative flex items-center justify-center">
         {isOrg ? (
           <span className="w-14 h-14 rounded-full bg-surface/90 text-primary font-heading text-headline-sm flex items-center justify-center">
             {initials(listing.organization ?? listing.title)}
@@ -134,7 +134,7 @@ export function ListingCard({
             type="button"
             onClick={onPrimary}
             disabled={primaryDisabled}
-            className="rounded-md bg-earth-sandy text-primary font-semibold py-2 text-body-sm disabled:opacity-40"
+            className="rounded-md bg-tertiary-fixed text-primary font-semibold py-2 text-body-sm disabled:opacity-40"
           >
             {primaryLabel}
           </button>

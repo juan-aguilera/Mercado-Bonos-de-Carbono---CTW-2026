@@ -1,7 +1,7 @@
 export function ScoreGauge({ score }: { score: number }) {
   const clamped = Math.max(0, Math.min(100, score));
   const color =
-    clamped >= 70 ? "var(--color-status-success)" : clamped >= 40 ? "var(--color-status-warning)" : "var(--color-status-error)";
+    clamped >= 70 ? "var(--color-secondary)" : clamped >= 40 ? "var(--color-on-tertiary-fixed-variant)" : "var(--color-error)";
 
   return (
     <svg className="circular-chart" viewBox="0 0 36 36">

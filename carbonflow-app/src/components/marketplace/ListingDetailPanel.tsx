@@ -43,7 +43,7 @@ export function ListingDetailPanel({
     <div className="fixed inset-0 z-50 bg-inverse-surface/40 flex items-center justify-center p-4" onClick={onClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-surface-container-lowest rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 shadow-xl"
+        className="bg-surface-container-lowest rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 ambient-shadow"
       >
         <div className="flex justify-between gap-4">
           <div>
@@ -232,7 +232,7 @@ export function ListingDetailPanel({
             type="button"
             onClick={onPrimary}
             disabled={primaryDisabled}
-            className="flex-1 rounded-lg bg-forest-deep text-on-primary py-2.5 font-medium disabled:opacity-40"
+            className="flex-1 rounded-lg bg-primary-container text-on-primary py-2.5 font-medium disabled:opacity-40"
           >
             {primaryLabel}
           </button>

@@ -37,7 +37,7 @@ function requestTypes(listing: MarketplaceListing) {
 
 function confirmation(listing: MarketplaceListing) {
   if (listing.tab === "ovv") {
-    return "Tu solicitud fue enviada. No constituye contratación, asignación de una OVV ni inicio formal de validación o verificación.";
+    return "Tu solicitud fue enviada. No constituye contratación, asignación de una entidad validadora ni inicio formal de validación o verificación.";
   }
   if (listing.tab === "finance") {
     return "Tu solicitud fue enviada. No constituye una oferta de valores, recomendación de inversión, aprobación de crédito, compromiso de financiación ni contrato.";
@@ -53,11 +53,13 @@ export function ContactRequestModal({
   context,
   onClose,
   onCreated,
+  initialMessage,
 }: {
   listing: MarketplaceListing;
   context?: ProjectContext | null;
   onClose: () => void;
   onCreated: (request: import("@/lib/marketplace/types").MarketplaceRequest) => void;
+  initialMessage?: string;
 }) {
   const types = requestTypes(listing);
   const [form, setForm] = useState({
@@ -66,7 +68,7 @@ export function ContactRequestModal({
     email: "",
     phone: "",
     requestType: types[0],
-    message: "",
+    message: initialMessage ?? "",
     amount: "",
   });
   const [shared, setShared] = useState<string[]>(["resumen", "brechas"]);
@@ -131,7 +133,7 @@ export function ContactRequestModal({
     <div className="fixed inset-0 z-50 bg-inverse-surface/40 flex items-center justify-center p-4" onClick={onClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-surface-container-lowest rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 shadow-xl"
+        className="bg-surface-container-lowest rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 ambient-shadow"
       >
         <h3 className="font-heading text-headline-sm">
           {listing.tab === "carbon" && listing.kind === "carbon_project_development"
@@ -144,7 +146,7 @@ export function ContactRequestModal({
           <div className="space-y-3">
             <p className="text-body-sm">{confirmation(listing)}</p>
             <SimulatedResponsePanel message={done.response} />
-            <button type="button" onClick={onClose} className="w-full rounded-lg bg-forest-deep text-on-primary py-2">
+            <button type="button" onClick={onClose} className="w-full rounded-lg bg-primary-container text-on-primary py-2">
               Cerrar
             </button>
           </div>
@@ -226,7 +228,7 @@ export function ContactRequestModal({
               <button
                 type="submit"
                 disabled={!consent || sending}
-                className="flex-1 rounded-lg bg-forest-deep text-on-primary py-2 font-medium disabled:opacity-40"
+                className="flex-1 rounded-lg bg-primary-container text-on-primary py-2 font-medium disabled:opacity-40"
               >
                 {sending ? "Enviando…" : "Enviar solicitud de contacto"}
               </button>

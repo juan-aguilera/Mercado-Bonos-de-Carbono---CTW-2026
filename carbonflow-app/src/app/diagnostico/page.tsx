@@ -157,7 +157,7 @@ export default function DiagnosticoPage() {
                 </div>
               </div>
               {!selectedType.enabled && (
-                <p className="text-disclaimer-italic text-status-warning mt-1">
+                <p className="text-disclaimer-italic text-on-tertiary-fixed-variant mt-1">
                   Este tipo de proyecto aún no está habilitado en el MVP.
                 </p>
               )}
@@ -166,7 +166,7 @@ export default function DiagnosticoPage() {
             <div className="bg-surface-container-low rounded-lg border border-outline-variant p-3">
               <span className="font-data text-label-caps text-secondary block mb-1">Estado del polígono</span>
               <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${mapStatus.closed ? "bg-status-success" : "bg-outline"}`} />
+                <div className={`w-2 h-2 rounded-full ${mapStatus.closed ? "bg-secondary" : "bg-outline"}`} />
                 <span className="font-data text-data-mono text-on-surface">
                   {mapStatus.closed ? `Cerrado · ${mapStatus.vertices} vértices` : `Dibujando · ${mapStatus.vertices} vértices`}
                 </span>
@@ -200,7 +200,7 @@ export default function DiagnosticoPage() {
                   className="hidden"
                 />
               </label>
-              {pdfError && <p className="text-disclaimer-italic text-status-warning mt-1">{pdfError}</p>}
+              {pdfError && <p className="text-disclaimer-italic text-on-tertiary-fixed-variant mt-1">{pdfError}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-3">
@@ -271,7 +271,7 @@ export default function DiagnosticoPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-forest-deep text-on-primary font-medium text-body-md py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-primary transition-colors disabled:opacity-50"
+              className="w-full bg-primary-container text-on-primary font-medium text-body-md py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-primary transition-colors disabled:opacity-50"
             >
               {loading ? "Consultando fuentes en vivo…" : "Generar diagnóstico"}
             </button>
@@ -329,7 +329,7 @@ function ResultsPanel({
           <h4 className="font-data text-label-caps text-on-surface-variant mb-4 uppercase tracking-wider">
             Score de prefactibilidad
           </h4>
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+          <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6">
             <div className="flex items-center justify-center mb-6">
               <ScoreGauge score={result.score} />
             </div>
@@ -361,14 +361,14 @@ function ResultsPanel({
             Impacto estimado
           </h4>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 shadow-sm">
+            <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4">
               <p className="text-body-sm text-on-surface-variant mb-1">CO2e estimado</p>
               <p className="font-heading text-headline-md text-primary font-bold">
                 {formatNumber(result.co2e.toneladasCO2ePorAnio)}
                 <span className="text-body-sm font-normal text-on-surface-variant"> t/año</span>
               </p>
             </div>
-            <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 shadow-sm">
+            <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4">
               <p className="text-body-sm text-on-surface-variant mb-1">Área total</p>
               <p className="font-heading text-headline-md text-primary font-bold">
                 {formatNumber(result.areaHectareas, 1)}
@@ -402,7 +402,7 @@ function ResultsPanel({
         {result.predioId ? (
           <Link
             href={`/formulacion?predioId=${result.predioId}`}
-            className="w-full text-center rounded-lg bg-forest-deep text-on-primary py-3 font-medium text-body-md flex items-center justify-center gap-2 hover:bg-primary transition-colors"
+            className="w-full text-center rounded-lg bg-primary-container text-on-primary py-3 font-medium text-body-md flex items-center justify-center gap-2 hover:bg-primary transition-colors"
           >
             Continuar a formulación
             <MaterialIcon name="arrow_forward" />

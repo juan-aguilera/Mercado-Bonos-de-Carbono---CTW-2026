@@ -262,7 +262,7 @@ function ValidacionRegistroInner() {
     setExpediente(data.contexto?.expediente ?? null);
   };
 
-  const card = "bg-surface rounded-xl border border-outline-variant p-6 shadow-sm";
+  const card = "bg-surface rounded-lg border border-outline-variant p-6";
 
   return (
     <div className="flex flex-col flex-1">
@@ -314,7 +314,7 @@ function ValidacionRegistroInner() {
               </p>
               <p className="text-body-sm text-on-surface-variant">Aún no tienes un proyecto preparado.</p>
               <div className="flex flex-wrap justify-center gap-3">
-                <Link href="/diagnostico" className="rounded-lg bg-forest-deep text-on-primary px-4 py-2 font-medium">
+                <Link href="/diagnostico" className="rounded-lg bg-primary-container text-on-primary px-4 py-2 font-medium">
                   Crear proyecto / Ir a Diagnóstico
                 </Link>
                 <Link href="/formulacion" className="rounded-lg border border-outline-variant px-4 py-2">
@@ -327,7 +327,7 @@ function ValidacionRegistroInner() {
           {predio && preparacion && (
             <>
               {!preparacion.tieneDiagnostico && (
-                <div className="rounded-lg border border-status-warning/40 bg-[#fff8e6] p-4 space-y-2">
+                <div className="rounded-lg border border-tertiary-container/40 bg-tertiary-fixed/40 p-4 space-y-2">
                   <p className="font-medium">Tu proyecto aún no tiene un diagnóstico completo.</p>
                   <p className="text-body-sm text-on-surface-variant">
                     Necesitamos al menos un polígono, área, actividad y ubicación general para construir la ruta de
@@ -382,7 +382,7 @@ function ValidacionRegistroInner() {
                     )}
                     {preparacion.fortalezas.map((f) => (
                       <li key={f} className="text-body-sm flex gap-2">
-                        <span className="text-status-success">✓</span> {f}
+                        <span className="text-on-secondary-container">✓</span> {f}
                       </li>
                     ))}
                   </ul>
@@ -391,7 +391,7 @@ function ValidacionRegistroInner() {
                   <ul className="space-y-1 mb-4">
                     {preparacion.brechas.slice(0, 4).map((b) => (
                       <li key={b.id} className="text-body-sm flex gap-2">
-                        <span className="text-status-warning">!</span> {b.nombre}
+                        <span className="text-on-tertiary-fixed-variant">!</span> {b.nombre}
                       </li>
                     ))}
                     {preparacion.brechas.length === 0 && (
@@ -404,7 +404,7 @@ function ValidacionRegistroInner() {
                       type="button"
                       onClick={() => setShowAiModal(true)}
                       disabled={!predio}
-                      className="inline-flex items-center gap-2 rounded-lg bg-forest-deep text-on-primary px-3 py-2 text-body-sm disabled:opacity-50"
+                      className="inline-flex items-center gap-2 rounded-lg bg-primary-container text-on-primary px-3 py-2 text-body-sm disabled:opacity-50"
                     >
                       <MaterialIcon name="auto_awesome" className="text-[16px]" />
                       Llenar brechas con IA
@@ -499,7 +499,7 @@ function ValidacionRegistroInner() {
                               )}
                               {etapa.ovv && (
                                 <p>
-                                  <strong className="text-on-surface">OVV:</strong> {etapa.ovv}
+                                  <strong className="text-on-surface">Entidad validadora:</strong> {etapa.ovv}
                                 </p>
                               )}
                               {etapa.marketplace && (
@@ -565,7 +565,7 @@ function ValidacionRegistroInner() {
                   <ul className="space-y-1 mb-4">
                     {paquete.map((item) => (
                       <li key={item.id} className="text-body-sm flex gap-2">
-                        <span className={item.incluido ? "text-status-success" : "text-status-warning"}>
+                        <span className={item.incluido ? "text-on-secondary-container" : "text-on-tertiary-fixed-variant"}>
                           {item.incluido ? "✓" : "!"}
                         </span>
                         {item.label}
@@ -584,7 +584,7 @@ function ValidacionRegistroInner() {
                     <button
                       type="button"
                       onClick={() => descargarPdf(true)}
-                      className="rounded-lg bg-forest-deep text-on-primary px-3 py-2 text-body-sm"
+                      className="rounded-lg bg-primary-container text-on-primary px-3 py-2 text-body-sm"
                     >
                       Descargar PDF
                     </button>
@@ -608,7 +608,7 @@ function ValidacionRegistroInner() {
                       Encontrar consultor
                     </button>
                     <button type="button" className="text-primary hover:underline" onClick={() => setConsentOpen(true)}>
-                      Encontrar OVV
+                      Encontrar entidad validadora
                     </button>
                     <button type="button" className="text-primary hover:underline" onClick={() => setConsentOpen(true)}>
                       Buscar comprador
@@ -677,7 +677,7 @@ function ValidacionRegistroInner() {
                       type="button"
                       onClick={guardarRenare}
                       disabled={savingRenare}
-                      className="rounded-lg bg-forest-deep text-on-primary px-3 py-2 text-body-sm disabled:opacity-50"
+                      className="rounded-lg bg-primary-container text-on-primary px-3 py-2 text-body-sm disabled:opacity-50"
                     >
                       {savingRenare ? "Guardando…" : "Registrar referencia"}
                     </button>
@@ -697,7 +697,7 @@ function ValidacionRegistroInner() {
                       Consultar al asistente
                     </button>
                   </div>
-                  {renareMsg && <p className="text-body-sm text-status-success mt-2">{renareMsg}</p>}
+                  {renareMsg && <p className="text-body-sm text-on-secondary-container mt-2">{renareMsg}</p>}
                   <div className="mt-4 rounded-lg bg-surface-container-lowest border border-outline-variant p-3">
                     <p className="font-medium text-body-sm mb-2">Información a preparar</p>
                     <ul className="text-body-sm text-on-surface-variant list-disc list-inside space-y-1">
@@ -844,7 +844,7 @@ function ValidacionRegistroInner() {
           onClick={() => setPreviewPaquete(false)}
         >
           <div
-            className="bg-surface rounded-xl max-w-lg w-full p-6 space-y-3 max-h-[90vh] overflow-y-auto"
+            className="bg-surface rounded-lg max-w-lg w-full p-6 space-y-3 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="font-heading text-headline-sm">Vista previa del paquete</h3>
@@ -864,7 +864,7 @@ function ValidacionRegistroInner() {
             <button
               type="button"
               onClick={() => setPreviewPaquete(false)}
-              className="w-full rounded-lg bg-forest-deep text-on-primary py-2"
+              className="w-full rounded-lg bg-primary-container text-on-primary py-2"
             >
               Cerrar
             </button>
@@ -878,7 +878,7 @@ function ValidacionRegistroInner() {
           onClick={() => setConsentOpen(false)}
         >
           <div
-            className="bg-surface rounded-xl max-w-lg w-full p-6 space-y-3"
+            className="bg-surface rounded-lg max-w-lg w-full p-6 space-y-3"
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="font-heading text-headline-sm">Compartir contexto con Marketplace</h3>
@@ -895,7 +895,7 @@ Brechas: ${preparacion.brechas.map((b) => b.nombre).join(", ") || "ninguna"}`}
             <div className="flex gap-2">
               <Link
                 href={marketplaceHref("revision-validacion")}
-                className="flex-1 text-center rounded-lg bg-forest-deep text-on-primary py-2"
+                className="flex-1 text-center rounded-lg bg-primary-container text-on-primary py-2"
               >
                 Acepto y continuar
               </Link>

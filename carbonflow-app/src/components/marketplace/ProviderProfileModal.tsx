@@ -13,7 +13,7 @@ export function ProviderProfileModal({
   const [consent, setConsent] = useState(false);
   const [form, setForm] = useState({
     name: "",
-    entityType: kind === "ovv" ? "OVV" : "Fondo",
+    entityType: kind === "ovv" ? "Entidad validadora" : "Fondo",
     description: "",
     services: kind === "ovv" ? "Validación, Verificación" : "Deuda verde, Asistencia técnica",
     sectors: "Conservación, Restauración",
@@ -37,7 +37,7 @@ export function ProviderProfileModal({
       kind === "ovv"
         ? {
             id: `user-ovv-${Date.now()}`,
-            kind: form.entityType === "OVV" ? "ovv_profile" : "technical_firm_profile",
+            kind: form.entityType === "Entidad validadora" ? "ovv_profile" : "technical_firm_profile",
             tab: "ovv",
             title: form.name,
             organization: form.name,
@@ -86,10 +86,10 @@ export function ProviderProfileModal({
       <form
         onClick={(e) => e.stopPropagation()}
         onSubmit={submit}
-        className="bg-surface-container-lowest rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-3 shadow-xl"
+        className="bg-surface-container-lowest rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-3 ambient-shadow"
       >
         <h3 className="font-heading text-headline-sm">
-          {kind === "ovv" ? "Perfil de OVV o firma técnica" : "Perfil de financiador o estructurador"}
+          {kind === "ovv" ? "Perfil de entidad validadora o firma técnica" : "Perfil de financiador o estructurador"}
         </h3>
         <input
           required
@@ -105,7 +105,7 @@ export function ProviderProfileModal({
         >
           {kind === "ovv" ? (
             <>
-              <option>OVV</option>
+              <option>Entidad validadora</option>
               <option>Firma técnica</option>
               <option>Consultor especializado</option>
             </>
@@ -215,7 +215,7 @@ export function ProviderProfileModal({
           Consentimiento de publicación. El perfil se marcará como demostrativo en este MVP.
         </label>
         <div className="flex gap-2">
-          <button type="submit" disabled={!consent} className="flex-1 rounded-lg bg-forest-deep text-on-primary py-2 disabled:opacity-40">
+          <button type="submit" disabled={!consent} className="flex-1 rounded-lg bg-primary-container text-on-primary py-2 disabled:opacity-40">
             Publicar perfil
           </button>
           <button type="button" onClick={onClose} className="rounded-lg border border-outline-variant px-4">

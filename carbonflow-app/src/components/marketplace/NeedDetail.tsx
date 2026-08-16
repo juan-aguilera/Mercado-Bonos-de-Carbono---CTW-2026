@@ -18,7 +18,7 @@ export function NeedDetail({
     <div className="fixed inset-0 z-50 bg-inverse-surface/40 flex items-center justify-center p-4" onClick={onClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-surface-container-lowest rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 shadow-xl"
+        className="bg-surface-container-lowest rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 ambient-shadow"
       >
         <div className="flex justify-between gap-4">
           <div>
@@ -85,7 +85,7 @@ export function NeedDetail({
           Esta necesidad es informativa y no constituye una oferta vinculante, una aprobación, una contratación ni un
           compromiso de compra o financiación.
         </p>
-        <button type="button" onClick={onRespond} className="w-full rounded-lg bg-forest-deep text-on-primary py-2.5">
+        <button type="button" onClick={onRespond} className="w-full rounded-lg bg-primary-container text-on-primary py-2.5">
           Manifestar interés
         </button>
       </div>

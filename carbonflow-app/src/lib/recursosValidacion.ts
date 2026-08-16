@@ -73,13 +73,13 @@ export const GUIAS_PLANTILLAS: GuiaPlantilla[] = [
     etapa: "Formulación",
     tipo: "plantilla",
     contenido:
-      "Fases sugeridas: factibilidad, formulación, revisión técnica/OVV, registro/reporte, implementación, verificación. Incluye CAPEX inicial, OPEX de monitoreo y reserva para salvaguardas. Orientativo — adaptar a metodología y estándar aplicable.",
+      "Fases sugeridas: factibilidad, formulación, revisión técnica/entidad validadora, registro/reporte, implementación, verificación. Incluye CAPEX inicial, OPEX de monitoreo y reserva para salvaguardas. Orientativo — adaptar a metodología y estándar aplicable.",
   },
   {
     id: "ovv",
-    titulo: "Preguntas para contratar consultor o OVV",
+    titulo: "Preguntas para contratar consultor o entidad validadora",
     descripcion: "Alcance, independencia, acreditación y entregables a pedir.",
-    etapa: "Validación por OVV",
+    etapa: "Validación por entidad validadora",
     tipo: "guia",
     contenido:
       "¿Está acreditada para el alcance y la metodología? ¿Es independiente del desarrollador? ¿Qué documentos pide? ¿Cuál es el plazo y el producto (informe de validación o verificación)? CarbonFlow no contrata ni valida en tu nombre.",
@@ -139,7 +139,7 @@ export const CASOS_REFERENCIA: CasoReferencia[] = [
 
 export const PREGUNTAS_FAQ = [
   "¿Qué diferencia hay entre validación y verificación?",
-  "¿Qué hace una OVV?",
+  "¿Qué hace una entidad validadora?",
   "¿Qué debo preparar para RENARE?",
   "¿Qué es adicionalidad?",
   "¿Qué significa un resultado verificado?",

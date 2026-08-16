@@ -15,8 +15,8 @@ const ACTORES: { id: ActorId; label: string; icon: string; tooltip: string; chip
     id: "titular",
     label: "Titular",
     icon: "person",
-    tooltip: "Define la iniciativa, contrata la OVV, implementa y gestiona acuerdos.",
-    chip: "bg-[#E8F1FF] text-[#2563EB] border-[#2563EB]/30",
+    tooltip: "Define la iniciativa, contrata la entidad validadora, implementa y gestiona acuerdos.",
+    chip: "bg-primary-container/10 text-primary-container border-primary-container/30",
   },
   {
     id: "carbonflow",
@@ -24,28 +24,28 @@ const ACTORES: { id: ActorId; label: string; icon: string; tooltip: string; chip
     icon: "eco",
     tooltip:
       "Diagnostica, formula, organiza brechas y conecta aliados. No valida, verifica, certifica, registra ni paga.",
-    chip: "bg-[#EAF8EF] text-[#15803D] border-[#15803D]/30",
+    chip: "bg-secondary/12 text-on-secondary-container border-secondary/30",
   },
   {
     id: "renare",
     label: "RENARE",
     icon: "account_balance",
     tooltip: "Registro, actualización, reporte y trazabilidad nacional cuando aplique.",
-    chip: "bg-[#EAF4FF] text-[#0369A1] border-[#0369A1]/30",
+    chip: "bg-secondary-container text-on-secondary-container border-secondary/30",
   },
   {
     id: "ovv",
-    label: "OVV",
+    label: "Entidad validadora",
     icon: "verified",
     tooltip: "Validación del diseño y verificación independiente de resultados. No emite créditos ni paga.",
-    chip: "bg-[#F3E8FF] text-[#7E22CE] border-[#7E22CE]/30",
+    chip: "bg-tertiary-fixed/60 text-on-tertiary-fixed-variant border-on-tertiary-fixed-variant/30",
   },
   {
     id: "mercado",
     label: "Mercado",
     icon: "handshake",
     tooltip: "Comprador o pagador de resultados verificables. CarbonFlow no ejecuta la transacción.",
-    chip: "bg-[#FFF7E6] text-[#B45309] border-[#B45309]/30",
+    chip: "bg-surface-container-high text-on-surface-variant border-outline-variant",
   },
 ];
 
@@ -96,7 +96,7 @@ const ETAPAS: EtapaInfo[] = [
     titulo: "Validación",
     resumen: "Revisión independiente del diseño.",
     actores: ["ovv", "renare"],
-    lider: "Titular / OVV",
+    lider: "Titular / entidad validadora",
     objetivo: "Obtener evaluación independiente del diseño, según la ruta aplicable.",
     rolCarbonFlow: "Prepara y organiza el expediente para revisión técnica.",
     rolRenare: "Registro o actualización de fase y soportes, cuando aplique.",
@@ -104,7 +104,7 @@ const ETAPAS: EtapaInfo[] = [
     resultado: "Informe o declaración de validación.",
     acciones: [
       { label: "Generar paquete", href: "#paquete" },
-      { label: "Encontrar una OVV", href: "#consentimiento" },
+      { label: "Encontrar una entidad validadora", href: "#consentimiento" },
       { label: "Referencia RENARE", href: "#renare" },
     ],
   },
@@ -127,7 +127,7 @@ const ETAPAS: EtapaInfo[] = [
     titulo: "Verificación",
     resumen: "Revisión independiente de resultados.",
     actores: ["ovv", "titular"],
-    lider: "Titular / OVV",
+    lider: "Titular / entidad validadora",
     objetivo: "Comprobar de manera independiente los resultados de mitigación reportados.",
     rolCarbonFlow: "Fase futura: apoyo a la preparación del reporte.",
     rolRenare: "Recibe o referencia resultados reportados, según la ruta.",
@@ -203,11 +203,11 @@ export function FlujoInfografia({
 
   return (
     <aside
-      className={`lg:sticky lg:top-24 bg-surface rounded-xl border border-outline-variant shadow-sm overflow-hidden flex flex-col ${
+      className={`lg:sticky lg:top-24 bg-surface rounded-lg border border-outline-variant overflow-hidden flex flex-col ${
         maximizado ? "lg:max-h-[calc(100vh-7.5rem)]" : ""
       }`}
     >
-      <div className="px-4 py-3 bg-[#0b2218] text-on-primary flex items-start justify-between gap-2">
+      <div className="px-4 py-3 bg-primary-container text-on-primary flex items-start justify-between gap-2">
         <div>
           <p className="font-data text-label-caps text-primary-fixed-dim">Ruta del proceso</p>
           <h2 className="font-heading text-body-md font-semibold">Validación y registro</h2>
@@ -238,7 +238,7 @@ export function FlujoInfografia({
                 }}
               />
               {i < visibles.length - 1 && (
-                <div className="flex justify-center text-[#15803D] py-0.5" aria-hidden>
+                <div className="flex justify-center text-on-secondary-container py-0.5" aria-hidden>
                   <MaterialIcon name="south" className="text-[18px]" />
                 </div>
               )}
@@ -274,7 +274,7 @@ export function FlujoInfografia({
                 <strong className="text-on-surface">RENARE:</strong> {etapa.rolRenare}
               </li>
               <li>
-                <strong className="text-on-surface">OVV:</strong> {etapa.rolOvv}
+                <strong className="text-on-surface">Entidad validadora:</strong> {etapa.rolOvv}
               </li>
               <li>
                 <strong className="text-on-surface">Resultado:</strong> {etapa.resultado}
@@ -282,12 +282,12 @@ export function FlujoInfografia({
             </ul>
             <div className="flex flex-col gap-1.5">
               {etapa.acciones.map((a) =>
-                a.label === "Encontrar una OVV" && onMarketplace ? (
+                a.label === "Encontrar una entidad validadora" && onMarketplace ? (
                   <button
                     key={a.label}
                     type="button"
                     onClick={onMarketplace}
-                    className="rounded-lg bg-forest-deep text-on-primary px-3 py-1.5 text-body-sm"
+                    className="rounded-lg bg-primary-container text-on-primary px-3 py-1.5 text-body-sm"
                   >
                     {a.label}
                   </button>
@@ -347,13 +347,13 @@ function EtapaCard({
     <button
       type="button"
       onClick={onSelect}
-      className={`w-full text-left rounded-lg border p-2.5 transition-shadow ${
+      className={`w-full text-left rounded-lg border p-2.5 transition-colors ${
         selected
-          ? "border-primary shadow-sm bg-surface"
+          ? "border-primary bg-surface"
           : esActual
-            ? "border-[#2563EB] bg-[#E8F1FF]/60"
+            ? "border-primary-container bg-primary-container/10"
             : hecha
-              ? "border-[#15803D]/40 bg-[#EAF8EF]/50"
+              ? "border-secondary/40 bg-secondary/10"
               : "border-outline-variant bg-surface-container-lowest"
       }`}
     >
@@ -361,9 +361,9 @@ function EtapaCard({
         <span
           className={`w-6 h-6 rounded-full flex items-center justify-center font-data text-[11px] shrink-0 ${
             hecha
-              ? "bg-[#15803D] text-white"
+              ? "bg-secondary text-on-primary"
               : esActual
-                ? "bg-[#2563EB] text-white"
+                ? "bg-primary-container text-on-primary"
                 : "bg-surface-container-high text-on-surface-variant"
           }`}
         >

@@ -2,7 +2,7 @@ import type { ScoreFactor } from "@/lib/scoring";
 import { PROJECT_TYPES } from "@/lib/projectTypes";
 
 export const AVISO_ORIENTATIVO =
-  "La información de CarbonFlow es orientativa y se basa en datos ingresados por el usuario y módulos previos. No reemplaza a una OVV, una autoridad competente, RENARE/SUIA, un estándar ni asesoría jurídica, técnica o financiera.";
+  "La información de CarbonFlow es orientativa y se basa en datos ingresados por el usuario y módulos previos. No reemplaza a una entidad validadora, una autoridad competente, RENARE/SUIA, un estándar ni asesoría jurídica, técnica o financiera.";
 
 export const AVISO_NO_CERTIFICA =
   "CarbonFlow orienta y organiza la preparación del proyecto. No valida, verifica, certifica, registra ante RENARE ni garantiza emisión de créditos o pagos por resultados.";
@@ -458,15 +458,15 @@ export const ETAPAS_RUTA: EtapaRuta[] = [
   },
   {
     id: 3,
-    titulo: "Validación por OVV",
+    titulo: "Validación por entidad validadora",
     objetivo: "Obtener evaluación independiente del diseño de la iniciativa, según la ruta aplicable.",
-    titular: "Contrata una OVV competente e independiente y entrega el paquete de diseño.",
+    titular: "Contrata una entidad validadora competente e independiente y entrega el paquete de diseño.",
     ovv: "Valida metodología, línea base, adicionalidad, cuantificación, salvaguardas y plan de monitoreo, según su alcance acreditado.",
     renare: "Registrar/actualizar fase y soportes cuando corresponda.",
     resultado: "Declaración o informe de validación.",
-    accionLabel: "Preparar paquete para OVV",
+    accionLabel: "Preparar paquete para entidad validadora",
     accionHref: "#paquete",
-    accionSecundaria: { label: "Ver OVV en Marketplace", href: "/marketplace" },
+    accionSecundaria: { label: "Ver entidades validadoras en Marketplace", href: "/marketplace" },
   },
   {
     id: 4,
@@ -493,7 +493,7 @@ export const ETAPAS_RUTA: EtapaRuta[] = [
   },
   {
     id: 6,
-    titulo: "Verificación de resultados por OVV",
+    titulo: "Verificación de resultados por entidad validadora",
     objetivo: "Comprobar de manera independiente los resultados de mitigación reportados.",
     titular: "Entrega informe de monitoreo, cálculos y soportes.",
     ovv: "Verifica datos, metodología, resultados, fugas, permanencia y evidencia, según alcance acreditado.",
@@ -518,7 +518,7 @@ export const ETAPAS_RUTA: EtapaRuta[] = [
     titulo: "Pago por resultados, transferencia o retiro",
     objetivo: "Acordar el uso comercial o programático de resultados verificables.",
     titular: "Negocia con comprador, programa o financiador y formaliza el acuerdo.",
-    marketplace: "Conecta titulares con compradores, financiadores, consultores y OVV; no ejecuta pagos en el MVP.",
+    marketplace: "Conecta titulares con compradores, financiadores, consultores y entidades validadoras; no ejecuta pagos en el MVP.",
     renare: "Puede requerirse trazabilidad o reporte para prevenir doble uso, según el caso.",
     resultado: "Pago por resultados, transferencia o retiro conforme a contrato y normas aplicables.",
     accionLabel: "Ir a Marketplace",

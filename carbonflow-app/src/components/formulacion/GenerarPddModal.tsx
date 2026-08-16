@@ -40,8 +40,8 @@ export function GenerarPddModal({ open, predio, onClose, onGenerated }: Props) {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 overflow-y-auto">
-      <div className="bg-surface rounded-2xl border border-outline-variant max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl animate-fade-in text-on-surface">
-        <div className="p-6 border-b border-outline-variant flex items-center justify-between bg-surface-container-low rounded-t-2xl">
+      <div className="bg-surface rounded-lg border border-outline-variant max-w-2xl w-full max-h-[90vh] flex flex-col ambient-shadow animate-fade-in text-on-surface">
+        <div className="p-6 border-b border-outline-variant flex items-center justify-between bg-surface-container-low rounded-t-lg">
           <div className="flex items-center gap-2">
             <MaterialIcon name="auto_awesome" className="text-primary text-xl" />
             <h3 className="text-headline-sm font-heading font-bold text-on-surface">
@@ -118,11 +118,11 @@ export function GenerarPddModal({ open, predio, onClose, onGenerated }: Props) {
           )}
         </div>
 
-        <div className="p-6 border-t border-outline-variant bg-surface-container-low rounded-b-2xl flex justify-end gap-3">
+        <div className="p-6 border-t border-outline-variant bg-surface-container-low rounded-b-lg flex justify-end gap-3">
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2.5 rounded-xl font-medium border border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors cursor-pointer"
+            className="px-5 py-2.5 rounded-lg font-medium border border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors cursor-pointer"
             disabled={generating}
           >
             Cancelar
@@ -131,7 +131,7 @@ export function GenerarPddModal({ open, predio, onClose, onGenerated }: Props) {
             type="button"
             onClick={handleGenerate}
             disabled={generating || !amenazas.trim() || !actividades.trim()}
-            className="px-5 py-2.5 rounded-xl font-medium bg-forest-deep text-on-primary hover:bg-primary transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer shadow-md hover:scale-105"
+            className="px-5 py-2.5 rounded-lg font-medium bg-primary-container text-on-primary hover:bg-primary transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer"
           >
             {generating ? (
               <>

@@ -15,7 +15,7 @@ export function NeedCard({
   onRespond: () => void;
 }) {
   return (
-    <article className="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 space-y-3 shadow-sm">
+    <article className="bg-surface-container-lowest border border-outline-variant rounded-lg p-5 space-y-3">
       <div className="flex flex-wrap gap-1.5">
         <TrustLabel label="Necesidad activa" />
         {need.isSimulated && <TrustLabel label="Necesidad simulada para demo" />}
@@ -40,7 +40,7 @@ export function NeedCard({
         <button type="button" onClick={onOpen} className="rounded-md border border-outline-variant py-2 text-body-sm">
           Ver necesidad
         </button>
-        <button type="button" onClick={onRespond} className="rounded-md bg-earth-sandy text-primary font-semibold py-2 text-body-sm">
+        <button type="button" onClick={onRespond} className="rounded-md bg-tertiary-fixed text-primary font-semibold py-2 text-body-sm">
           Manifestar interés
         </button>
       </div>

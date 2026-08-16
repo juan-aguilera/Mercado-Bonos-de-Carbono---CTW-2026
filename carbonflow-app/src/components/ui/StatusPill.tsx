@@ -1,11 +1,11 @@
 type PillVariant = "success" | "warning" | "neutral" | "error" | "info";
 
 const VARIANT_CLASSES: Record<PillVariant, string> = {
-  success: "bg-secondary-container text-status-success border border-[#cce8d6]",
-  warning: "bg-[#fff8e6] text-status-warning border border-[#ffecb3]",
-  neutral: "bg-surface-variant text-on-surface-variant border border-outline-variant opacity-60",
-  error: "bg-error-container text-on-error-container border border-error/20",
-  info: "bg-primary-container/20 text-primary border border-primary/20",
+  success: "bg-secondary/12 text-on-secondary-container",
+  warning: "bg-tertiary-container/20 text-on-tertiary-fixed-variant",
+  neutral: "bg-surface-variant text-on-surface-variant",
+  error: "bg-error-container text-on-error-container",
+  info: "bg-primary-container/10 text-primary-container",
 };
 
 export function StatusPill({

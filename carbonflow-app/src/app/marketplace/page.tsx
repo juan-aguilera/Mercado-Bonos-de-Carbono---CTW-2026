@@ -17,6 +17,7 @@ import { NeedPublisherForm } from "@/components/marketplace/NeedPublisherForm";
 import { NeedResponseModal } from "@/components/marketplace/NeedResponseModal";
 import { ProviderProfileModal } from "@/components/marketplace/ProviderProfileModal";
 import { PublishProjectModal } from "@/components/marketplace/PublishProjectModal";
+import { StrongMatchesPanel } from "@/components/marketplace/StrongMatchesPanel";
 import { DEMO_LISTINGS, listingMatchesQuery } from "@/lib/marketplace/catalog";
 import { computeCompatibility } from "@/lib/marketplace/compatibility";
 import { loadLocalRequests, loadUserListings, loadUserNeeds, saveLocalRequests, saveUserListings, saveUserNeeds } from "@/lib/marketplace/local";
@@ -47,7 +48,7 @@ function isOvvListing(listing: MarketplaceListing) {
 
 function primaryAction(listing: MarketplaceListing, role: MarketplaceRole | null) {
   if (listing.kind === "reported_retired_credit") return "Consultar información histórica";
-  if (role === "ovv" && isProjectListing(listing)) return "Postularse como OVV";
+  if (role === "ovv" && isProjectListing(listing)) return "Postularse como entidad validadora";
   if (isOvvListing(listing)) return "Solicitar contacto";
   if (listing.kind === "reported_carbon_result") return "Solicitar información";
   return "Manifestar interés";
@@ -82,6 +83,11 @@ function MarketplaceInner() {
   const [contact, setContact] = useState<MarketplaceListing | null>(null);
   const [needDetail, setNeedDetail] = useState<MarketplaceNeed | null>(null);
   const [respondNeed, setRespondNeed] = useState<MarketplaceNeed | null>(null);
+  const [draftForNeed, setDraftForNeed] = useState<{
+    projectId: string;
+    message: string;
+    shareLabels: string[];
+  } | null>(null);
   const [publishOpen, setPublishOpen] = useState(false);
   const [ovvProfileOpen, setOvvProfileOpen] = useState(false);
   const [compareIds, setCompareIds] = useState<string[]>([]);
@@ -108,8 +114,8 @@ function MarketplaceInner() {
     setView(null);
     setCompareIds([]);
     if (next === "ovv") setView("ovv-projects");
-    if (next === "empresa") setView("empresa-projects");
-    if (next === "propietario") setView("owner-needs");
+    if (next === "empresa") setView("empresa-matches");
+    if (next === "propietario") setView("owner-matches");
   };
 
   const clearRole = () => {
@@ -120,12 +126,18 @@ function MarketplaceInner() {
 
   const listings = useMemo(() => [...userListings, ...DEMO_LISTINGS], [userListings]);
   const needs = useMemo(() => [...userNeeds, ...DEMO_NEEDS], [userNeeds]);
-  const matchProjects = useMemo(() => {
-    const mine = userListings.filter(
-      (listing) => listing.kind === "carbon_project_development" || listing.kind === "green_finance_project"
-    );
-    return mine.length > 0 ? mine : listings.filter((listing) => listing.kind === "carbon_project_development");
-  }, [userListings, listings]);
+  const ownProjects = useMemo(
+    () =>
+      userListings.filter(
+        (listing) => listing.kind === "carbon_project_development" || listing.kind === "green_finance_project"
+      ),
+    [userListings]
+  );
+  const exampleProject = useMemo(
+    () => listings.find((listing) => listing.kind === "carbon_project_development") ?? null,
+    [listings]
+  );
+  const matchProjects = ownProjects.length > 0 ? ownProjects : exampleProject ? [exampleProject] : [];
 
   const persistListings = (next: MarketplaceListing[]) => {
     setUserListings(next);
@@ -181,25 +193,27 @@ function MarketplaceInner() {
   const roleActions =
     role === "ovv"
       ? [
-          { id: "ovv-profile" as const, label: "Crear mi perfil de OVV" },
+          { id: "ovv-profile" as const, label: "Crear mi perfil de entidad validadora" },
           { id: "ovv-projects" as const, label: "Ver proyectos y postularme" },
         ]
       : role === "empresa"
         ? [
+            { id: "empresa-matches" as const, label: "Encontrar coincidencias fuertes" },
             { id: "empresa-projects" as const, label: "Explorar proyectos" },
             { id: "empresa-need" as const, label: "Publicar necesidad" },
           ]
         : role === "propietario"
           ? [
+              { id: "owner-matches" as const, label: "Encontrar coincidencias fuertes" },
               { id: "owner-needs" as const, label: "Ver necesidades de empresas" },
-              { id: "owner-ovvs" as const, label: "Ver OVV disponibles" },
+              { id: "owner-ovvs" as const, label: "Ver entidades validadoras disponibles" },
               { id: "owner-publish" as const, label: "Publicar proyecto" },
             ]
           : [];
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="bg-earth-sandy/70 border-b border-outline-variant px-margin-mobile md:px-margin-desktop py-2">
+      <div className="bg-tertiary-fixed/70 border-b border-outline-variant px-margin-mobile md:px-margin-desktop py-2">
         <p className="max-w-7xl mx-auto text-body-sm text-on-surface">
           CarbonFlow facilita conexiones y el intercambio controlado de información. No ejecuta transacciones,
           certificaciones, validaciones, verificaciones, transferencias, pagos ni recomendaciones de inversión.
@@ -236,7 +250,7 @@ function MarketplaceInner() {
                   }}
                   className={`px-4 py-2 rounded-lg text-body-sm ${
                     view === action.id
-                      ? "bg-forest-deep text-on-primary"
+                      ? "bg-primary-container text-on-primary"
                       : "border border-outline-variant text-on-surface-variant"
                   }`}
                 >
@@ -248,7 +262,9 @@ function MarketplaceInner() {
               </button>
             </div>
           )}
-          {role && view && view !== "empresa-need" && <MarketplaceSearchBar value={query} onChange={setQuery} />}
+          {role && view && view !== "empresa-need" && view !== "owner-matches" && view !== "empresa-matches" && (
+            <MarketplaceSearchBar value={query} onChange={setQuery} />
+          )}
           {fromValidacion && role === "propietario" && (
             <div className="rounded-lg border border-primary/20 bg-primary-container/10 p-4 max-w-2xl space-y-1">
               <p className="font-medium text-body-sm text-primary">Contexto desde Validación y Registro</p>
@@ -269,7 +285,36 @@ function MarketplaceInner() {
               defaultTab="carbon"
               onPublish={(need) => {
                 persistNeeds([need, ...userNeeds]);
-                setView("empresa-projects");
+                setView("empresa-matches");
+              }}
+            />
+          )}
+
+          {role === "propietario" && view === "owner-matches" && (
+            <StrongMatchesPanel
+              perspective="owner"
+              ownProjects={ownProjects}
+              exampleProject={exampleProject}
+              needs={needs.filter((need) => need.category !== "ovv")}
+              onUseOwnerDraft={(need, project, draft, sharePublic) => {
+                setDraftForNeed({ projectId: project.id, message: draft, shareLabels: sharePublic });
+                setRespondNeed(need);
+              }}
+            />
+          )}
+
+          {role === "empresa" && view === "empresa-matches" && (
+            <StrongMatchesPanel
+              perspective="empresa"
+              ownNeeds={userNeeds}
+              exampleNeed={needs.find((need) => need.category !== "ovv") ?? null}
+              catalogProjects={listings.filter(
+                (listing) =>
+                  listing.kind === "carbon_project_development" || listing.kind === "green_finance_project"
+              )}
+              onUseCompanyDraft={(project, draft) => {
+                setDraftForNeed({ projectId: project.id, message: draft, shareLabels: [] });
+                setContact(project);
               }}
             />
           )}
@@ -284,7 +329,7 @@ function MarketplaceInner() {
                   title="Aún no hay necesidades de empresas."
                   body="Vuelve más tarde o publica tu proyecto para que las empresas puedan encontrarte."
                   actions={
-                    <button type="button" onClick={() => setPublishOpen(true)} className="rounded-lg bg-forest-deep text-on-primary px-4 py-2 text-body-sm">
+                    <button type="button" onClick={() => setPublishOpen(true)} className="rounded-lg bg-primary-container text-on-primary px-4 py-2 text-body-sm">
                       Publicar proyecto
                     </button>
                   }
@@ -297,7 +342,10 @@ function MarketplaceInner() {
                       need={need}
                       compatibility={referenceProject ? computeCompatibility(referenceProject, need) : null}
                       onOpen={() => setNeedDetail(need)}
-                      onRespond={() => setRespondNeed(need)}
+                      onRespond={() => {
+                        setDraftForNeed(null);
+                        setRespondNeed(need);
+                      }}
                     />
                   ))}
                 </div>
@@ -361,7 +409,10 @@ function MarketplaceInner() {
                       key={listing.id}
                       listing={listing}
                       onOpen={() => setDetail(listing)}
-                      onPrimary={() => setContact(listing)}
+                      onPrimary={() => {
+                        setDraftForNeed(null);
+                        setContact(listing);
+                      }}
                       primaryLabel={primaryAction(listing, role)}
                       compared={compareIds.includes(listing.id)}
                       onToggleCompare={() => toggleCompare(listing.id)}
@@ -381,7 +432,7 @@ function MarketplaceInner() {
                               setFilters({ tipo: "Todos", estado: "Todos" });
                               setProjectScope("todos");
                             }}
-                            className="rounded-lg bg-forest-deep text-on-primary px-4 py-2 text-body-sm"
+                            className="rounded-lg bg-primary-container text-on-primary px-4 py-2 text-body-sm"
                           >
                             Limpiar filtros
                           </button>
@@ -412,7 +463,11 @@ function MarketplaceInner() {
         <ContactRequestModal
           listing={contact}
           context={fromValidacion || context.predioId ? context : null}
-          onClose={() => setContact(null)}
+          initialMessage={draftForNeed?.projectId === contact.id ? draftForNeed.message : undefined}
+          onClose={() => {
+            setContact(null);
+            setDraftForNeed(null);
+          }}
           onCreated={(request) => persistRequests([request, ...requests.filter((r) => r.id !== request.id)])}
         />
       )}
@@ -431,7 +486,13 @@ function MarketplaceInner() {
         <NeedResponseModal
           need={respondNeed}
           projects={matchProjects}
-          onClose={() => setRespondNeed(null)}
+          initialProjectId={draftForNeed?.projectId}
+          initialMessage={draftForNeed?.message}
+          initialSharedLabels={draftForNeed?.shareLabels}
+          onClose={() => {
+            setRespondNeed(null);
+            setDraftForNeed(null);
+          }}
           onCreated={(request) => persistRequests([request, ...requests.filter((r) => r.id !== request.id)])}
         />
       )}

@@ -16,21 +16,43 @@ const SHARE_OPTIONS = [
   { id: "dataroom", label: "Data room bajo solicitud" },
 ];
 
+function shareIdsFromLabels(labels?: string[]): string[] {
+  if (!labels?.length) return ["resumen", "preparacion", "ubicacion"];
+  const mapped: string[] = [];
+  for (const label of labels) {
+    const value = label.toLowerCase();
+    if (value.includes("resumen")) mapped.push("resumen");
+    else if (value.includes("prepar")) mapped.push("preparacion");
+    else if (value.includes("ubic")) mapped.push("ubicacion");
+    else if (value.includes("diagn")) mapped.push("diagnostico");
+    else if (value.includes("presup")) mapped.push("presupuesto");
+    else if (value.includes("crono")) mapped.push("cronograma");
+    else if (value.includes("data")) mapped.push("dataroom");
+  }
+  return mapped.length > 0 ? Array.from(new Set(mapped)) : ["resumen", "preparacion", "ubicacion"];
+}
+
 export function NeedResponseModal({
   need,
   projects,
   onClose,
   onCreated,
+  initialProjectId,
+  initialMessage,
+  initialSharedLabels,
 }: {
   need: MarketplaceNeed;
   projects: MarketplaceListing[];
   onClose: () => void;
   onCreated: (request: MarketplaceRequest) => void;
+  initialProjectId?: string;
+  initialMessage?: string;
+  initialSharedLabels?: string[];
 }) {
   const eligible = projects.filter((p) => p.kind.includes("project") || p.kind.includes("result"));
-  const [projectId, setProjectId] = useState(eligible[0]?.id ?? "");
-  const [shared, setShared] = useState(["resumen", "preparacion", "ubicacion"]);
-  const [message, setMessage] = useState("");
+  const [projectId, setProjectId] = useState(initialProjectId && eligible.some((p) => p.id === initialProjectId) ? initialProjectId : eligible[0]?.id ?? "");
+  const [shared, setShared] = useState<string[]>(shareIdsFromLabels(initialSharedLabels));
+  const [message, setMessage] = useState(initialMessage ?? "");
   const [consent, setConsent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(false);
@@ -82,7 +104,7 @@ export function NeedResponseModal({
     <div className="fixed inset-0 z-50 bg-inverse-surface/40 flex items-center justify-center p-4" onClick={onClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-surface-container-lowest rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 shadow-xl"
+        className="bg-surface-container-lowest rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 ambient-shadow"
       >
         <h3 className="font-heading text-headline-sm">Responder a necesidad</h3>
         {done ? (
@@ -92,7 +114,7 @@ export function NeedResponseModal({
               Esta acción no constituye compra, oferta vinculante, contratación, validación, financiación ni contrato.
             </p>
             <SimulatedResponsePanel message={done} />
-            <button type="button" onClick={onClose} className="w-full rounded-lg bg-forest-deep text-on-primary py-2">
+            <button type="button" onClick={onClose} className="w-full rounded-lg bg-primary-container text-on-primary py-2">
               Cerrar
             </button>
           </div>
@@ -142,7 +164,7 @@ export function NeedResponseModal({
               <button
                 type="submit"
                 disabled={!consent || sending || !project}
-                className="flex-1 rounded-lg bg-forest-deep text-on-primary py-2 disabled:opacity-40"
+                className="flex-1 rounded-lg bg-primary-container text-on-primary py-2 disabled:opacity-40"
               >
                 {sending ? "Enviando…" : "Enviar manifestación de interés"}
               </button>

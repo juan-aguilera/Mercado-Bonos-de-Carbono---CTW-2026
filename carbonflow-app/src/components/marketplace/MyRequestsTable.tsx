@@ -22,7 +22,7 @@ export function MyRequestsTable({
 
   return (
     <div className="space-y-4">
-      <div className="overflow-x-auto border border-outline-variant rounded-xl">
+      <div className="overflow-x-auto border border-outline-variant rounded-lg">
         <table className="w-full text-body-sm">
           <thead className="bg-surface-container-low text-left">
             <tr>
@@ -53,7 +53,7 @@ export function MyRequestsTable({
         </table>
       </div>
       {selected && (
-        <div className="rounded-xl border border-outline-variant p-4 space-y-3">
+        <div className="rounded-lg border border-outline-variant p-4 space-y-3">
           <div className="flex justify-between">
             <h3 className="font-heading text-headline-sm">{selected.listingTitle}</h3>
             <button type="button" onClick={() => onSelect(null)} className="text-body-sm">

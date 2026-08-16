@@ -7,7 +7,7 @@ export const DEMO_LISTINGS: MarketplaceListing[] = [
     tab: "ovv",
     title: "Andina Revisión Técnica",
     organization: "Andina Revisión Técnica",
-    entityType: "OVV",
+    entityType: "Entidad validadora",
     description:
       "Organismo independiente que declara servicios de preevaluación, validación y verificación para iniciativas forestales en Colombia. Perfil demostrativo para el MVP.",
     services: ["Preevaluación", "Validación", "Verificación"],
@@ -33,7 +33,7 @@ export const DEMO_LISTINGS: MarketplaceListing[] = [
     organization: "Orinoquía Línea Base",
     entityType: "Firma técnica",
     description:
-      "Firma técnica que declara apoyo en línea base, documentación de control y preparación para revisión externa. No es una OVV acreditada en CarbonFlow.",
+      "Firma técnica que declara apoyo en línea base, documentación de control y preparación para revisión externa. No es una entidad validadora acreditada en CarbonFlow.",
     services: ["Preevaluación"],
     sectors: ["Conservación", "Restauración"],
     coverage: "Región Orinoquía",

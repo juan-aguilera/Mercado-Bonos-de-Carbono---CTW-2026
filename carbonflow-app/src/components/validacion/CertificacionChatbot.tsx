@@ -78,8 +78,8 @@ export function CertificacionChatbot({
   return (
     <div id="asistente" className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3">
       {open && (
-        <div className="flex flex-col w-[min(100vw-2.5rem,400px)] h-[min(70vh,620px)] border border-outline-variant rounded-xl bg-surface shadow-xl overflow-hidden">
-      <div className="p-4 bg-forest-deep text-on-primary flex items-center gap-3 border-b border-primary-container">
+        <div className="flex flex-col w-[min(100vw-2.5rem,400px)] h-[min(70vh,620px)] border border-outline-variant rounded-lg bg-surface ambient-shadow overflow-hidden">
+      <div className="p-4 bg-primary-container text-on-primary flex items-center gap-3 border-b border-primary-container">
         <ChatAvatar size="md" />
         <div className="min-w-0 flex-1">
           <h3 className="text-body-md font-semibold">Asistente de Validación y Registro</h3>
@@ -95,9 +95,9 @@ export function CertificacionChatbot({
         </button>
       </div>
 
-      <div className="bg-[#fff8e6] border-l-4 border-status-warning p-3 flex items-start gap-2">
-        <MaterialIcon name="info" className="text-status-warning text-[20px]" />
-        <p className="text-disclaimer-italic text-[#55340d]">
+      <div className="bg-tertiary-fixed/40 border-l-4 border-tertiary-container p-3 flex items-start gap-2">
+        <MaterialIcon name="info" className="text-on-tertiary-fixed-variant text-[20px]" />
+        <p className="text-disclaimer-italic text-on-tertiary-fixed-variant">
           Orientación informativa, no constituye asesoría legal. Consulta siempre las fuentes oficiales.
         </p>
       </div>
@@ -113,8 +113,8 @@ export function CertificacionChatbot({
             <div
               className={
                 m.role === "user"
-                  ? "bg-primary-container text-on-primary-container p-3 rounded-2xl rounded-tr-sm shadow-sm"
-                  : "bg-surface border border-outline-variant p-3 rounded-2xl rounded-tl-sm shadow-sm"
+                  ? "bg-primary-container text-on-primary-container p-3 rounded-lg rounded-tr-sm"
+                  : "bg-surface border border-outline-variant p-3 rounded-lg rounded-tl-sm"
               }
             >
               <p className="text-body-sm whitespace-pre-wrap">{m.content}</p>
@@ -126,7 +126,7 @@ export function CertificacionChatbot({
             <div className="mt-1 shrink-0">
               <ChatAvatar />
             </div>
-            <div className="bg-surface border border-outline-variant p-3 rounded-2xl rounded-tl-sm shadow-sm text-on-surface-variant text-body-sm">
+            <div className="bg-surface border border-outline-variant p-3 rounded-lg rounded-tl-sm text-on-surface-variant text-body-sm">
               Escribiendo…
             </div>
           </div>
@@ -161,7 +161,7 @@ export function CertificacionChatbot({
           <button
             type="submit"
             disabled={chatLoading}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:bg-forest-deep hover:text-on-primary transition-colors disabled:opacity-50"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors disabled:opacity-50"
           >
             <MaterialIcon name="send" filled className="text-[18px]" />
           </button>
@@ -191,7 +191,7 @@ export function CertificacionChatbot({
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="w-14 h-14 rounded-full bg-forest-deep text-on-primary shadow-lg flex items-center justify-center hover:bg-primary transition-colors border-2 border-primary-fixed-dim"
+          className="w-14 h-14 rounded-full bg-primary-container text-on-primary flex items-center justify-center hover:bg-primary transition-colors border-2 border-primary-fixed-dim"
           aria-label={open ? "Minimizar chat" : "Abrir chat"}
           aria-expanded={open}
         >

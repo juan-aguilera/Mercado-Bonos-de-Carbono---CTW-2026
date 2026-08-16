@@ -5,8 +5,10 @@ export type MarketplaceRoleView =
   | "ovv-projects"
   | "empresa-projects"
   | "empresa-need"
+  | "empresa-matches"
   | "owner-needs"
-  | "owner-ovvs";
+  | "owner-ovvs"
+  | "owner-matches";
 export type MarketplaceMode = "offer" | "needs" | "publish-need";
 export type NeedCategory = "ovv" | "carbon" | "green_finance";
 export type NeedStatus = "draft" | "published" | "paused" | "closed" | "expired";
@@ -195,6 +197,62 @@ export interface CompatibilityResult {
   matches: string[];
   gaps: string[];
   breakdown: CompatibilityBreakdownItem[];
+}
+
+export interface PublicProjectCard {
+  id: string;
+  title: string;
+  type?: string;
+  location?: string;
+  stage?: string;
+  need?: string;
+  summary: string;
+  cobenefits?: string[];
+  areaHa?: number;
+  co2eEstimate?: number;
+  diagnosisAvailable?: boolean;
+  formulationPct?: number;
+  validationScore?: number;
+  traceability?: string;
+  gaps?: string[];
+  publicDocuments?: string[];
+  requestDocuments?: string[];
+}
+
+export interface PublicNeedCard {
+  id: string;
+  title: string;
+  organization: string;
+  actorType: string;
+  category: NeedCategory;
+  summary: string;
+  needType: string;
+  projectTypes: string[];
+  locationScope: string[];
+  minimumPreparationLevel?: PreparationLevel;
+  carbonInterest?: string;
+  financeInstrument?: string;
+  resourceUses?: string[];
+  volumeHint?: string;
+  cobenefits: string[];
+  requiredDocuments: string[];
+}
+
+export interface StrongMatchNarrative {
+  whyStrong: string;
+  toValidate: string[];
+  sharePublic: string[];
+  shareOnRequest: string[];
+  draftMessage: string;
+}
+
+export interface StrongMatch extends StrongMatchNarrative {
+  needId?: string;
+  needTitle?: string;
+  projectId?: string;
+  projectTitle?: string;
+  organization: string;
+  compatibility: CompatibilityResult;
 }
 
 export interface MarketplaceRequest {

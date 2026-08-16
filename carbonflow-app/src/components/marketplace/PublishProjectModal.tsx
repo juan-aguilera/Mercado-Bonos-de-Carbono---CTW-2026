@@ -188,7 +188,7 @@ export function PublishProjectModal({
     <div className="fixed inset-0 z-50 bg-inverse-surface/40 flex items-center justify-center p-4" onClick={onClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-surface-container-lowest rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 shadow-xl"
+        className="bg-surface-container-lowest rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 ambient-shadow"
       >
         <h3 className="font-heading text-headline-sm">Publicar mi proyecto</h3>
         {!preview ? (
@@ -340,7 +340,7 @@ export function PublishProjectModal({
               formulario.
             </p>
             <div className="flex gap-2">
-              <button type="submit" className="flex-1 rounded-lg bg-forest-deep text-on-primary py-2">
+              <button type="submit" className="flex-1 rounded-lg bg-primary-container text-on-primary py-2">
                 Vista previa
               </button>
               <button type="button" onClick={onClose} className="rounded-lg border border-outline-variant px-4">
@@ -367,7 +367,7 @@ export function PublishProjectModal({
                   onPublish(buildListings());
                   onClose();
                 }}
-                className="flex-1 rounded-lg bg-forest-deep text-on-primary py-2"
+                className="flex-1 rounded-lg bg-primary-container text-on-primary py-2"
               >
                 Publicar
               </button>
