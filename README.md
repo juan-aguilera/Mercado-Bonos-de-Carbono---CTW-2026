@@ -8,6 +8,24 @@ Tener un bosque no alcanza para entrar al mercado de carbono. Falta saber si el 
 
 CarbonFlow **no certifica, no verifica y no emite créditos**. Orienta, documenta y conecta.
 
+### Cómo se pone en funcionamiento un proyecto de carbono — y qué hace CarbonFlow
+
+Un crédito no nace del bosque: nace de un proceso. El titular (dueño del predio o desarrollador) tiene que demostrar que hay un proyecto real, que es adicional, que alguien independiente lo valida y verifica, y que un registro lo reconoce. CarbonFlow cubre el tramo que hoy más frena a un propietario pequeño: **antes** de contratar una OVV y **antes** de emitir nada.
+
+| Paso | Quién lo hace | Papel de CarbonFlow |
+|---|---|---|
+| 1. Definir el predio y el objetivo | Titular | **Diagnóstico:** polígono, datos en vivo (bosque, deforestación, áreas protegidas), score de prefactibilidad y estimado de CO₂e. Responde: *¿vale la pena seguir?* |
+| 2. Formular el proyecto | Titular | **Formulación:** expediente guiado (línea base, adicionalidad, riesgos, salvaguardas, cronograma, presupuesto). Organiza el PDD preliminar; no lo certifica. |
+| 3. Elegir ruta y prepararse para registro | Titular, con orientación | **Validación / registro:** chatbot normativo + consulta a registros (RENARE, estándares, OVV). Explica el camino; **no registra** la iniciativa ante la autoridad. |
+| 4. Registro nacional (cuando aplique) | **RENARE / autoridad** | CarbonFlow no sustituye a RENARE. Solo orienta y enlaza a la fuente oficial. |
+| 5. Validación independiente del diseño | **OVV** (organismo acreditado) | CarbonFlow **no valida**. En el marketplace conecta con OVV para solicitar información. |
+| 6. Implementar, monitorear y reportar (MRV) | Titular + evidencias de campo | **Fuera del hackathon** (roadmap). Sin esto no hay resultados verificables. |
+| 7. Verificación de resultados | **OVV** | CarbonFlow **no verifica**. |
+| 8. Reconocimiento / emisión de resultados | **Registro o pagador** (Verra, Gold Standard, RENARE, programa) | CarbonFlow **no emite** créditos ni bonos. |
+| 9. Conectar oferta y demanda | Titular + comprador / financiador | **Marketplace:** catálogo de OVV, proyectos y finanzas verdes. Las solicitudes son reales; las respuestas de contraparte en el MVP son **simuladas**. |
+
+En una línea: **el titular decide y opera, RENARE registra, la OVV valida y verifica, el mercado paga; CarbonFlow diagnostica, formula, orienta y conecta.**
+
 ---
 
 ## El problema (en una frase)
