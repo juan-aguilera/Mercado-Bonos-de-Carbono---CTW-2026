@@ -8,6 +8,38 @@ Tener un bosque no alcanza para entrar al mercado de carbono. Falta saber si el 
 
 CarbonFlow **no certifica, no verifica y no emite créditos**. Orienta, documenta y conecta.
 
+```mermaid
+flowchart TB
+    START([Predio forestal]) --> CF
+
+    subgraph CF["CarbonFlow — diagnostica, formula, orienta y conecta"]
+        D[1. Diagnóstico geoespacial<br/>score + CO₂e]
+        F[2. Formulación del expediente<br/>línea base, adicionalidad, salvaguardas]
+        O[3. Orientación de ruta<br/>chatbot + consulta a registros]
+        M[9. Marketplace<br/>OVV, compradores, finanzas verdes]
+        D --> F --> O
+        O -.-> M
+    end
+
+    O --> RENARE[4. Registro nacional<br/>RENARE / autoridad]
+    O --> OVV1[5. Validación del diseño<br/>OVV independiente]
+    M -.-> OVV1
+
+    OVV1 --> IMP[6. Implementación y MRV<br/>titular — roadmap]
+    IMP --> OVV2[7. Verificación de resultados<br/>OVV]
+    OVV2 --> REG[8. Emisión / reconocimiento<br/>registro o pagador]
+    REG --> MKT[Comprador / pagador por resultados]
+    M -.-> MKT
+
+    classDef cf fill:#EAF8EF,stroke:#15803D,color:#052E16
+    classDef other fill:#F4F4F5,stroke:#71717A,color:#18181B
+    classDef start fill:#052E16,stroke:#052E16,color:#FFFFFF
+    class START,D,F,O,M cf
+    class RENARE,OVV1,IMP,OVV2,REG,MKT other
+```
+
+Verde = lo que hace CarbonFlow. Gris = lo que hacen RENARE, la OVV, el titular en campo o el mercado. Las líneas punteadas son conexión comercial, no certificación.
+
 ### Cómo se pone en funcionamiento un proyecto de carbono — y qué hace CarbonFlow
 
 Un crédito no nace del bosque: nace de un proceso. El titular (dueño del predio o desarrollador) tiene que demostrar que hay un proyecto real, que es adicional, que alguien independiente lo valida y verifica, y que un registro lo reconoce. CarbonFlow cubre el tramo que hoy más frena a un propietario pequeño: **antes** de contratar una OVV y **antes** de emitir nada.

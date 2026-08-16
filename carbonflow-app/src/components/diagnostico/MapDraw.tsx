@@ -54,6 +54,7 @@ export function MapDraw({ onGeometryChange, onStatusChange }: MapDrawProps) {
   const [points, setPoints] = useState<[number, number][]>([]);
   const [closed, setClosed] = useState(false);
   const [basemap, setBasemap] = useState<Basemap>("normal");
+  const [showDrawHint, setShowDrawHint] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
 
@@ -131,6 +132,54 @@ export function MapDraw({ onGeometryChange, onStatusChange }: MapDrawProps) {
           />
         )}
       </MapContainer>
+
+      {showDrawHint && (
+        <div
+          role="note"
+          className="absolute top-4 left-4 z-[1000] w-[min(100%-2rem,22rem)] glass-panel rounded-lg border border-outline-variant p-4 shadow-sm"
+        >
+          <div className="flex items-start justify-between gap-3 mb-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <MaterialIcon name="draw" className="text-secondary text-[20px] shrink-0" />
+              <p className="font-heading text-body-md font-medium text-on-surface leading-snug">
+                Cómo dibujar el polígono
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowDrawHint(false)}
+              aria-label="Cerrar nota"
+              className="shrink-0 w-8 h-8 -mt-1 -mr-1 rounded-md flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors"
+            >
+              <MaterialIcon name="close" />
+            </button>
+          </div>
+          <ol className="list-decimal list-outside ml-4 space-y-1.5 text-body-sm text-on-surface-variant">
+            <li>
+              Arrastra el mapa y usa la rueda del mouse (o pellizca en el celular) para acercarte al predio. El botón de
+              satélite a la derecha ayuda a ver el bosque.
+            </li>
+            <li>
+              Haz <strong className="font-medium text-on-surface">clic en cada esquina</strong> del predio, en orden,
+              como si recorrieras el linde. Cada clic agrega un vértice.
+            </li>
+            <li>
+              Necesitas <strong className="font-medium text-on-surface">al menos 3 puntos</strong>. Mientras dibujas, el
+              área se rellena en verde.
+            </li>
+            <li>
+              Cuando el contorno esté listo, pulsa el botón{" "}
+              <strong className="font-medium text-on-surface">✓</strong> (arriba a la derecha) para{" "}
+              <strong className="font-medium text-on-surface">cerrar el polígono</strong>. Sin cerrarlo no se puede
+              generar el diagnóstico.
+            </li>
+            <li>
+              Si te equivocas, usa el botón de basura para empezar de nuevo. También puedes cargar un archivo GeoJSON
+              con el ícono de subir.
+            </li>
+          </ol>
+        </div>
+      )}
 
       {/* Map Controls Overlay — replica del patrón "vertical stack of square buttons" del design system */}
       <div className="absolute top-4 right-4 flex flex-col gap-2 z-[1000]">
