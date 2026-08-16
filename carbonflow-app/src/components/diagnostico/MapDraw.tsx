@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, Polygon as LeafletPolygon, useMapEvents } from "react-leaflet";
+import { useCallback, useEffect, useRef, useState, type MutableRefObject } from "react";
+import { MapContainer, TileLayer, Polygon as LeafletPolygon, useMap, useMapEvents } from "react-leaflet";
+import type { Map as LeafletMap } from "leaflet";
 import type { Polygon } from "geojson";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
@@ -11,6 +12,27 @@ interface MapDrawProps {
 }
 
 const COLOMBIA_CENTER: [number, number] = [4.5709, -74.2973];
+
+const BASEMAPS = {
+  normal: {
+    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+  satelite: {
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    attribution: "Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+  },
+} as const;
+
+type Basemap = keyof typeof BASEMAPS;
+
+function MapRef({ mapRef }: { mapRef: MutableRefObject<LeafletMap | null> }) {
+  const map = useMap();
+  useEffect(() => {
+    mapRef.current = map;
+  }, [map, mapRef]);
+  return null;
+}
 
 function ClickCapture({ onClick }: { onClick: (lat: number, lon: number) => void }) {
   useMapEvents({
@@ -31,7 +53,9 @@ function pointsToPolygon(points: [number, number][]): Polygon | null {
 export function MapDraw({ onGeometryChange, onStatusChange }: MapDrawProps) {
   const [points, setPoints] = useState<[number, number][]>([]);
   const [closed, setClosed] = useState(false);
+  const [basemap, setBasemap] = useState<Basemap>("normal");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const mapRef = useRef<LeafletMap | null>(null);
 
   useEffect(() => {
     onStatusChange?.({ vertices: points.length, closed });
@@ -50,6 +74,11 @@ export function MapDraw({ onGeometryChange, onStatusChange }: MapDrawProps) {
     if (points.length < 3) return;
     setClosed(true);
     onGeometryChange(pointsToPolygon(points));
+  };
+
+  const zoomToPolygon = () => {
+    if (points.length === 0 || !mapRef.current) return;
+    mapRef.current.fitBounds(points, { padding: [48, 48], maxZoom: 16 });
   };
 
   const reset = () => {
@@ -92,10 +121,8 @@ export function MapDraw({ onGeometryChange, onStatusChange }: MapDrawProps) {
   return (
     <div className="relative h-full w-full">
       <MapContainer center={COLOMBIA_CENTER} zoom={6} scrollWheelZoom className="h-full w-full">
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        <MapRef mapRef={mapRef} />
+        <TileLayer key={basemap} attribution={BASEMAPS[basemap].attribution} url={BASEMAPS[basemap].url} />
         <ClickCapture onClick={addPoint} />
         {points.length > 0 && (
           <LeafletPolygon
@@ -107,6 +134,23 @@ export function MapDraw({ onGeometryChange, onStatusChange }: MapDrawProps) {
 
       {/* Map Controls Overlay — replica del patrón "vertical stack of square buttons" del design system */}
       <div className="absolute top-4 right-4 flex flex-col gap-2 z-[1000]">
+        <button
+          type="button"
+          onClick={() => setBasemap((b) => (b === "normal" ? "satelite" : "normal"))}
+          title={basemap === "normal" ? "Ver satelital" : "Ver normal"}
+          className="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md shadow-sm flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors"
+        >
+          <MaterialIcon name={basemap === "normal" ? "satellite_alt" : "map"} />
+        </button>
+        <button
+          type="button"
+          onClick={zoomToPolygon}
+          disabled={points.length === 0}
+          title="Centrar en polígono"
+          className="w-10 h-10 bg-surface-container-lowest border border-outline-variant rounded-md shadow-sm flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors disabled:opacity-40 disabled:hover:text-on-surface"
+        >
+          <MaterialIcon name="my_location" />
+        </button>
         <button
           type="button"
           onClick={closePolygon}
