@@ -14,6 +14,9 @@ interface DiagnosticoRequestBody {
   usoDelSuelo?: string;
   tenenciaDeclarada?: string;
   objetivoIntervencion?: string;
+  codigoCatastral?: string;
+  departamento?: string;
+  municipio?: string;
 }
 
 export async function POST(req: NextRequest) {
@@ -84,6 +87,9 @@ export async function POST(req: NextRequest) {
           uso_del_suelo: body.usoDelSuelo,
           tenencia_declarada: body.tenenciaDeclarada,
           objetivo_intervencion: body.objetivoIntervencion,
+          codigo_catastral: body.codigoCatastral,
+          departamento: body.departamento,
+          municipio: body.municipio,
         })
         .select("id")
         .single();

@@ -43,9 +43,39 @@ export default function DiagnosticoPage() {
   const [usoDelSuelo, setUsoDelSuelo] = useState("");
   const [tenenciaDeclarada, setTenenciaDeclarada] = useState("");
   const [objetivoIntervencion, setObjetivoIntervencion] = useState("");
+  const [codigoCatastral, setCodigoCatastral] = useState("");
+  const [departamento, setDepartamento] = useState("");
+  const [municipio, setMunicipio] = useState("");
+  const [extrayendoPdf, setExtrayendoPdf] = useState(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<DiagnosticoResponse | null>(null);
+
+  const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setExtrayendoPdf(true);
+    setPdfError(null);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/diagnostico/extraer-certificado", {
+        method: "POST",
+        body: formData,
+      });
+      if (!res.ok) throw new Error(`El servidor respondió ${res.status}`);
+      const data = await res.json();
+      if (data.codigoCatastral) setCodigoCatastral(data.codigoCatastral);
+      if (data.departamento) setDepartamento(data.departamento);
+      if (data.municipio) setMunicipio(data.municipio);
+    } catch {
+      setPdfError("No se pudo extraer información del PDF. Completa los campos manualmente.");
+    } finally {
+      setExtrayendoPdf(false);
+      e.target.value = "";
+    }
+  };
 
   const selectedType = PROJECT_TYPES.find((t) => t.id === tipoProyecto)!;
 
@@ -74,6 +104,9 @@ export default function DiagnosticoPage() {
           usoDelSuelo,
           tenenciaDeclarada,
           objetivoIntervencion,
+          codigoCatastral,
+          departamento,
+          municipio,
         }),
       });
       if (!res.ok) throw new Error(`El servidor respondió ${res.status}`);
@@ -148,6 +181,56 @@ export default function DiagnosticoPage() {
                 placeholder="Ej. Finca La Esperanza"
                 className="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-md px-3 py-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
               />
+            </div>
+
+            <div>
+              <label className="block text-body-sm font-medium text-on-surface mb-1">
+                Certificado de Tradición y Libertad (PDF)
+              </label>
+              <label className="flex items-center gap-2 w-full bg-surface-container-lowest border border-dashed border-outline-variant rounded text-body-sm px-3 py-2 cursor-pointer hover:border-primary transition-colors">
+                <MaterialIcon name="upload_file" className="text-on-surface-variant" />
+                <span className="text-on-surface-variant">
+                  {extrayendoPdf ? "Extrayendo datos…" : "Subir certificado (opcional)"}
+                </span>
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={handlePdfUpload}
+                  disabled={extrayendoPdf}
+                  className="hidden"
+                />
+              </label>
+              {pdfError && <p className="text-disclaimer-italic text-status-warning mt-1">{pdfError}</p>}
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="col-span-2">
+                <label className="block text-body-sm font-medium text-on-surface mb-1">Código catastral</label>
+                <input
+                  value={codigoCatastral}
+                  onChange={(e) => setCodigoCatastral(e.target.value)}
+                  placeholder="Ej. 010000030007000"
+                  className="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-md px-3 py-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none font-data"
+                />
+              </div>
+              <div>
+                <label className="block text-body-sm font-medium text-on-surface mb-1">Departamento</label>
+                <input
+                  value={departamento}
+                  onChange={(e) => setDepartamento(e.target.value)}
+                  placeholder="Ej. Cundinamarca"
+                  className="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-md px-3 py-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-body-sm font-medium text-on-surface mb-1">Municipio</label>
+                <input
+                  value={municipio}
+                  onChange={(e) => setMunicipio(e.target.value)}
+                  placeholder="Ej. Chocontá"
+                  className="w-full bg-surface-container-lowest border border-outline-variant rounded text-body-md px-3 py-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                />
+              </div>
             </div>
 
             <div>
