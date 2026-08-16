@@ -34,7 +34,7 @@ Explicitly **out of scope** for the hackathon (see PRD §2.2): full MRV (checkli
 - **Auth**: there is no login screen (out of scope). `src/components/AuthBootstrap.tsx` silently calls `supabase.auth.signInAnonymously()` on first load so every visitor gets a stable `auth.uid()` for RLS to key off of. This requires **"Allow anonymous sign-ins" enabled in Supabase → Authentication**, or nothing persists and the diagnostico page shows an explicit warning instead of the "Continuar a formulación" button.
 - **Maps**: `react-leaflet` + OpenStreetMap tiles (no API key). `src/components/diagnostico/MapDraw.tsx` is a client-only component (dynamically imported with `ssr:false`) that handles click-to-draw, GeoJSON upload, and exposes vertex/closed status to the parent page.
 - **PDF export**: `jspdf`, generated client-side in `src/lib/pdf/`.
-- **LLM**: `@anthropic-ai/sdk`, model `claude-sonnet-5`, called server-side only from `src/app/api/chat/route.ts`.
+- **LLM**: OpenRouter (`https://openrouter.ai/api/v1/chat/completions`), default model `google/gemini-2.5-flash`. Used server-side from `src/app/api/chat/route.ts` (certificación) and `src/app/api/formulacion/generar/route.ts` (PDD). Override the model with `OPENROUTER_MODEL`.
 
 ## Cross-cutting patterns (reuse these, don't reinvent)
 
@@ -53,7 +53,7 @@ See `.env.local.example` for the full list. Required for anything beyond static 
 
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (the `sb_publishable_...` key), `SUPABASE_SERVICE_ROLE_KEY` (the `sb_secret_...` key — server-only, never prefix a secret key with `NEXT_PUBLIC_`).
 - `GFW_API_KEY` — Global Forest Watch Data API key (self-serve signup).
-- `ANTHROPIC_API_KEY` — for the certification chatbot.
+- `OPENROUTER_API_KEY` — for the certification chatbot and PDD generation. Optional `OPENROUTER_MODEL` overrides the default (`google/gemini-2.5-flash`).
 - `RUNAP_REGISTRY_API_URL` — optional override; the default in `src/lib/integrations/runap.ts` is the **confirmed, working** public ArcGIS FeatureServer (`mapas.parquesnacionales.gov.co/.../pnn/runap/FeatureServer/0/query`, fields `ap_nombre`/`ap_categoria`), verified live against real protected areas (e.g. Chingaza).
 - `VERRA_REGISTRY_API_URL`, `GOLD_STANDARD_REGISTRY_API_URL`, `RENARE_REGISTRY_API_URL` — optional overrides; still unconfirmed placeholders, these registries integrations fall back to a direct link to the official registry when no URL is configured.
 

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
 import { CERTIFICACION_FORESTAL_KNOWLEDGE } from "@/lib/knowledge/certificacionForestal";
+
+const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+const DEFAULT_MODEL = "google/gemini-2.5-flash";
 
 const SYSTEM_PROMPT = `Eres el asistente de orientación de certificación de CarbonFlow.
 
@@ -24,12 +26,12 @@ interface ChatMessage {
 }
 
 export async function POST(req: NextRequest) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
       {
         reply:
-          "El chatbot no está configurado todavía (falta ANTHROPIC_API_KEY en el entorno). Configúrala en .env.local para activarlo.",
+          "El chatbot no está configurado todavía (falta OPENROUTER_API_KEY en el entorno). Configúrala en .env.local para activarlo.",
         degraded: true,
       },
       { status: 200 }
@@ -47,17 +49,42 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Falta el historial de mensajes" }, { status: 400 });
   }
 
+  const model = process.env.OPENROUTER_MODEL || DEFAULT_MODEL;
+
   try {
-    const client = new Anthropic({ apiKey });
-    const response = await client.messages.create({
-      model: "claude-sonnet-5",
-      max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages: body.messages.map((m) => ({ role: m.role, content: m.content })),
+    const response = await fetch(OPENROUTER_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": process.env.OPENROUTER_SITE_URL || "http://localhost:3000",
+        "X-Title": "CarbonFlow Certificacion",
+      },
+      body: JSON.stringify({
+        model,
+        max_tokens: 1024,
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          ...body.messages.map((m) => ({ role: m.role, content: m.content })),
+        ],
+      }),
     });
 
-    const textBlock = response.content.find((b) => b.type === "text");
-    const reply = textBlock && "text" in textBlock ? textBlock.text : "";
+    if (!response.ok) {
+      const errText = await response.text();
+      return NextResponse.json(
+        {
+          reply:
+            "No se pudo consultar el chatbot en este momento. Intenta de nuevo en unos segundos.",
+          degraded: true,
+          error: `OpenRouter ${response.status}: ${errText}`,
+        },
+        { status: 200 }
+      );
+    }
+
+    const data = await response.json();
+    const reply = data.choices?.[0]?.message?.content ?? "";
 
     return NextResponse.json({ reply, degraded: false });
   } catch (err) {
