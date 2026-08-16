@@ -110,7 +110,7 @@ cp .env.local.example .env.local   # completar claves
 npm run dev
 ```
 
-Abrir [http://localhost:3000](http://localhost:3000).
+Abrir [(https://carbonflow-tau.vercel.app/).
 
 ### Variables de entorno
 
