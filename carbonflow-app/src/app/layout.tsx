@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Hanken_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { NavBar } from "@/components/NavBar";
+import { AuthBootstrap } from "@/components/AuthBootstrap";
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
 
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="min-h-full flex flex-col bg-surface text-on-surface font-[family-name:var(--font-inter)]">
+        <AuthBootstrap />
         <NavBar />
         <main className="flex-1 flex flex-col">{children}</main>
       </body>

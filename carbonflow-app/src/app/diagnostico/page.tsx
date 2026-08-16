@@ -6,6 +6,7 @@ import type { Polygon } from "geojson";
 import { PROJECT_TYPES, DEFAULT_PROJECT_TYPE, type ProjectTypeId } from "@/lib/projectTypes";
 import type { ScoreFactor, Co2eEstimate } from "@/lib/scoring";
 import { generateDiagnosticoPdf } from "@/lib/pdf/diagnosticoPdf";
+import { formatNumber } from "@/lib/format";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { StatusPill } from "@/components/ui/StatusPill";
 import { ScoreGauge } from "@/components/ui/ScoreGauge";
@@ -267,7 +268,7 @@ function ResultsPanel({
               ))}
             </div>
             <p className="text-disclaimer-italic text-on-surface-variant mt-4 text-center border-t border-outline-variant pt-3">
-              {result.areaHectareas.toFixed(2)} ha · {result.ubicacion}
+              {formatNumber(result.areaHectareas, 2)} ha · {result.ubicacion}
             </p>
           </div>
         </section>
@@ -280,14 +281,14 @@ function ResultsPanel({
             <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 shadow-sm">
               <p className="text-body-sm text-on-surface-variant mb-1">CO2e estimado</p>
               <p className="font-heading text-headline-md text-primary font-bold">
-                {result.co2e.toneladasCO2ePorAnio.toLocaleString("es-CO")}
+                {formatNumber(result.co2e.toneladasCO2ePorAnio)}
                 <span className="text-body-sm font-normal text-on-surface-variant"> t/año</span>
               </p>
             </div>
             <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 shadow-sm">
               <p className="text-body-sm text-on-surface-variant mb-1">Área total</p>
               <p className="font-heading text-headline-md text-primary font-bold">
-                {result.areaHectareas.toFixed(1)}
+                {formatNumber(result.areaHectareas, 1)}
                 <span className="text-body-sm font-normal text-on-surface-variant"> ha</span>
               </p>
             </div>
@@ -315,7 +316,7 @@ function ResultsPanel({
           <MaterialIcon name="picture_as_pdf" />
           Exportar informe de diagnóstico
         </button>
-        {result.predioId && (
+        {result.predioId ? (
           <Link
             href={`/formulacion?predioId=${result.predioId}`}
             className="w-full text-center rounded-lg bg-forest-deep text-on-primary py-3 font-medium text-body-md flex items-center justify-center gap-2 hover:bg-primary transition-colors"
@@ -323,6 +324,15 @@ function ResultsPanel({
             Continuar a formulación
             <MaterialIcon name="arrow_forward" />
           </Link>
+        ) : (
+          <div className="w-full rounded-lg bg-error-container text-on-error-container px-3 py-2 text-disclaimer-italic flex items-start gap-2">
+            <MaterialIcon name="warning" className="text-[16px] shrink-0 mt-0.5" />
+            <span>
+              El diagnóstico no se guardó (Supabase no está configurado o no hay sesión activa), por lo
+              que no se puede continuar a formulación. Configura las credenciales de Supabase en
+              <code className="mx-1">.env.local</code> y habilita el inicio de sesión anónimo.
+            </span>
+          </div>
         )}
       </div>
     </div>

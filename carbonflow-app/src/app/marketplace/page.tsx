@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { Footer } from "@/components/Footer";
+import { formatNumber } from "@/lib/format";
 
 interface Publicacion {
   id: string;
@@ -246,7 +247,7 @@ function MarketplaceInner() {
                     <div>
                       <span className="font-data text-label-caps text-outline block mb-1">CO2e disponible</span>
                       <span className="font-data text-data-mono text-on-surface">
-                        {p.volumen_toneladas ? `${p.volumen_toneladas.toLocaleString("es-CO")} t` : "—"}
+                        {p.volumen_toneladas ? `${formatNumber(p.volumen_toneladas)} t` : "—"}
                       </span>
                     </div>
                     <div>

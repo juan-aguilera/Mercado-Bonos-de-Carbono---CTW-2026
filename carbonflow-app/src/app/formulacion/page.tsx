@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { generateExpedientePdf } from "@/lib/pdf/expedientePdf";
 import { PROJECT_TYPES } from "@/lib/projectTypes";
+import { formatNumber } from "@/lib/format";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { Footer } from "@/components/Footer";
 
@@ -183,7 +184,7 @@ function FormulacionInner() {
               >
                 {predios.map((p) => (
                   <option key={p.id} value={p.id}>
-                    {p.nombre} — {p.area_hectareas.toFixed(1)} ha — {labelForType(p.tipo_proyecto)}
+                    {p.nombre} — {formatNumber(p.area_hectareas, 1)} ha — {labelForType(p.tipo_proyecto)}
                   </option>
                 ))}
               </select>
@@ -201,7 +202,7 @@ function FormulacionInner() {
                   <div className="flex items-center gap-2">
                     <MaterialIcon name="straighten" className="text-secondary text-[18px]" />
                     <span className="font-data text-data-mono text-on-surface text-lg">
-                      {predioSeleccionado.area_hectareas.toFixed(2)} ha
+                      {formatNumber(predioSeleccionado.area_hectareas, 2)} ha
                     </span>
                   </div>
                 </div>

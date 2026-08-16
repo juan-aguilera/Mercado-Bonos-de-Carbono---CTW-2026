@@ -1,5 +1,6 @@
 import { jsPDF } from "jspdf";
 import type { ScoreFactor, Co2eEstimate } from "@/lib/scoring";
+import { formatNumber } from "@/lib/format";
 
 export interface DiagnosticoPdfInput {
   nombrePredio: string;
@@ -31,7 +32,7 @@ export function generateDiagnosticoPdf(data: DiagnosticoPdfInput) {
   const rows: [string, string][] = [
     ["Predio", data.nombrePredio],
     ["Tipo de proyecto", data.tipoProyecto],
-    ["Área", `${data.areaHectareas.toFixed(2)} ha`],
+    ["Área", `${formatNumber(data.areaHectareas, 2)} ha`],
     ["Ubicación", data.ubicacion],
     ["Score de prefactibilidad", `${data.score} / 100`],
     ["Fecha de cálculo", new Date(data.fechaCalculo).toLocaleString("es-CO")],
@@ -72,10 +73,10 @@ export function generateDiagnosticoPdf(data: DiagnosticoPdfInput) {
   y += 7;
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
-  doc.text(`${data.co2e.toneladasCO2ePorAnio} tCO2e/año (indicativo)`, 14, y);
+  doc.text(`${formatNumber(data.co2e.toneladasCO2ePorAnio)} tCO2e/año (indicativo)`, 14, y);
   y += 5;
   doc.text(
-    `${data.co2e.toneladasCO2eHorizonte} tCO2e en horizonte de ${data.co2e.horizonteAnios} años`,
+    `${formatNumber(data.co2e.toneladasCO2eHorizonte)} tCO2e en horizonte de ${data.co2e.horizonteAnios} años`,
     14,
     y
   );

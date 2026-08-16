@@ -2,6 +2,7 @@ import * as turf from "@turf/turf";
 import type { Polygon, MultiPolygon } from "geojson";
 import type { ForestCoverResult } from "@/lib/integrations/gfw";
 import type { ProtectedAreaResult } from "@/lib/integrations/runap";
+import { formatNumber } from "@/lib/format";
 
 // Formula de score y CO2e definida en la seccion 2.4 del PRD: suma ponderada
 // de factores normalizados 0-100, cada uno con su fuente visible en la UI.
@@ -83,7 +84,7 @@ export function computeScore(params: {
       label: "Cobertura boscosa actual",
       weight: 0.3,
       value0to100: Math.round(forestCover.treeCoverPct2000),
-      explanation: `Cobertura boscosa estimada de ${forestCover.treeCoverPct2000.toFixed(1)}%.`,
+      explanation: `Cobertura boscosa estimada de ${formatNumber(forestCover.treeCoverPct2000, 1)}%.`,
       source: dataSources.gfwSource,
     },
     {
@@ -107,7 +108,7 @@ export function computeScore(params: {
       label: "Tamaño del polígono vs. mínimo viable",
       weight: 0.15,
       value0to100: sizeValue,
-      explanation: `Área de ${areaHectares.toFixed(1)} ha frente a un mínimo viable orientativo de ${MIN_VIABLE_HECTARES} ha para proyectos forestales.`,
+      explanation: `Área de ${formatNumber(areaHectares, 1)} ha frente a un mínimo viable orientativo de ${formatNumber(MIN_VIABLE_HECTARES)} ha para proyectos forestales.`,
       source: "Cálculo geométrico local (Turf.js)",
     },
     {
