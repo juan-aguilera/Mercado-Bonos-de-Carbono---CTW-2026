@@ -26,7 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "CarbonFlow — MVP Hackathon",
   description:
-    "Diagnóstico geoespacial, formulación, certificación y mercado de carbono para Colombia.",
+    "Diagnóstico geoespacial, formulación, validación y registro, y mercado de carbono para Colombia.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

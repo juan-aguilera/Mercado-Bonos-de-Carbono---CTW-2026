@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
       .eq("predio_id", predioId)
       .maybeSingle();
 
-    const payload = {
+    const payload: Record<string, unknown> = {
       predio_id: predioId,
       owner_id: user.id,
       linea_base: fields.lineaBase,
@@ -61,6 +61,10 @@ export async function POST(req: NextRequest) {
       estado: fields.estado ?? "borrador",
       updated_at: new Date().toISOString(),
     };
+
+    if (fields.pddData !== undefined) {
+      payload.pdd_data = fields.pddData;
+    }
 
     const query = existing
       ? supabase.from("expedientes").update(payload).eq("id", existing.id).select().single()

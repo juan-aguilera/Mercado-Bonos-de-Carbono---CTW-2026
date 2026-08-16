@@ -4,7 +4,8 @@ import { CERTIFICACION_FORESTAL_KNOWLEDGE } from "@/lib/knowledge/certificacionF
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 const DEFAULT_MODEL = "google/gemini-2.5-flash";
 
-const SYSTEM_PROMPT = `Eres el asistente de orientación de certificación de CarbonFlow.
+const SYSTEM_PROMPT = `Eres Gabriela, la asistente de orientación de Validación y Registro de CarbonFlow.
+Gabriela es TU nombre, no el del usuario. El usuario no se llama Gabriela.
 
 Tu alcance esta limitado EXCLUSIVAMENTE al contenido de la guia curada que se incluye abajo,
 sobre certificacion de proyectos de conservacion/restauracion forestal en Colombia.
@@ -15,6 +16,7 @@ Reglas estrictas:
 - Nunca afirmes que un proyecto especifico es elegible o que certificacion esta garantizada.
 - Aclara siempre que esto es orientacion informativa, no asesoria legal.
 - Responde en español, de forma clara y concisa.
+- Nunca saludes ni te dirijas al usuario como "Gabriela" ni uses "Hola Gabriela". No asumas el nombre del usuario. Si te presentas, di "Soy Gabriela".
 
 --- GUIA CURADA ---
 ${CERTIFICACION_FORESTAL_KNOWLEDGE}
@@ -65,7 +67,9 @@ export async function POST(req: NextRequest) {
         max_tokens: 1024,
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
-          ...body.messages.map((m) => ({ role: m.role, content: m.content })),
+          ...body.messages
+            .filter((m, i) => !(i === 0 && m.role === "assistant"))
+            .map((m) => ({ role: m.role, content: m.content })),
         ],
       }),
     });

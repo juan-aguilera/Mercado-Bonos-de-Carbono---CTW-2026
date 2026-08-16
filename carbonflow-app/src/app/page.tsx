@@ -23,38 +23,29 @@ const MODULOS = [
       "Línea base, adicionalidad, riesgos, salvaguardas, cronograma y presupuesto, conectado al predio diagnosticado.",
   },
   {
-    href: "/certificacion",
-    icono: "smart_toy",
-    titulo: "3. Certificación",
-    estado: "Real — chatbot + búsqueda en registros",
+    href: "/validacion-registro",
+    icono: "verified",
+    titulo: "3. Validación y Registro",
+    estado: "Real — preparación, ruta y chatbot",
     variant: "success" as const,
     descripcion:
-      "Chatbot de orientación normativa y búsqueda del proyecto en registros oficiales (Verra, Gold Standard, RENARE).",
+      "Prepara la iniciativa para revisión técnica, RENARE y OVV con el expediente ya formulado. El chatbot de orientación se mantiene como apoyo.",
   },
   {
     href: "/marketplace",
-    icono: "shopping_cart",
+    icono: "hub",
     titulo: "4. Marketplace",
-    estado: "Real, contraparte simulada",
+    estado: "Conexión, contraparte simulada",
     variant: "warning" as const,
     descripcion:
-      "Catálogo y solicitud de cotización reales; la respuesta del vendedor es simulada para completar el flujo sin contraparte humana.",
-  },
-  {
-    href: "/bonos-verdes",
-    icono: "eco",
-    titulo: "5. Bonos verdes",
-    estado: "Real, contraparte simulada",
-    variant: "warning" as const,
-    descripcion:
-      "Data room y conexión con aliado financiero reales; la respuesta del aliado es simulada.",
+      "Plaza de conexión con OVV, proyectos de carbono y financiación verde. Solicitudes de información con respuesta simulada; sin pagos ni transacciones.",
   },
 ];
 
 const PROXIMOS_PASOS = [
   "MRV operativo completo (checklist, evidencias, versionado, bitácora)",
   "Diagnóstico y formulación para energía renovable, agroforestería y demás tipos de proyecto",
-  "Marketplace y bonos verdes transaccionales, con contrapartes reales",
+  "Marketplace transaccional, con contrapartes reales y data room avanzado",
 ];
 
 export default function HomePage() {
@@ -64,9 +55,9 @@ export default function HomePage() {
         <div className="max-w-3xl mx-auto text-center space-y-4">
           <h1 className="font-display text-display-lg text-primary">CarbonFlow</h1>
           <p className="text-body-lg text-on-surface-variant">
-            Plataforma para diagnosticar, formular, certificar y comercializar proyectos de
-            carbono en Colombia. CarbonFlow no certifica, verifica ni emite créditos por cuenta
-            propia.
+            Plataforma para diagnosticar, formular, preparar la validación y el registro, y
+            conectar proyectos de carbono en Colombia. CarbonFlow no certifica, verifica ni emite
+            créditos por cuenta propia.
           </p>
         </div>
       </section>
@@ -113,9 +104,9 @@ export default function HomePage() {
             <p className="text-disclaimer-italic text-on-surface-variant">
               <strong className="text-on-surface not-italic">Aviso de alcance:</strong> todas las
               estimaciones son indicativas y no certificadas. Las respuestas de contraparte en
-              marketplace y bonos verdes son simuladas. El chatbot de certificación ofrece
-              orientación informativa y no constituye asesoría legal ni garantiza elegibilidad
-              ante ningún estándar o registro.
+              marketplace son simuladas. El módulo de validación y registro y su
+              chatbot ofrecen orientación informativa y no constituyen asesoría legal ni
+              garantizan validación, registro o elegibilidad ante ningún estándar o autoridad.
             </p>
           </div>
         </div>

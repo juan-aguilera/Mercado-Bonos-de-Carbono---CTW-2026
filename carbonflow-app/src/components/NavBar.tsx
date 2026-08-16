@@ -8,9 +8,8 @@ const LINKS = [
   { href: "/", label: "Visión" },
   { href: "/diagnostico", label: "Diagnóstico" },
   { href: "/formulacion", label: "Formulación" },
-  { href: "/certificacion", label: "Certificación" },
+  { href: "/validacion-registro", label: "Validación y Registro" },
   { href: "/marketplace", label: "Marketplace" },
-  { href: "/bonos-verdes", label: "Bonos Verdes" },
 ];
 
 export function NavBar() {
@@ -25,7 +24,7 @@ export function NavBar() {
           </Link>
           <nav className="hidden lg:flex gap-6 items-center">
             {LINKS.map((link) => {
-              const active = pathname === link.href;
+              const active = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
               return (
                 <Link
                   key={link.href}
@@ -61,7 +60,7 @@ export function NavBar() {
       </div>
       <nav className="lg:hidden flex gap-4 overflow-x-auto px-margin-mobile pb-3 -mt-1">
         {LINKS.map((link) => {
-          const active = pathname === link.href;
+          const active = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
           return (
             <Link
               key={link.href}

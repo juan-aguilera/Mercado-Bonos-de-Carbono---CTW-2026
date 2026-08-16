@@ -7,26 +7,31 @@ export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function simulatedVendorReply(params: {
-  titulo: string;
-  precioOrientativo?: number | null;
-  volumenToneladas?: number | null;
-}): string {
-  const { titulo, precioOrientativo, volumenToneladas } = params;
-  const precio = precioOrientativo ? `USD ${precioOrientativo}/tCO2e` : "un precio a definir";
-  const volumen = volumenToneladas ? `${volumenToneladas} tCO2e disponibles` : "el volumen consultado";
+export function simulatedOvvReply(): string {
   return (
-    `[Respuesta simulada] Gracias por tu interés en "${titulo}". Podemos ofrecer ${volumen} a ${precio}, ` +
-    `sujeto a verificación final del estándar. ¿Quieres agendar una llamada para revisar condiciones y documentación de soporte?`
+    "Hemos recibido la información preliminar. Para evaluar un posible alcance de preevaluación, requeriríamos revisar " +
+    "la información de control del predio, línea base y objetivo de validación. Esto no constituye aceptación, cotización, " +
+    "contratación ni inicio de validación."
   );
 }
 
-export function simulatedFinancierReply(params: { titulo: string; montoRequerido?: number | null }): string {
-  const { titulo, montoRequerido } = params;
-  const monto = montoRequerido ? `USD ${montoRequerido.toLocaleString("en-US")}` : "el monto solicitado";
+export function simulatedCarbonProjectReply(): string {
   return (
-    `[Respuesta simulada] Hemos revisado el perfil de "${titulo}". Existe interés preliminar en explorar ` +
-    `una estructura de financiación verde por ${monto}, sujeto a debida diligencia y revisión del data room. ` +
-    `Un analista se pondría en contacto para los siguientes pasos.`
+    "Hemos recibido tu manifestación de interés. La organización evaluará la compatibilidad con su necesidad declarada " +
+    "y podrá solicitar información adicional. Esto no constituye disponibilidad de créditos, precio, reserva, compra ni contrato."
   );
+}
+
+export function simulatedGreenFinanceReply(): string {
+  return (
+    "Hemos recibido la información preliminar. La solicitud será revisada frente a criterios de etapa, documentación, " +
+    "uso previsto de recursos y perfil de riesgo. Esto no constituye una aprobación, oferta, compromiso de financiación " +
+    "ni recomendación de inversión."
+  );
+}
+
+export function simulatedMarketplaceReply(category: "ovv" | "carbon_project" | "reported_credit" | "green_finance") {
+  if (category === "ovv") return simulatedOvvReply();
+  if (category === "green_finance") return simulatedGreenFinanceReply();
+  return simulatedCarbonProjectReply();
 }

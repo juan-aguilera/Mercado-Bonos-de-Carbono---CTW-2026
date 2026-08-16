@@ -2,7 +2,7 @@
 
 # CarbonFlow — project guide
 
-Hackathon MVP (CTW 2026) for a carbon-market / green-bonds platform in Colombia. This file documents the app in `carbonflow-app/`; the product spec lives one level up.
+Hackathon MVP (CTW 2026) for a carbon-market platform in Colombia. This file documents the app in `carbonflow-app/`; the product spec lives one level up.
 
 ## Source of truth documents
 
@@ -14,15 +14,14 @@ Hackathon MVP (CTW 2026) for a carbon-market / green-bonds platform in Colombia.
 
 CarbonFlow takes a landowner/developer from "I have a piece of forest" to "I have a diagnostic, a formulated project, certification guidance, and a marketplace listing" — without CarbonFlow itself certifying, verifying, or issuing carbon credits.
 
-Five modules, all reachable from the top nav (`src/components/NavBar.tsx`):
+Four modules, all reachable from the top nav (`src/components/NavBar.tsx`):
 
 | # | Route | Status | What it does |
 |---|---|---|---|
 | 1 | `/diagnostico` | **Real, live APIs** | Draw/upload a polygon → live queries to Global Forest Watch, RUNAP, Nominatim → explainable prefactibility score + CO2e estimate → PDF export. This is the differentiator flow. |
 | 2 | `/formulacion` | **Real** | Guided expediente (línea base, adicionalidad, riesgos, salvaguardas, cronograma, presupuesto) tied to an already-diagnosed predio. |
-| 3 | `/certificacion` | **Real** | Chatbot (Claude, grounded in a curated knowledge doc) for certification guidance + live search across Verra/Gold Standard/RENARE. |
-| 4 | `/marketplace` | **Real, simulated counterparty** | Real catalog + real quote requests; the seller's reply is auto-generated after a delay (see `src/lib/simulador.ts`). |
-| 5 | `/bonos-verdes` | **Real, simulated counterparty** | Same pattern as marketplace, for green-bond financing profiles. |
+| 3 | `/validacion-registro` | **Real** | Preparation, route and chatbot for technical review / RENARE / OVV. |
+| 4 | `/marketplace` | **Connection plaza, simulated replies** | Three catalogs (OVV, carbon projects/reported results, green finance). Requests of information with consent; no payments or trades. Replies are simulated (`src/lib/simulador.ts`). |
 
 Explicitly **out of scope** for the hackathon (see PRD §2.2): full MRV (checklists/evidence/versioning/audit log), any project type other than conservación/restauración forestal, real transactions/payments.
 
@@ -30,7 +29,7 @@ Explicitly **out of scope** for the hackathon (see PRD §2.2): full MRV (checkli
 
 - **Framework**: Next.js 16 (App Router, Turbopack, React 19). Route handlers under `src/app/api/*/route.ts` are plain server functions — no separate backend.
 - **Styling**: Tailwind v4, CSS-first config. All design tokens (colors, font families, custom text sizes, spacing) are defined via `@theme` in `src/app/globals.css` — there is no `tailwind.config.js`. Fonts (Hanken Grotesk / Inter / JetBrains Mono) are loaded via `next/font/google` in `src/app/layout.tsx`; Material Symbols Outlined icons are loaded via a `<link>` tag and rendered through `src/components/ui/MaterialIcon.tsx`.
-- **Data**: Supabase (Postgres + Auth + Storage). Schema + RLS policies in `supabase/migrations/0001_init.sql` — run this in the Supabase SQL Editor before anything will persist. Every table is owner-scoped (`owner_id = auth.uid()`); marketplace/bonos-verdes catalogs are public-read.
+- **Data**: Supabase (Postgres + Auth + Storage). Schema + RLS policies in `supabase/migrations/0001_init.sql` — run this in the Supabase SQL Editor before anything will persist. Every table is owner-scoped (`owner_id = auth.uid()`); marketplace demo catalogs live in `src/lib/marketplace/catalog.ts`.
 - **Auth**: there is no login screen (out of scope). `src/components/AuthBootstrap.tsx` silently calls `supabase.auth.signInAnonymously()` on first load so every visitor gets a stable `auth.uid()` for RLS to key off of. This requires **"Allow anonymous sign-ins" enabled in Supabase → Authentication**, or nothing persists and the diagnostico page shows an explicit warning instead of the "Continuar a formulación" button.
 - **Maps**: `react-leaflet` + OpenStreetMap tiles (no API key). `src/components/diagnostico/MapDraw.tsx` is a client-only component (dynamically imported with `ssr:false`) that handles click-to-draw, GeoJSON upload, and exposes vertex/closed status to the parent page.
 - **PDF export**: `jspdf`, generated client-side in `src/lib/pdf/`.
@@ -41,11 +40,11 @@ Explicitly **out of scope** for the hackathon (see PRD §2.2): full MRV (checkli
 - **External API resilience** (`src/lib/resilience.ts`): every call to GFW/RUNAP/Nominatim/registries goes through `resilientCall(fn, {cacheKey, timeoutMs, retries})`. It caches by key, times out, retries once, and returns `{ok, data, source: "live"|"cache"|"fallback"}` instead of throwing. Each integration module (`src/lib/integrations/*.ts`) also exports a `fallback*()` function for when `ok` is false. **Never call `fetch()` directly against an external API in a route — wrap it in `resilientCall` and provide a fallback.**
 - **Number formatting** (`src/lib/format.ts`): `formatNumber(value, decimals)` — comma thousands separator, period decimal separator (e.g. `4,744,668.51`). Use this for every user-facing figure; don't use bare `.toFixed()` or `.toLocaleString("es-CO")` (that produces the opposite separators and was a reported bug).
 - **Scoring formula** (`src/lib/scoring.ts`): the prefactibility score is a transparent weighted sum of five factors (cobertura 30%, deforestación 20%, área protegida 15%, tamaño 15%, completitud 20%), each carrying its own source label — not an ML model. `computeCo2eEstimate` uses a simple IPCC-Tier-1-style default factor keyed off forest cover %. If you change weights or factors, update the PRD §2.4 too.
-- **Simulated counterparty** (`src/lib/simulador.ts`): marketplace/bonos-verdes "responses" are real DB rows, generated synchronously after `await delay(1500)` inside the API route (not a background job) so it survives serverless environments. Always label these as simulated in the UI (see existing disclaimer banners).
+- **Simulated counterparty** (`src/lib/simulador.ts`): marketplace replies are generated synchronously after `await delay(1500)` inside `/api/marketplace/request` (not a background job) so it survives serverless environments. Always label these as simulated in the UI.
 
 ## Data model (see migration for full detail)
 
-`predios` → `diagnosticos` (1:1-ish, latest wins) → `expedientes` → (`conversaciones_certificacion`, `consultas_registro`) and → `publicaciones_marketplace` → `solicitudes_cotizacion`, and → `perfiles_bonos_verdes` → `solicitudes_conexion_financiera`. Everything hangs off `predios.owner_id` / the equivalent `owner_id` column.
+`predios` → `diagnosticos` (1:1-ish, latest wins) → `expedientes` → (`conversaciones_certificacion`, `consultas_registro`) and marketplace listings/requests (demo catalog + in-memory/local requests). Everything hangs off `predios.owner_id` / the equivalent `owner_id` column. There is no standalone Bonos Verdes module; green finance lives under Marketplace.
 
 ## Environment variables
 

@@ -2,325 +2,453 @@
 
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { Footer } from "@/components/Footer";
-import { formatNumber } from "@/lib/format";
+import { ContactRequestModal } from "@/components/marketplace/ContactRequestModal";
+import { EmptyState } from "@/components/marketplace/EmptyState";
+import { FilterField, MarketplaceFilters } from "@/components/marketplace/MarketplaceFilters";
+import { ListingCard } from "@/components/marketplace/ListingCard";
+import { ListingDetailPanel } from "@/components/marketplace/ListingDetailPanel";
+import { MarketplaceComparisonTable } from "@/components/marketplace/MarketplaceComparisonTable";
+import { MarketplaceRolePicker, roleLabel } from "@/components/marketplace/MarketplaceRolePicker";
+import { MarketplaceSearchBar } from "@/components/marketplace/MarketplaceSearchBar";
+import { NeedCard } from "@/components/marketplace/NeedCard";
+import { NeedDetail } from "@/components/marketplace/NeedDetail";
+import { NeedPublisherForm } from "@/components/marketplace/NeedPublisherForm";
+import { NeedResponseModal } from "@/components/marketplace/NeedResponseModal";
+import { ProviderProfileModal } from "@/components/marketplace/ProviderProfileModal";
+import { PublishProjectModal } from "@/components/marketplace/PublishProjectModal";
+import { DEMO_LISTINGS, listingMatchesQuery } from "@/lib/marketplace/catalog";
+import { computeCompatibility } from "@/lib/marketplace/compatibility";
+import { loadLocalRequests, loadUserListings, loadUserNeeds, saveLocalRequests, saveUserListings, saveUserNeeds } from "@/lib/marketplace/local";
+import { DEMO_NEEDS } from "@/lib/marketplace/needs";
+import type {
+  MarketplaceListing,
+  MarketplaceNeed,
+  MarketplaceRequest,
+  MarketplaceRole,
+  MarketplaceRoleView,
+  MarketplaceTab,
+  ProjectContext,
+} from "@/lib/marketplace/types";
 
-interface Publicacion {
-  id: string;
-  titulo: string;
-  tipo_proyecto: string;
-  estandar: string | null;
-  vintage: number | null;
-  co_beneficios: string | null;
-  precio_orientativo: number | null;
-  volumen_toneladas: number | null;
-  estado: string;
+const ROLE_KEY = "cf_marketplace_role";
+
+function isProjectListing(listing: MarketplaceListing) {
+  return (
+    listing.kind === "carbon_project_development" ||
+    listing.kind === "green_finance_project" ||
+    listing.kind === "reported_carbon_result"
+  );
+}
+
+function isOvvListing(listing: MarketplaceListing) {
+  return listing.kind === "ovv_profile" || listing.kind === "technical_firm_profile";
+}
+
+function primaryAction(listing: MarketplaceListing, role: MarketplaceRole | null) {
+  if (listing.kind === "reported_retired_credit") return "Consultar información histórica";
+  if (role === "ovv" && isProjectListing(listing)) return "Postularse como OVV";
+  if (isOvvListing(listing)) return "Solicitar contacto";
+  if (listing.kind === "reported_carbon_result") return "Solicitar información";
+  return "Manifestar interés";
 }
 
 function MarketplaceInner() {
   const searchParams = useSearchParams();
-  const predioId = searchParams.get("predioId");
+  const intent = searchParams.get("intent");
+  const publishFlag = searchParams.get("publish") === "1" || intent === "publish";
 
-  const [publicaciones, setPublicaciones] = useState<Publicacion[]>([]);
-  const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({
-    titulo: "",
-    estandar: "",
-    vintage: "",
-    coBeneficios: "",
-    precioOrientativo: "",
-    volumenToneladas: "",
-  });
-  const [publishing, setPublishing] = useState(false);
-
-  const [filtroTexto, setFiltroTexto] = useState("");
-  const [filtroEstandar, setFiltroEstandar] = useState("todos");
-
-  const [activeQuote, setActiveQuote] = useState<Publicacion | null>(null);
-  const [mensaje, setMensaje] = useState("");
-  const [quoting, setQuoting] = useState(false);
-  const [respuesta, setRespuesta] = useState<string | null>(null);
-
-  const load = () => {
-    fetch("/api/marketplace")
-      .then((r) => r.json())
-      .then((d) => setPublicaciones(d.publicaciones ?? []));
+  const context: ProjectContext = {
+    predioId: searchParams.get("predioId"),
+    projectName: searchParams.get("proyecto"),
+    tipo: searchParams.get("tipo"),
+    estado: searchParams.get("estado"),
+    preparacion: searchParams.get("preparacion"),
+    brechas: searchParams.get("brechas"),
+    necesidad: searchParams.get("necesidad"),
   };
+  const fromValidacion = searchParams.get("from") === "validacion-registro";
 
-  useEffect(load, []);
+  const [role, setRole] = useState<MarketplaceRole | null>(null);
+  const [view, setView] = useState<MarketplaceRoleView | null>(null);
+  const [query, setQuery] = useState("");
+  const [holderFilter, setHolderFilter] = useState("Todos");
+  const [projectScope, setProjectScope] = useState<"todos" | "carbon" | "finance">("todos");
+  const [filters, setFilters] = useState({ tipo: "Todos", estado: "Todos" });
+  const [userListings, setUserListings] = useState<MarketplaceListing[]>([]);
+  const [userNeeds, setUserNeeds] = useState<MarketplaceNeed[]>([]);
+  const [requests, setRequests] = useState<MarketplaceRequest[]>([]);
+  const [detail, setDetail] = useState<MarketplaceListing | null>(null);
+  const [contact, setContact] = useState<MarketplaceListing | null>(null);
+  const [needDetail, setNeedDetail] = useState<MarketplaceNeed | null>(null);
+  const [respondNeed, setRespondNeed] = useState<MarketplaceNeed | null>(null);
+  const [publishOpen, setPublishOpen] = useState(false);
+  const [ovvProfileOpen, setOvvProfileOpen] = useState(false);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
 
-  const estandares = useMemo(
-    () => Array.from(new Set(publicaciones.map((p) => p.estandar).filter(Boolean))) as string[],
-    [publicaciones]
-  );
-
-  const publicacionesFiltradas = publicaciones.filter((p) => {
-    const matchesTexto = filtroTexto
-      ? p.titulo.toLowerCase().includes(filtroTexto.toLowerCase()) ||
-        p.co_beneficios?.toLowerCase().includes(filtroTexto.toLowerCase())
-      : true;
-    const matchesEstandar = filtroEstandar === "todos" ? true : p.estandar === filtroEstandar;
-    return matchesTexto && matchesEstandar;
-  });
-
-  const handlePublish = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setPublishing(true);
-    try {
-      const res = await fetch("/api/marketplace", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          titulo: form.titulo,
-          tipoProyecto: "forestal-conservacion",
-          estandar: form.estandar,
-          vintage: form.vintage,
-          coBeneficios: form.coBeneficios,
-          precioOrientativo: form.precioOrientativo,
-          volumenToneladas: form.volumenToneladas,
-        }),
-      });
-      if (res.ok) {
-        setShowForm(false);
-        setForm({ titulo: "", estandar: "", vintage: "", coBeneficios: "", precioOrientativo: "", volumenToneladas: "" });
-        load();
-      }
-    } finally {
-      setPublishing(false);
+  useEffect(() => {
+    setUserListings(loadUserListings());
+    setUserNeeds(loadUserNeeds());
+    setRequests(loadLocalRequests());
+    const stored = sessionStorage.getItem(ROLE_KEY) as MarketplaceRole | null;
+    if (fromValidacion || publishFlag) {
+      setRole("propietario");
+      setView(publishFlag ? null : "owner-ovvs");
+      if (publishFlag) setPublishOpen(true);
+      return;
     }
+    if (stored === "ovv" || stored === "empresa" || stored === "propietario") {
+      setRole(stored);
+    }
+  }, [fromValidacion, publishFlag]);
+
+  const selectRole = (next: MarketplaceRole) => {
+    setRole(next);
+    sessionStorage.setItem(ROLE_KEY, next);
+    setView(null);
+    setCompareIds([]);
+    if (next === "ovv") setView("ovv-projects");
+    if (next === "empresa") setView("empresa-projects");
+    if (next === "propietario") setView("owner-needs");
   };
 
-  const handleQuote = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!activeQuote) return;
-    setQuoting(true);
-    setRespuesta(null);
-    try {
-      const res = await fetch("/api/marketplace/quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ publicacionId: activeQuote.id, mensaje }),
-      });
-      const data = await res.json();
-      setRespuesta(data.solicitud?.respuesta_simulada ?? "No se pudo obtener respuesta.");
-    } finally {
-      setQuoting(false);
-    }
+  const clearRole = () => {
+    setRole(null);
+    setView(null);
+    sessionStorage.removeItem(ROLE_KEY);
   };
+
+  const listings = useMemo(() => [...userListings, ...DEMO_LISTINGS], [userListings]);
+  const needs = useMemo(() => [...userNeeds, ...DEMO_NEEDS], [userNeeds]);
+  const matchProjects = useMemo(() => {
+    const mine = userListings.filter(
+      (listing) => listing.kind === "carbon_project_development" || listing.kind === "green_finance_project"
+    );
+    return mine.length > 0 ? mine : listings.filter((listing) => listing.kind === "carbon_project_development");
+  }, [userListings, listings]);
+
+  const persistListings = (next: MarketplaceListing[]) => {
+    setUserListings(next);
+    saveUserListings(next);
+  };
+  const persistNeeds = (next: MarketplaceNeed[]) => {
+    setUserNeeds(next);
+    saveUserNeeds(next);
+  };
+  const persistRequests = (next: MarketplaceRequest[]) => {
+    setRequests(next);
+    saveLocalRequests(next);
+  };
+
+  const visibleListings = listings.filter((listing) => {
+    if (!listingMatchesQuery(listing, query)) return false;
+    if (view === "ovv-projects" || view === "empresa-projects") {
+      if (!isProjectListing(listing)) return false;
+      if (projectScope === "carbon" && listing.tab !== "carbon") return false;
+      if (projectScope === "finance" && listing.tab !== "finance") return false;
+    }
+    if (view === "owner-ovvs" && !isOvvListing(listing)) return false;
+    if (holderFilter !== "Todos" && listing.holderType !== holderFilter) return false;
+    if (filters.tipo !== "Todos" && listing.initiativeType !== filters.tipo && !listing.sectors?.includes(filters.tipo)) {
+      return false;
+    }
+    if (filters.estado !== "Todos" && listing.projectStatus !== filters.estado && listing.projectStage !== filters.estado) {
+      return false;
+    }
+    return true;
+  });
+
+  const visibleNeeds = needs.filter((need) => {
+    if (need.category === "ovv") return false;
+    if (!query.trim()) return true;
+    const hay = `${need.title} ${need.summary} ${need.organization} ${need.projectTypes.join(" ")}`.toLowerCase();
+    return hay.includes(query.toLowerCase());
+  });
+
+  const referenceProject = matchProjects[0];
+  const compared = listings.filter((listing) => compareIds.includes(listing.id));
+  const showingCatalog = view === "ovv-projects" || view === "empresa-projects" || view === "owner-ovvs";
+  const compareTab: MarketplaceTab = view === "owner-ovvs" ? "ovv" : projectScope === "finance" ? "finance" : "carbon";
+
+  const toggleCompare = (id: string) => {
+    setCompareIds((current) => {
+      if (current.includes(id)) return current.filter((item) => item !== id);
+      if (current.length >= 3) return current;
+      return [...current, id];
+    });
+  };
+
+  const roleActions =
+    role === "ovv"
+      ? [
+          { id: "ovv-profile" as const, label: "Crear mi perfil de OVV" },
+          { id: "ovv-projects" as const, label: "Ver proyectos y postularme" },
+        ]
+      : role === "empresa"
+        ? [
+            { id: "empresa-projects" as const, label: "Explorar proyectos" },
+            { id: "empresa-need" as const, label: "Publicar necesidad" },
+          ]
+        : role === "propietario"
+          ? [
+              { id: "owner-needs" as const, label: "Ver necesidades de empresas" },
+              { id: "owner-ovvs" as const, label: "Ver OVV disponibles" },
+              { id: "owner-publish" as const, label: "Publicar proyecto" },
+            ]
+          : [];
 
   return (
     <div className="flex flex-col flex-1">
-      <header className="px-margin-mobile md:px-margin-desktop py-12 bg-surface-container-lowest border-b border-outline-variant">
-        <div className="max-w-7xl mx-auto flex flex-col gap-4">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <h1 className="font-display text-display-lg text-primary">CarbonFlow Marketplace</h1>
-              <p className="text-body-lg text-on-surface-variant max-w-2xl mt-2">
-                Explora proyectos verificados de conservación y restauración. Cada oferta viene con un data room de soporte.
-              </p>
-            </div>
-            <button
-              onClick={() => setShowForm((s) => !s)}
-              className="shrink-0 rounded-lg bg-forest-deep text-on-primary px-5 py-2.5 font-medium hover:bg-primary transition-colors flex items-center gap-2"
-            >
-              <MaterialIcon name={showForm ? "close" : "add"} />
-              {showForm ? "Cancelar" : "Publicar oferta"}
-            </button>
-          </div>
+      <div className="bg-earth-sandy/70 border-b border-outline-variant px-margin-mobile md:px-margin-desktop py-2">
+        <p className="max-w-7xl mx-auto text-body-sm text-on-surface">
+          CarbonFlow facilita conexiones y el intercambio controlado de información. No ejecuta transacciones,
+          certificaciones, validaciones, verificaciones, transferencias, pagos ni recomendaciones de inversión.
+        </p>
+      </div>
 
-          <div className="mt-2 flex items-start gap-3 bg-surface-container border border-outline-variant rounded-lg p-4 max-w-xl">
-            <MaterialIcon name="info" className="text-outline" />
-            <p className="text-body-sm text-on-surface-variant">
-              Recibirás una respuesta simulada para fines de demostración al solicitar una cotización.
+      <header className="px-margin-mobile md:px-margin-desktop py-10 bg-surface-container-lowest border-b border-outline-variant">
+        <div className="max-w-7xl mx-auto space-y-5">
+          <div>
+            <h1 className="font-display text-display-lg text-primary">Marketplace</h1>
+            <p className="text-body-lg text-on-surface-variant max-w-2xl mt-2">
+              {role
+                ? `Entraste como ${roleLabel(role)}. Elige una acción para continuar.`
+                : "¿Quién eres en esta visita? Elige un rol para ver solo las acciones que te corresponden."}
             </p>
           </div>
+          {role && (
+            <div className="flex flex-wrap items-center gap-2">
+              {roleActions.map((action) => (
+                <button
+                  key={action.id}
+                  type="button"
+                  onClick={() => {
+                    if (action.id === "ovv-profile") {
+                      setOvvProfileOpen(true);
+                      return;
+                    }
+                    if (action.id === "owner-publish") {
+                      setPublishOpen(true);
+                      return;
+                    }
+                    setView(action.id);
+                    setCompareIds([]);
+                  }}
+                  className={`px-4 py-2 rounded-lg text-body-sm ${
+                    view === action.id
+                      ? "bg-forest-deep text-on-primary"
+                      : "border border-outline-variant text-on-surface-variant"
+                  }`}
+                >
+                  {action.label}
+                </button>
+              ))}
+              <button type="button" onClick={clearRole} className="text-body-sm text-primary hover:underline ml-2">
+                Cambiar rol
+              </button>
+            </div>
+          )}
+          {role && view && view !== "empresa-need" && <MarketplaceSearchBar value={query} onChange={setQuery} />}
+          {fromValidacion && role === "propietario" && (
+            <div className="rounded-lg border border-primary/20 bg-primary-container/10 p-4 max-w-2xl space-y-1">
+              <p className="font-medium text-body-sm text-primary">Contexto desde Validación y Registro</p>
+              {context.necesidad && <p className="text-body-sm">Necesidad: {context.necesidad.replace("-", " ")}</p>}
+              {context.tipo && <p className="text-body-sm">Tipo de iniciativa: {context.tipo}</p>}
+              {context.estado && <p className="text-body-sm">Estado de preparación: {context.estado}</p>}
+            </div>
+          )}
         </div>
       </header>
 
-      {showForm && (
-        <div className="px-margin-mobile md:px-margin-desktop py-6 bg-surface border-b border-outline-variant">
-          <form onSubmit={handlePublish} className="max-w-7xl mx-auto grid sm:grid-cols-2 gap-3 bg-surface-container-lowest border border-outline-variant rounded-xl p-6">
-            <input required placeholder="Título" value={form.titulo} onChange={(e) => setForm({ ...form, titulo: e.target.value })} className="rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 sm:col-span-2" />
-            <input placeholder="Estándar (ej. Verra VCS)" value={form.estandar} onChange={(e) => setForm({ ...form, estandar: e.target.value })} className="rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2" />
-            <input placeholder="Vintage (año)" value={form.vintage} onChange={(e) => setForm({ ...form, vintage: e.target.value })} className="rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2" />
-            <input placeholder="Co-beneficios" value={form.coBeneficios} onChange={(e) => setForm({ ...form, coBeneficios: e.target.value })} className="rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 sm:col-span-2" />
-            <input placeholder="Precio orientativo (USD/tCO2e)" value={form.precioOrientativo} onChange={(e) => setForm({ ...form, precioOrientativo: e.target.value })} className="rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2" />
-            <input placeholder="Volumen (tCO2e)" value={form.volumenToneladas} onChange={(e) => setForm({ ...form, volumenToneladas: e.target.value })} className="rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2" />
-            <button disabled={publishing} type="submit" className="sm:col-span-2 rounded-lg bg-forest-deep text-on-primary py-2.5 font-medium hover:bg-primary transition-colors">
-              {publishing ? "Publicando…" : "Publicar"}
-            </button>
-          </form>
-        </div>
-      )}
-
       <section className="flex-1 px-margin-mobile md:px-margin-desktop py-8 bg-surface">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-gutter">
-          {/* Filters Sidebar */}
-          <aside className="w-full lg:w-panel-width-md shrink-0 flex flex-col gap-6">
-            <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm">
-              <h2 className="font-heading text-headline-sm text-primary mb-6 flex items-center gap-2">
-                <MaterialIcon name="filter_list" />
-                Filtros
-              </h2>
-              <div className="flex flex-col gap-5">
-                <div className="flex flex-col gap-2">
-                  <label className="font-data text-label-caps text-on-surface-variant">Buscar</label>
-                  <input
-                    value={filtroTexto}
-                    onChange={(e) => setFiltroTexto(e.target.value)}
-                    placeholder="Título o co-beneficio"
-                    className="bg-surface-container-low border border-outline-variant rounded-md px-3 py-2 text-body-sm w-full"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="font-data text-label-caps text-on-surface-variant">Estándar</label>
-                  <select
-                    value={filtroEstandar}
-                    onChange={(e) => setFiltroEstandar(e.target.value)}
-                    className="bg-surface-container-low border border-outline-variant rounded-md px-3 py-2 text-body-sm w-full"
-                  >
-                    <option value="todos">Todos</option>
-                    {estandares.map((e) => (
-                      <option key={e} value={e}>
-                        {e}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex flex-col gap-2 mt-1">
-                  <label className="font-data text-label-caps text-on-surface-variant">Impacto ODS</label>
-                  <div className="flex flex-wrap gap-2">
-                    {["13 CLIMA", "15 VIDA TERRESTRE", "6 AGUA"].map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 bg-surface-container border border-outline-variant rounded-full font-data text-label-caps text-on-surface"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="max-w-7xl mx-auto space-y-6">
+          {!role && <MarketplaceRolePicker onSelect={selectRole} />}
 
-            <div className="bg-forest-deep text-on-primary rounded-xl p-6 relative overflow-hidden shadow-md">
-              <div className="relative z-10 flex flex-col gap-4">
-                <span className="font-data text-label-caps text-primary-fixed-dim uppercase tracking-wider">
-                  Inversión institucional
-                </span>
-                <h3 className="font-heading text-headline-md">Bonos Verdes Corporativos</h3>
-                <p className="text-body-sm text-surface-variant">
-                  Accede a bonos verdes estructurados con data rooms ESG verificados y trazabilidad geoespacial.
-                </p>
-                <Link
-                  href="/bonos-verdes"
-                  className="mt-2 self-start bg-primary-fixed text-on-primary-fixed font-semibold text-body-sm py-2 px-5 rounded-md hover:bg-primary-fixed-dim transition-colors"
-                >
-                  Ver emisiones
-                </Link>
-              </div>
-              <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-primary opacity-50 rounded-full blur-3xl" />
-            </div>
-          </aside>
+          {role && view === "empresa-need" && (
+            <NeedPublisherForm
+              defaultTab="carbon"
+              onPublish={(need) => {
+                persistNeeds([need, ...userNeeds]);
+                setView("empresa-projects");
+              }}
+            />
+          )}
 
-          {/* Projects Grid */}
-          <div className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-gutter content-start">
-            {publicacionesFiltradas.map((p) => (
-              <div
-                key={p.id}
-                className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col hover:shadow-md transition-shadow"
-              >
-                <div className="h-32 w-full bg-gradient-to-br from-primary-container to-forest-deep relative flex items-center justify-center">
-                  <MaterialIcon name="forest" className="text-primary-fixed-dim text-5xl" />
-                  <div className="absolute top-3 left-3 bg-surface/90 backdrop-blur-sm px-3 py-1 rounded-md font-data text-label-caps text-status-success flex items-center gap-1 shadow-sm">
-                    <MaterialIcon name="forest" className="text-sm" /> Forestry
-                  </div>
-                </div>
-                <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="font-heading text-headline-sm text-primary line-clamp-2">{p.titulo}</h3>
-                  <p className="text-body-sm text-on-surface-variant my-3 line-clamp-2">
-                    {p.co_beneficios || "Sin descripción de co-beneficios."}
-                  </p>
-                  <div className="grid grid-cols-2 gap-4 mb-6 pt-4 border-t border-outline-variant">
-                    <div>
-                      <span className="font-data text-label-caps text-outline block mb-1">CO2e disponible</span>
-                      <span className="font-data text-data-mono text-on-surface">
-                        {p.volumen_toneladas ? `${formatNumber(p.volumen_toneladas)} t` : "—"}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="font-data text-label-caps text-outline block mb-1">Precio por crédito</span>
-                      <span className="font-data text-data-mono text-on-surface">
-                        {p.precio_orientativo ? `USD ${p.precio_orientativo}` : "A consultar"}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="mt-auto">
-                    <button
-                      onClick={() => {
-                        setActiveQuote(p);
-                        setRespuesta(null);
-                        setMensaje("");
-                      }}
-                      className="w-full bg-earth-sandy text-primary font-semibold text-body-sm py-2.5 rounded-md hover:brightness-95 transition-all flex justify-center items-center gap-2"
-                    >
-                      <MaterialIcon name="shopping_cart" className="text-sm" />
-                      Solicitar cotización
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-            {publicacionesFiltradas.length === 0 && (
-              <p className="text-on-surface-variant text-body-sm md:col-span-2">
-                {publicaciones.length === 0
-                  ? "Todavía no hay publicaciones. Sé el primero en publicar una oferta."
-                  : "No hay ofertas que coincidan con el filtro."}
+          {role === "propietario" && view === "owner-needs" && (
+            <div className="space-y-4">
+              <p className="text-body-sm text-on-surface-variant">
+                Empresas y aliados que publicaron una necesidad. Puedes responder con uno de tus proyectos.
               </p>
-            )}
-          </div>
+              {visibleNeeds.length === 0 ? (
+                <EmptyState
+                  title="Aún no hay necesidades de empresas."
+                  body="Vuelve más tarde o publica tu proyecto para que las empresas puedan encontrarte."
+                  actions={
+                    <button type="button" onClick={() => setPublishOpen(true)} className="rounded-lg bg-forest-deep text-on-primary px-4 py-2 text-body-sm">
+                      Publicar proyecto
+                    </button>
+                  }
+                />
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+                  {visibleNeeds.map((need) => (
+                    <NeedCard
+                      key={need.id}
+                      need={need}
+                      compatibility={referenceProject ? computeCompatibility(referenceProject, need) : null}
+                      onOpen={() => setNeedDetail(need)}
+                      onRespond={() => setRespondNeed(need)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {showingCatalog && (
+            <>
+              {(view === "ovv-projects" || view === "empresa-projects") && (
+                <div className="flex flex-wrap gap-2">
+                  {(
+                    [
+                      ["todos", "Todos los proyectos"],
+                      ["carbon", "Créditos de carbono"],
+                      ["finance", "Financiación verde"],
+                    ] as const
+                  ).map(([id, label]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => setProjectScope(id)}
+                      className={`px-4 py-2 rounded-lg text-body-sm ${
+                        projectScope === id ? "bg-primary text-on-primary" : "border border-outline-variant"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <MarketplaceComparisonTable listings={compared} tab={compareTab} onClear={() => setCompareIds([])} />
+              <div className="flex flex-col lg:flex-row gap-gutter">
+                <MarketplaceFilters>
+                  <FilterField
+                    label="Tipo de iniciativa"
+                    value={filters.tipo}
+                    onChange={(tipo) => setFilters({ ...filters, tipo })}
+                    options={["Todos", "Conservación", "Restauración", "Reforestación", "Energía"]}
+                  />
+                  {view !== "owner-ovvs" && (
+                    <FilterField
+                      label="Etapa"
+                      value={filters.estado}
+                      onChange={(estado) => setFilters({ ...filters, estado })}
+                      options={["Todos", "En estructuración", "Preparación avanzada", "Listo para revisión técnica"]}
+                    />
+                  )}
+                  {view !== "owner-ovvs" && (
+                    <FilterField
+                      label="Tipo de titular"
+                      value={holderFilter}
+                      onChange={setHolderFilter}
+                      options={["Todos", "Comunidad", "Asociación", "Cooperativa", "Pequeño productor", "Desarrollador"]}
+                    />
+                  )}
+                </MarketplaceFilters>
+                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-gutter content-start">
+                  {visibleListings.map((listing) => (
+                    <ListingCard
+                      key={listing.id}
+                      listing={listing}
+                      onOpen={() => setDetail(listing)}
+                      onPrimary={() => setContact(listing)}
+                      primaryLabel={primaryAction(listing, role)}
+                      compared={compareIds.includes(listing.id)}
+                      onToggleCompare={() => toggleCompare(listing.id)}
+                    />
+                  ))}
+                  {visibleListings.length === 0 && (
+                    <div className="md:col-span-2">
+                      <EmptyState
+                        title="No encontramos perfiles con estos filtros."
+                        body="Prueba ampliar tipo, etapa o titular."
+                        actions={
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setQuery("");
+                              setHolderFilter("Todos");
+                              setFilters({ tipo: "Todos", estado: "Todos" });
+                              setProjectScope("todos");
+                            }}
+                            className="rounded-lg bg-forest-deep text-on-primary px-4 py-2 text-body-sm"
+                          >
+                            Limpiar filtros
+                          </button>
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </section>
 
-      {activeQuote && (
-        <div className="fixed inset-0 bg-inverse-surface/40 flex items-center justify-center p-4 z-50" onClick={() => setActiveQuote(null)}>
-          <div onClick={(e) => e.stopPropagation()} className="bg-surface-container-lowest rounded-xl p-6 max-w-md w-full space-y-3 shadow-xl">
-            <h3 className="font-heading text-headline-sm text-on-surface">Cotizar: {activeQuote.titulo}</h3>
-            {!respuesta ? (
-              <form onSubmit={handleQuote} className="space-y-3">
-                <textarea
-                  value={mensaje}
-                  onChange={(e) => setMensaje(e.target.value)}
-                  placeholder="Volumen que buscas, plazo, condiciones…"
-                  rows={3}
-                  className="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-sm"
-                />
-                <div className="flex gap-2">
-                  <button type="submit" disabled={quoting} className="flex-1 rounded-lg bg-forest-deep text-on-primary py-2 font-medium hover:bg-primary transition-colors">
-                    {quoting ? "Enviando…" : "Enviar solicitud"}
-                  </button>
-                  <button type="button" onClick={() => setActiveQuote(null)} className="rounded-lg bg-surface-container-highest px-4">
-                    Cerrar
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <div className="space-y-3">
-                <p className="text-body-sm bg-surface-container-low rounded-lg p-3">{respuesta}</p>
-                <p className="text-disclaimer-italic text-status-warning">Respuesta simulada para efectos de demostración.</p>
-                <button onClick={() => setActiveQuote(null)} className="w-full rounded-lg bg-forest-deep text-on-primary py-2 font-medium hover:bg-primary transition-colors">
-                  Cerrar
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
+      {detail && (
+        <ListingDetailPanel
+          listing={detail}
+          onClose={() => setDetail(null)}
+          onPrimary={() => {
+            const listing = detail;
+            setDetail(null);
+            setContact(listing);
+          }}
+          primaryLabel={primaryAction(detail, role)}
+        />
       )}
-
-      {predioId && <p className="px-margin-desktop text-disclaimer-italic text-on-surface-variant">Predio de referencia: {predioId}</p>}
-
+      {contact && (
+        <ContactRequestModal
+          listing={contact}
+          context={fromValidacion || context.predioId ? context : null}
+          onClose={() => setContact(null)}
+          onCreated={(request) => persistRequests([request, ...requests.filter((r) => r.id !== request.id)])}
+        />
+      )}
+      {needDetail && (
+        <NeedDetail
+          need={needDetail}
+          compatibility={referenceProject ? computeCompatibility(referenceProject, needDetail) : null}
+          onClose={() => setNeedDetail(null)}
+          onRespond={() => {
+            setRespondNeed(needDetail);
+            setNeedDetail(null);
+          }}
+        />
+      )}
+      {respondNeed && (
+        <NeedResponseModal
+          need={respondNeed}
+          projects={matchProjects}
+          onClose={() => setRespondNeed(null)}
+          onCreated={(request) => persistRequests([request, ...requests.filter((r) => r.id !== request.id)])}
+        />
+      )}
+      {publishOpen && (
+        <PublishProjectModal
+          context={context}
+          onClose={() => setPublishOpen(false)}
+          onPublish={(created) => persistListings([...created, ...userListings])}
+        />
+      )}
+      {ovvProfileOpen && (
+        <ProviderProfileModal
+          kind="ovv"
+          onClose={() => setOvvProfileOpen(false)}
+          onCreate={(listing) => persistListings([listing, ...userListings])}
+        />
+      )}
       <Footer />
     </div>
   );
