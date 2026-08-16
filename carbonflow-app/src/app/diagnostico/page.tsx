@@ -205,7 +205,9 @@ export default function DiagnosticoPage() {
 
             <div className="grid grid-cols-2 gap-3">
               <div className="col-span-2">
-                <label className="block text-body-sm font-medium text-on-surface mb-1">Código catastral</label>
+                <label className="block text-body-sm font-medium text-on-surface mb-1">
+                  Código catastral (opcional)
+                </label>
                 <input
                   value={codigoCatastral}
                   onChange={(e) => setCodigoCatastral(e.target.value)}
@@ -214,7 +216,9 @@ export default function DiagnosticoPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-medium text-on-surface mb-1">Departamento</label>
+                <label className="block text-body-sm font-medium text-on-surface mb-1">
+                  Departamento (opcional)
+                </label>
                 <input
                   value={departamento}
                   onChange={(e) => setDepartamento(e.target.value)}
@@ -223,7 +227,7 @@ export default function DiagnosticoPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-medium text-on-surface mb-1">Municipio</label>
+                <label className="block text-body-sm font-medium text-on-surface mb-1">Municipio (opcional)</label>
                 <input
                   value={municipio}
                   onChange={(e) => setMunicipio(e.target.value)}
