@@ -54,7 +54,8 @@ See `.env.local.example` for the full list. Required for anything beyond static 
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (the `sb_publishable_...` key), `SUPABASE_SERVICE_ROLE_KEY` (the `sb_secret_...` key — server-only, never prefix a secret key with `NEXT_PUBLIC_`).
 - `GFW_API_KEY` — Global Forest Watch Data API key (self-serve signup).
 - `ANTHROPIC_API_KEY` — for the certification chatbot.
-- `RUNAP_REGISTRY_API_URL`, `VERRA_REGISTRY_API_URL`, `GOLD_STANDARD_REGISTRY_API_URL`, `RENARE_REGISTRY_API_URL` — optional overrides; the default RUNAP URL in `src/lib/integrations/runap.ts` is a **placeholder** (`services5.arcgis.com/XXXXXXXXXXXX/...`) that must be confirmed against the real RUNAP ArcGIS service, and the registries integrations fall back to a direct link to the official registry when no URL is configured.
+- `RUNAP_REGISTRY_API_URL` — optional override; the default in `src/lib/integrations/runap.ts` is the **confirmed, working** public ArcGIS FeatureServer (`mapas.parquesnacionales.gov.co/.../pnn/runap/FeatureServer/0/query`, fields `ap_nombre`/`ap_categoria`), verified live against real protected areas (e.g. Chingaza).
+- `VERRA_REGISTRY_API_URL`, `GOLD_STANDARD_REGISTRY_API_URL`, `RENARE_REGISTRY_API_URL` — optional overrides; still unconfirmed placeholders, these registries integrations fall back to a direct link to the official registry when no URL is configured.
 
 Without Supabase configured, the app still runs and the diagnostic flow still computes scores — it just can't persist or hand off to formulación (this is intentional graceful degradation, not a bug).
 
@@ -70,6 +71,6 @@ Then visit `http://localhost:3000`. Type-check with `npx tsc --noEmit` before co
 ## Known gaps (don't be surprised by these)
 
 - No login/signup UI — anonymous auth only (see Auth above).
-- `RUNAP_REGISTRY_API_URL` and the Verra/Gold Standard/RENARE URLs are unconfirmed placeholders; searches degrade to a direct link to the official source rather than a live result until someone validates the real endpoints.
+- Verra/Gold Standard/RENARE registry URLs (certificación module) are still unconfirmed placeholders; those searches degrade to a direct link to the official source rather than a live result until someone validates the real endpoints. (RUNAP itself is confirmed live — see Environment variables above.)
 - `createServiceRoleClient()` in `src/lib/supabase/server.ts` exists but nothing currently calls it.
 - Only `forestal-conservacion` is enabled in `src/lib/projectTypes.ts`; the rest render disabled with a "próximamente" label by design (PRD FR-02).

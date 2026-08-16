@@ -6,11 +6,11 @@ export interface ProtectedAreaResult {
   nearestAreaName?: string;
 }
 
-// Servicio ArcGIS REST publico del RUNAP (Parques Nacionales Naturales / SIAC).
-// Confirmar y ajustar esta URL en el bloque 0-2h del plan (seccion 2.7 del PRD);
-// se puede sobreescribir con la variable de entorno RUNAP_ARCGIS_QUERY_URL.
+// Servicio ArcGIS REST publico del RUNAP (Parques Nacionales Naturales de Colombia).
+// Confirmado en vivo: layer 0 "Registro Unico Nacional AP", geometryType esriGeometryPolygon.
+// Se puede sobreescribir con la variable de entorno RUNAP_REGISTRY_API_URL.
 const DEFAULT_RUNAP_URL =
-  "https://services5.arcgis.com/XXXXXXXXXXXX/ArcGIS/rest/services/RUNAP/FeatureServer/0/query";
+  "https://mapas.parquesnacionales.gov.co/arcgis/rest/services/pnn/runap/FeatureServer/0/query";
 
 function ringToEsriPolygon(geometry: Polygon | MultiPolygon) {
   const rings =
@@ -31,7 +31,7 @@ async function queryRunap(geometry: Geometry): Promise<ProtectedAreaResult> {
     geometryType: "esriGeometryPolygon",
     spatialRel: "esriSpatialRelIntersects",
     inSR: "4326",
-    outFields: "nombre,categoria",
+    outFields: "ap_nombre,ap_categoria",
     returnGeometry: "false",
   });
 
@@ -49,7 +49,7 @@ async function queryRunap(geometry: Geometry): Promise<ProtectedAreaResult> {
 
   return {
     intersectsProtectedArea: features.length > 0,
-    nearestAreaName: features[0]?.attributes?.nombre,
+    nearestAreaName: features[0]?.attributes?.ap_nombre,
   };
 }
 
