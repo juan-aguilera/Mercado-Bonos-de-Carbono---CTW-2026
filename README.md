@@ -2,7 +2,7 @@
 
 **Hackathon CTW 2026 — Mercados de Bonos de Carbono**
 
-###Abrir [(https://carbonflow-tau.vercel.app/).
+### Abrir [(https://carbonflow-tau.vercel.app/).
 
 Tener un bosque no alcanza para entrar al mercado de carbono. Falta saber si el predio sirve, cómo formular el proyecto, qué certificación aplica y con quién conectar. Eso hoy es lento, caro y está en manos de especialistas.
 
